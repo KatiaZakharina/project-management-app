@@ -48,6 +48,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
+    "lint": "eslint src --ext .tsx,.ts",
     "eslint:fix": "eslint src --ext .tsx,.ts --fix",
     "prettier:fix": "prettier . --write",
     "prepare": "husky install"
