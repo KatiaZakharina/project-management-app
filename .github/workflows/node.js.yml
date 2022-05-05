@@ -5,43 +5,42 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm install
-    - run: npm run build --if-present
-    - run: npm test
-  
-    - name: Deploy to Heroku
-      uses: akhileshns/heroku-deploy@v3.12.12
-      with:
-       heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-       heroku_email: ${{secrets.HEROKU_EMAIL}}
-       heroku_app_name: "project-management-app-tlz"
-       branch: develop
-       
-    - name: trello-integration
-      uses: rematocorp/trello-integration-action@v5.1.0
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        trello-api-key: ${{ secrets.TRELLO_API_KEY }} # https://trello.com/app-key
-        trello-auth-token: ${{ secrets.TRELLO_AUTH_TOKEN }} # https://trello.com/app-key then click generate a token
-                 
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install
+      - run: npm run build --if-present
+      - run: npm test
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          heroku_app_name: 'project-management-app-tlz'
+          branch: develop
+
+      - name: trello-integration
+        uses: rematocorp/trello-integration-action@v5.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          trello-api-key: ${{ secrets.TRELLO_API_KEY }} # https://trello.com/app-key
+          trello-auth-token: ${{ secrets.TRELLO_AUTH_TOKEN }} # https://trello.com/app-key then click generate a token
+
