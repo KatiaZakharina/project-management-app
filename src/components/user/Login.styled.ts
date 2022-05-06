@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { VIOLET, AZURE_BLUE } from 'styles/constants';
+import { VIOLET, AZURE_BLUE, RED } from 'styles/constants';
 import { rgba } from 'styles/helpers/rgba';
 
 export const StyledBox = styled.div`
@@ -18,7 +18,7 @@ export const Logo = styled.div`
   height: 50px;
 `;
 
-export const StyledForm = styled.div`
+export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,5 +28,19 @@ export const StyledForm = styled.div`
   padding: 20px 40px;
   max-width: 400px;
   width: 100%;
-  gap: 15px;
+  gap: 30px;
+`;
+
+export const StyledInputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 400px;
+  width: 100%;
+`;
+
+export const StyledError = styled.p`
+  color: ${RED};
+  margin: 5px 0 0 0;
+  font-family: 'Roboto';
 `;
