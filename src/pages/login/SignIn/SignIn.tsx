@@ -12,7 +12,13 @@ export function SignIn() {
       <StyledForm>
         <Typography>Welcome back to TLZ!</Typography>
         {inputs.map((input) => (
-          <TextField key={input.id} label={input.label} type={input.type} fullWidth />
+          <TextField
+            key={input.id}
+            label={input.label}
+            type={input.type}
+            autoComplete="off"
+            fullWidth
+          />
         ))}
         <Button variant="outlined">I am back!</Button>
       </StyledForm>

@@ -1,5 +1,6 @@
 import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { serviceInstance } from 'service/loginService';
 
 import { Logo, StyledBox, StyledError, StyledForm, StyledInputBox } from '../Login.styled';
 import { useSignUp } from '../useMakeInput';
@@ -23,8 +24,9 @@ export function SignUp() {
     passwordRequired: string;
   };
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await serviceInstance.postUser(data);
+    // console.log(data);
     reset();
   };
 
@@ -41,6 +43,7 @@ export function SignUp() {
               {...input.register}
               fullWidth
               error={input.error}
+              autoComplete="off"
             />
             <StyledError>{input.errors}</StyledError>
           </StyledInputBox>
