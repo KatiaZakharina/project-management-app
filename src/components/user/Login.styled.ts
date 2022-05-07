@@ -43,5 +43,4 @@ export const StyledInputBox = styled.div`
 export const StyledError = styled.p`
   color: ${RED};
   margin: 5px 0 0 0;
-  font-family: 'Roboto';
 `;
