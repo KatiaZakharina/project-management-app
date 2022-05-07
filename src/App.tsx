@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 import React from 'react';
 
-import { SignIn } from 'components/user/SignIn/SignIn';
-import { SignUp } from 'components/user/SignUp/SignUp';
 import { GlobalStyle } from 'styles/global';
+import { SignUp } from 'pages/login/SignUp/SignUp';
+import { SignIn } from 'pages/login/SignIn/SignIn';
 
 export function App() {
   return (
