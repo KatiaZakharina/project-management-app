@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { VIOLET, AZURE_BLUE, RED } from 'styles/constants';
 import { rgba } from 'styles/helpers/rgba';
 
