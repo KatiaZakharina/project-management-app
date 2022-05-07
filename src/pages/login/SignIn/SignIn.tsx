@@ -4,7 +4,7 @@ import { Logo, StyledBox, StyledForm } from '../Login.styled';
 import { useSignIn } from '../useMakeInput';
 
 export function SignIn() {
-  const inputs = useSignIn();
+  const { inputs } = useSignIn();
 
   return (
     <StyledBox>

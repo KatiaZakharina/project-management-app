@@ -12,7 +12,7 @@ export function SignUp() {
     reset,
   } = useForm<Inputs>({ mode: 'onChange' });
 
-  const inputs = useSignUp(register, errors);
+  const { inputs } = useSignUp(register, errors);
 
   type Inputs = {
     name: string;

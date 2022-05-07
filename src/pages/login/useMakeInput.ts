@@ -86,7 +86,9 @@ export function useSignUp(register: UseFormRegister<Inputs>, errors: FieldErrors
     errors: errors?.password?.message,
   };
 
-  return [nameInput, loginInput, passwordInput];
+  const inputs = [nameInput, loginInput, passwordInput];
+
+  return { inputs: inputs };
 }
 
 export function useSignIn() {
@@ -102,5 +104,7 @@ export function useSignIn() {
     id: 2,
   };
 
-  return [loginInput, passwordInput];
+  const inputs = [loginInput, passwordInput];
+
+  return { inputs: inputs };
 }
