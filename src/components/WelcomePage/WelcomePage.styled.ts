@@ -4,6 +4,7 @@ import { Button } from '@mui/material';
 import { VIOLET } from 'styles/constants';
 
 import backgroundImage from '../../assets/png/background.png';
+import logo from '../../assets/svg/logo.svg';
 
 export const StyledDiv = styled.div`
   position: fixed;
@@ -20,13 +21,12 @@ export const StyledDiv = styled.div`
 export const WrapperWelcomeText = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   margin-left: 50px;
+  padding-top: 40px;
 `;
 
 export const StyledTitle = styled.h1`
   margin: 0;
-  margin-top: 150px;
   font-size: 100px;
   color: ${VIOLET};
   text-transform: uppercase;
@@ -34,6 +34,7 @@ export const StyledTitle = styled.h1`
 
 export const StyledText = styled.p`
   margin: 0;
+  margin-left: 20px;
   font-size: 35px;
   color: ${VIOLET};
 `;
@@ -50,4 +51,10 @@ export const ButtonLogIn = styled(Button)`
 
 export const ButtonSignUp = styled(Button)`
   margin-top: 20px;
+`;
+
+export const Logo = styled.div`
+  width: 230px;
+  height: 188px;
+  background-image: url(${logo});
 `;
