@@ -5,12 +5,13 @@ import { BrowserRouter } from 'react-router-dom';
 import { App } from 'App';
 
 describe('App', () => {
-  it('App snapshot', () => {
-    const comp = render(
+  it('App render', () => {
+    const { asFragment } = render(
       <BrowserRouter>
         <App />
       </BrowserRouter>
     );
-    expect(comp).toMatchSnapshot();
+
+    expect(asFragment()).toMatchSnapshot();
   });
 });
