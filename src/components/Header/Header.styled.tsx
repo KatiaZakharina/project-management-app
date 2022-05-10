@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { VIOLET, PURPLE } from 'styles/constants';
-import logo from '../../assets/svg/logo.svg';
+import logo from 'assets/svg/logo.svg';
 
 export const WrapperHeader = styled.header`
   width: 100vw;
