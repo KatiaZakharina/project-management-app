@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import { GlobalStyle } from 'styles/global';
 import { SignUp } from 'pages/login/SignUp/SignUp';
 import { SignIn } from 'pages/login/SignIn/SignIn';
-import { WelcomePage } from 'components/WelcomePage/WelcomePage';
+import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
 
 export function App() {
   return (
