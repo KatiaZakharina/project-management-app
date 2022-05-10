@@ -89,3 +89,5 @@ export const ButtonSignUp = styled(Button)`
     width: 85px;
   }
 `;
+
+export const ButtonMainPage = styled(Button)``;
