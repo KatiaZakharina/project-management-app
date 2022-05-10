@@ -2,14 +2,13 @@ import styled from 'styled-components';
 import { Button } from '@mui/material';
 
 import { VIOLET } from 'styles/constants';
-
 import backgroundImage from '../../assets/png/background.png';
 import logo from '../../assets/svg/logo.svg';
 
 export const StyledDiv = styled.div`
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 60px);
   padding: 20px;
   background-image: url(${backgroundImage});
   background-repeat: no-repeat;

@@ -5,6 +5,7 @@ import { GlobalStyle } from 'styles/global';
 import { SignUp } from 'pages/login/SignUp/SignUp';
 import { SignIn } from 'pages/login/SignIn/SignIn';
 import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
+import { Footer } from 'components/Footer/Footer';
 
 export function App() {
   return (
@@ -15,6 +16,7 @@ export function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
       </Routes>
+      <Footer />
     </React.Fragment>
   );
 }
