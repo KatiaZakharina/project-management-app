@@ -1,19 +1,20 @@
-import React from 'react';
+import { Provider } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
 import { GlobalStyle } from 'styles/global';
-import { SignUp } from 'pages/login/SignUp/SignUp';
-import { SignIn } from 'pages/login/SignIn/SignIn';
+import { SignUp } from 'pages/userForms/SignUp/SignUp';
+import { SignIn } from 'pages/userForms/SignIn/SignIn';
 import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
 import { Footer } from 'components/Footer/Footer';
 import { BoardPage } from 'pages/BoardPage/BoardPage';
 import { MainPage } from 'pages/MainPage/MainPage';
 import { PrivateRoute } from 'helpers/PrivateRoute';
 import { NotFound404 } from 'helpers/NotFound404';
+import { store } from 'store/store';
 
 export function App() {
   return (
-    <React.Fragment>
+    <Provider store={store}>
       <GlobalStyle />
       <Routes>
         <Route
@@ -38,6 +39,6 @@ export function App() {
         <Route path="*" element={<NotFound404 />}></Route>
       </Routes>
       <Footer />
-    </React.Fragment>
+    </Provider>
   );
 }

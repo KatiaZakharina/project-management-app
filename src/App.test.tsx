@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 
-describe('WelcomePage', () => {
+describe('App test', () => {
   it('test', () => {
     expect(true).toBe(true);
   });
