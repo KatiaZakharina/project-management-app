@@ -4,12 +4,13 @@ import { VIOLET, PURPLE } from 'styles/constants';
 import logo from 'assets/svg/logo.svg';
 
 export const WrapperHeader = styled.header`
-  width: 100vw;
+  width: 100%;
   height: 110px;
-  position: fixed;
+  position: sticky;
   top: 0;
   background-color: ${VIOLET};
   transition: all 0.5s ease-out;
+  z-index: 100;
   &.active {
     background-color: ${PURPLE};
     height: 90px;
@@ -23,6 +24,7 @@ export const ContentHeader = styled.div`
   padding: 20px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 
 export const Logo = styled.div`

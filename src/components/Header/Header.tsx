@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { WrapperHeader, ContentHeader, Logo } from './Header.styled';
+import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 
 export const Header = () => {
   const [isActive, setIsActive] = useState(false);
@@ -16,6 +17,7 @@ export const Header = () => {
     <WrapperHeader className={isActive ? 'active' : ''}>
       <ContentHeader>
         <Logo />
+        <LanguageToggler />
       </ContentHeader>
     </WrapperHeader>
   );
