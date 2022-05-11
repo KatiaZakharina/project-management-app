@@ -13,11 +13,12 @@ import {
   ContainerWelcomePage,
   ButtonMainPage,
 } from './WelcomePage.styled';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 export const WelcomePage = () => {
   const navigate = useNavigate();
 
-  const loginToken = true; //temporary variable, than must be changed to token from cookie
+  const loginToken = getLoginToken();
 
   const moveTo = (link: string) => {
     navigate(`/${link}`);
