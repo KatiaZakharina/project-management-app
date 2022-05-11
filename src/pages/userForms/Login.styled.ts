@@ -12,13 +12,15 @@ export const StyledBox = styled.div`
   padding: 0 30px;
   background-color: ${rgba(VIOLET, 0.1)};
   height: calc(100vh - 60px);
-  gap: 35px;
+  gap: 15px;
 `;
 
 export const Logo = styled.div`
-  width: 230px;
-  height: 188px;
+  width: 170px;
+  height: 140px;
   background-image: url(${logo});
+  background-repeat: no-repeat;
+  background-size: contain;
 `;
 
 export const StyledForm = styled.form`
@@ -48,5 +50,5 @@ export const StyledError = styled.p`
 `;
 
 export const LoginError = styled.div`
-  height: 5px;
+  height: 10px;
 `;

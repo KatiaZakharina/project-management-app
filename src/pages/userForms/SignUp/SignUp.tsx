@@ -21,7 +21,6 @@ export function SignUp() {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    reset,
   } = useForm<Inputs>({ mode: 'onChange' });
 
   const { inputs } = useUserData(register, errors);
@@ -54,7 +53,9 @@ export function SignUp() {
               error={input.error}
               autoComplete="off"
             />
-            <StyledError>{input.errors}</StyledError>
+            <LoginError>
+              <StyledError>{input.errors}</StyledError>
+            </LoginError>
           </StyledInputBox>
         ))}
         <LoginError>{<StyledError>{backendError}</StyledError>}</LoginError>
