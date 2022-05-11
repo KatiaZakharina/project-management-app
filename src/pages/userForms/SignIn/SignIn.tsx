@@ -1,22 +1,22 @@
 import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { loginServiceInstance } from 'service/userService';
 import { AxiosResponse } from 'axios';
 import { useState } from 'react';
 
 import { LoginError, Logo, StyledBox, StyledError, StyledForm } from '../Login.styled';
 import { useSignIn } from '../useMakeInput';
+import { loginServiceInstance } from 'service/userService';
+
+type Inputs = {
+  login: string;
+  loginRequired: string;
+  password: string;
+  passwordRequired: string;
+};
 
 export function SignIn() {
   const { register, handleSubmit, reset } = useForm<Inputs>();
   const [loginError, setLoginError] = useState(false);
-
-  type Inputs = {
-    login: string;
-    loginRequired: string;
-    password: string;
-    passwordRequired: string;
-  };
 
   const { inputs } = useSignIn(register);
 

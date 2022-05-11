@@ -9,7 +9,7 @@ type Inputs = {
   passwordRequired: string;
 };
 
-type IInputs = {
+type InputsSignIn = {
   login: string;
   loginRequired: string;
   password: string;
@@ -35,15 +35,15 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
         required: 'field is required',
         pattern: {
           value: /^[A-Za-zА-Яа-яЁё]{2,25}/,
-          message: 'error! you can use only cyrillic or latin letters.',
+          message: 'you can use only cyrillic or latin letters.',
         },
         minLength: {
           value: 2,
-          message: 'error! your name should be less than 2 and more then 20 characters.',
+          message: 'your name should be more than 2 characters.',
         },
         maxLength: {
           value: 20,
-          message: 'error! your name should be less than 2 and more then 20 characters.',
+          message: 'your name should be less then 20 characters.',
         },
       }),
     },
@@ -60,11 +60,11 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
         required: 'field is required',
         minLength: {
           value: 2,
-          message: 'error! your login should be less than 2 and more then 10 characters.',
+          message: 'your login should be more than 2 characters.',
         },
         maxLength: {
           value: 20,
-          message: 'error! your login should be less than 2 and more then 20 characters.',
+          message: 'your login should be less then 20 characters.',
         },
       }),
     },
@@ -81,11 +81,11 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
         required: 'field is required',
         minLength: {
           value: 5,
-          message: 'error! your password should be less than 5 and more then 10 characters.',
+          message: 'your password should be more than 5 characters.',
         },
         maxLength: {
           value: 10,
-          message: 'error! your password should be less than 5 and more then 10 characters.',
+          message: 'your password should be less then 10 characters.',
         },
       }),
     },
@@ -98,7 +98,7 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
   return { inputs: inputs };
 }
 
-export function useSignIn(register: UseFormRegister<IInputs>) {
+export function useSignIn(register: UseFormRegister<InputsSignIn>) {
   const loginInput: InputProperty = {
     label: 'Enter your login',
     type: 'text',

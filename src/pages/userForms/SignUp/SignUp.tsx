@@ -13,6 +13,15 @@ import {
 } from '../Login.styled';
 import { useUserData } from '../useMakeInput';
 
+type Inputs = {
+  name: string;
+  nameRequired: string;
+  login: string;
+  loginRequired: string;
+  password: string;
+  passwordRequired: string;
+};
+
 export function SignUp() {
   const backendError = useAppSelector((store) => store.userReducer.errorMessage);
   const dispatch = useAppDispatch();
@@ -21,21 +30,14 @@ export function SignUp() {
     register,
     formState: { errors, isValid },
     handleSubmit,
+    reset,
   } = useForm<Inputs>({ mode: 'onChange' });
 
   const { inputs } = useUserData(register, errors);
 
-  type Inputs = {
-    name: string;
-    nameRequired: string;
-    login: string;
-    loginRequired: string;
-    password: string;
-    passwordRequired: string;
-  };
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     dispatch(registerUser(data));
+    reset();
   };
 
   return (
