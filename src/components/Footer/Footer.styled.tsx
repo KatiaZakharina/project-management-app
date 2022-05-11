@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { PURPLE, WHITE } from 'styles/constants';
-import logoRSS from '../../assets/svg/rs_school_js.svg';
+import logoRSS from 'assets/svg/rs_school_js.svg';
 
 export const WrapperFooter = styled.div`
   height: 60px;
@@ -36,7 +36,7 @@ export const LogoRSS = styled.a`
 
 export const TeamMates = styled.div`
   display: flex;
-  > a {
+  & > a {
     text-decoration: none;
     color: ${WHITE};
     margin: 0 15px;

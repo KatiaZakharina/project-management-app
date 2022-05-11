@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { Button } from '@mui/material';
 
 import { VIOLET } from 'styles/constants';
-import backgroundImage from '../../assets/png/background.png';
-import logo from '../../assets/svg/logo.svg';
+import backgroundImage from 'assets/png/background.png';
+import logo from 'assets/svg/logo.svg';
 
 export const StyledDiv = styled.div`
   position: fixed;
@@ -89,5 +89,3 @@ export const ButtonSignUp = styled(Button)`
     width: 85px;
   }
 `;
-
-export const ButtonMainPage = styled(Button)``;

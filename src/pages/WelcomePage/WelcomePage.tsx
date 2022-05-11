@@ -11,9 +11,9 @@ import {
   ButtonSignUp,
   Logo,
   ContainerWelcomePage,
-  ButtonMainPage,
 } from './WelcomePage.styled';
 import { getLoginToken } from 'helpers/getLoginToken';
+import { Button } from '@mui/material';
 
 export const WelcomePage = () => {
   const navigate = useNavigate();
@@ -34,9 +34,9 @@ export const WelcomePage = () => {
         </WrapperWelcomeText>
         <WrapperDivButtons>
           {loginToken ? (
-            <ButtonMainPage variant="contained" onClick={() => moveTo('/')}>
+            <Button variant="contained" onClick={() => moveTo('/')}>
               Go to Main Page
-            </ButtonMainPage>
+            </Button>
           ) : (
             <>
               <ButtonLogIn variant="outlined" onClick={() => moveTo('signin')}>
