@@ -34,7 +34,6 @@ export function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/welcome" element={<WelcomePage />} />
         <Route path="*" element={<NotFound404 />}></Route>
       </Routes>
     </React.Fragment>
