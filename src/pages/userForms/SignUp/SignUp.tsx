@@ -1,11 +1,22 @@
 import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { serviceInstance } from 'service/loginService';
 
-import { Logo, StyledBox, StyledError, StyledForm, StyledInputBox } from '../Login.styled';
-import { useSignUp } from '../useMakeInput';
+import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
+import { registerUser } from 'store/reducers/user/userSlice';
+import {
+  LoginError,
+  Logo,
+  StyledBox,
+  StyledError,
+  StyledForm,
+  StyledInputBox,
+} from '../Login.styled';
+import { useUserData } from '../useMakeInput';
 
 export function SignUp() {
+  const backendError = useAppSelector((store) => store.userReducer.errorMessage);
+  const dispatch = useAppDispatch();
+
   const {
     register,
     formState: { errors, isValid },
@@ -13,7 +24,7 @@ export function SignUp() {
     reset,
   } = useForm<Inputs>({ mode: 'onChange' });
 
-  const { inputs } = useSignUp(register, errors);
+  const { inputs } = useUserData(register, errors);
 
   type Inputs = {
     name: string;
@@ -25,9 +36,7 @@ export function SignUp() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await serviceInstance.postUser(data);
-    // console.log(data);
-    reset();
+    dispatch(registerUser(data));
   };
 
   return (
@@ -48,6 +57,7 @@ export function SignUp() {
             <StyledError>{input.errors}</StyledError>
           </StyledInputBox>
         ))}
+        <LoginError>{<StyledError>{backendError}</StyledError>}</LoginError>
         <Button variant="outlined" type="submit" disabled={!isValid}>
           Сreate!
         </Button>

@@ -9,16 +9,23 @@ type Inputs = {
   passwordRequired: string;
 };
 
+type IInputs = {
+  login: string;
+  loginRequired: string;
+  password: string;
+  passwordRequired: string;
+};
+
 interface InputProperty {
   label: string;
   type: string;
   id: number;
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
   error?: boolean;
   errors?: string;
 }
 
-export function useSignUp(register: UseFormRegister<Inputs>, errors: FieldErrors) {
+export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErrors) {
   const nameInput: InputProperty = {
     label: 'Your Name',
     type: 'text',
@@ -56,8 +63,8 @@ export function useSignUp(register: UseFormRegister<Inputs>, errors: FieldErrors
           message: 'error! your login should be less than 2 and more then 10 characters.',
         },
         maxLength: {
-          value: 10,
-          message: 'error! your login should be less than 2 and more then 10 characters.',
+          value: 20,
+          message: 'error! your login should be less than 2 and more then 20 characters.',
         },
       }),
     },
@@ -91,17 +98,19 @@ export function useSignUp(register: UseFormRegister<Inputs>, errors: FieldErrors
   return { inputs: inputs };
 }
 
-export function useSignIn() {
-  const loginInput = {
-    label: 'Create your login',
+export function useSignIn(register: UseFormRegister<IInputs>) {
+  const loginInput: InputProperty = {
+    label: 'Enter your login',
     type: 'text',
     id: 1,
+    register: { ...register('login') },
   };
 
-  const passwordInput = {
-    label: 'Create your password',
+  const passwordInput: InputProperty = {
+    label: 'Enter your password',
     type: 'password',
     id: 2,
+    register: { ...register('password') },
   };
 
   const inputs = [loginInput, passwordInput];
