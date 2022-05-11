@@ -5,6 +5,7 @@ import { GlobalStyle } from 'styles/global';
 import { SignUp } from 'pages/login/SignUp/SignUp';
 import { SignIn } from 'pages/login/SignIn/SignIn';
 import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
+import { Footer } from 'components/Footer/Footer';
 import { BoardPage } from 'pages/BoardPage/BoardPage';
 import { MainPage } from 'pages/MainPage/MainPage';
 import { PrivateRoute } from 'helpers/PrivateRoute';
@@ -36,6 +37,7 @@ export function App() {
         />
         <Route path="*" element={<NotFound404 />}></Route>
       </Routes>
+      <Footer />
     </React.Fragment>
   );
 }
