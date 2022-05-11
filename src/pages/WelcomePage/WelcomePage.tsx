@@ -40,7 +40,7 @@ export const WelcomePage = () => {
           ) : (
             <>
               <ButtonLogIn variant="outlined" onClick={() => moveTo('signin')}>
-                Log In
+                Sign In
               </ButtonLogIn>
               <ButtonSignUp variant="contained" onClick={() => moveTo('signup')}>
                 Sign Up
