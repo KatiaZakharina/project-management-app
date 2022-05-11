@@ -7,8 +7,8 @@ import { SignIn } from 'pages/login/SignIn/SignIn';
 import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
 import { BoardPage } from 'pages/BoardPage/BoardPage';
 import { MainPage } from 'pages/MainPage/MainPage';
-import { PrivateRoute } from 'hoc/PrivateRoute';
-import { NotFound404 } from 'pages/NotFound404/NotFound404';
+import { PrivateRoute } from 'helpers/PrivateRoute';
+import { NotFound404 } from 'helpers/NotFound404';
 
 export function App() {
   return (
@@ -27,7 +27,7 @@ export function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route
-          path="/board"
+          path="/board/:boardID"
           element={
             <PrivateRoute>
               <BoardPage />
