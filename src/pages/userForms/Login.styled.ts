@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { VIOLET, AZURE_BLUE, RED } from 'styles/constants';
 import { rgba } from 'styles/helpers/rgba';
+import logo from 'assets/svg/logo.svg';
 
 export const StyledBox = styled.div`
   display: flex;
@@ -10,13 +11,16 @@ export const StyledBox = styled.div`
   align-items: center;
   padding: 0 30px;
   background-color: ${rgba(VIOLET, 0.1)};
-  height: 100vh;
+  min-height: calc(100vh - 60px);
+  gap: 15px;
 `;
 
 export const Logo = styled.div`
-  max-width: 100px;
-  width: 100%;
-  height: 50px;
+  width: 170px;
+  height: 140px;
+  background-image: url(${logo});
+  background-repeat: no-repeat;
+  background-size: contain;
 `;
 
 export const StyledForm = styled.form`
@@ -43,4 +47,8 @@ export const StyledInputBox = styled.div`
 export const StyledError = styled.p`
   color: ${RED};
   margin: 5px 0 0 0;
+`;
+
+export const LoginError = styled.div`
+  height: 10px;
 `;
