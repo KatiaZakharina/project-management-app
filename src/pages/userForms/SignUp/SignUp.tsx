@@ -28,6 +28,7 @@ type Inputs = {
 export function SignUp() {
   const backendError = useAppSelector((store) => store.userReducer.errorMessage);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -42,8 +43,6 @@ export function SignUp() {
     dispatch(registerUser(data));
     reset();
   };
-
-  const navigate = useNavigate();
 
   return (
     <StyledBox>

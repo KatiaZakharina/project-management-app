@@ -1,9 +1,9 @@
 import styled from 'styled-components';
+import { Button } from '@mui/material';
 
 import { VIOLET, AZURE_BLUE, RED, PURPLE } from 'styles/constants';
 import { rgba } from 'styles/helpers/rgba';
 import logo from 'assets/svg/logo.svg';
-import { Button } from '@mui/material';
 
 export const StyledBox = styled.div`
   display: flex;
