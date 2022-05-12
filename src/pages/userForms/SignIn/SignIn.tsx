@@ -2,8 +2,17 @@ import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { AxiosResponse } from 'axios';
 import { useState } from 'react';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useNavigate } from 'react-router-dom';
 
-import { LoginError, Logo, StyledBox, StyledError, StyledForm } from '../Login.styled';
+import {
+  ButtonGoBack,
+  LoginError,
+  Logo,
+  StyledBox,
+  StyledError,
+  StyledForm,
+} from '../Login.styled';
 import { useSignIn } from '../useMakeInput';
 import { loginServiceInstance } from 'service/userService';
 
@@ -31,8 +40,13 @@ export function SignIn() {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <StyledBox>
+      <ButtonGoBack variant="contained" onClick={() => navigate(-1)}>
+        <ArrowBackIosIcon /> Back
+      </ButtonGoBack>
       <Logo />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <Typography>Welcome back to TLZ!</Typography>
