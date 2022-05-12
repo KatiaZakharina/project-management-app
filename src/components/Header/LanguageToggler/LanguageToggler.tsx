@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ToggleButton } from '@mui/material';
+
+import { ToggleWrapper } from './LanguageToggler.styled';
 
 export const LanguageToggler = () => {
   const [language, setLanguage] = useState('en');
@@ -9,9 +11,9 @@ export const LanguageToggler = () => {
   };
 
   return (
-    <ToggleButtonGroup color="secondary" value={language} exclusive onChange={handleChange}>
+    <ToggleWrapper color="secondary" value={language} exclusive onChange={handleChange}>
       <ToggleButton value="en">EN</ToggleButton>
       <ToggleButton value="ru">RU</ToggleButton>
-    </ToggleButtonGroup>
+    </ToggleWrapper>
   );
 };

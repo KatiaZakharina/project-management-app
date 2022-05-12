@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import LogoutIcon from '@mui/icons-material/Logout';
+import EditIcon from '@mui/icons-material/Edit';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
-import { WrapperHeader, ContentHeader, Logo } from './Header.styled';
+import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 
 export const Header = () => {
@@ -13,11 +16,26 @@ export const Header = () => {
     window.addEventListener('scroll', toggleClass);
   }, []);
 
+  const buttons = [
+    { text: 'Add new board', icon: <AddCircleIcon /> },
+    { text: 'Edit profile', icon: <EditIcon /> },
+    { text: 'Sign out', icon: <LogoutIcon /> },
+  ];
+
   return (
     <WrapperHeader className={isActive ? 'active' : ''}>
       <ContentHeader>
         <Logo />
-        <LanguageToggler />
+        <WrapperButtons>
+          {buttons.map((button, index) => {
+            return (
+              <StyledButton key={index} variant="contained" color="primary" startIcon={button.icon}>
+                {button.text}
+              </StyledButton>
+            );
+          })}
+          <LanguageToggler />
+        </WrapperButtons>
       </ContentHeader>
     </WrapperHeader>
   );
