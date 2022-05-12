@@ -16,10 +16,14 @@ export const Header = () => {
     window.addEventListener('scroll', toggleClass);
   }, []);
 
+  const toSignOut = () => {
+    console.log('я вышел');
+  };
+
   const buttons = [
     { text: 'Add new board', icon: <AddCircleIcon /> },
     { text: 'Edit profile', icon: <EditIcon /> },
-    { text: 'Sign out', icon: <LogoutIcon /> },
+    { text: 'Sign out', icon: <LogoutIcon />, onClick: () => toSignOut() },
   ];
 
   return (
@@ -29,7 +33,13 @@ export const Header = () => {
         <WrapperButtons>
           {buttons.map((button, index) => {
             return (
-              <StyledButton key={index} variant="contained" color="primary" startIcon={button.icon}>
+              <StyledButton
+                key={index}
+                variant="contained"
+                color="primary"
+                startIcon={button.icon}
+                onClick={button.onClick}
+              >
                 {button.text}
               </StyledButton>
             );

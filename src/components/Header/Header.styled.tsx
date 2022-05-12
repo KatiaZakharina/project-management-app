@@ -14,7 +14,7 @@ export const WrapperHeader = styled.header`
   z-index: 100;
   &.active {
     background-color: ${PURPLE};
-    height: 90px;
+    height: 65px;
   }
 `;
 
