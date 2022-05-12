@@ -10,3 +10,13 @@ export interface DataForRegestry {
   login: string;
   password: string;
 }
+
+export interface RegesterUserResponse {
+  id: string;
+  name: string;
+  login: string;
+}
+
+export interface LoginUserResponse {
+  token: string;
+}

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { loginServiceInstance, RegesterUserResponse } from 'service/userService';
-import { DataForRegestry, IdefaultState } from './type';
+import { loginServiceInstance } from 'service/userService';
+import { DataForRegestry, IdefaultState, LoginUserResponse, RegesterUserResponse } from './type';
 
 export const defaultState: IdefaultState = {
   id: '',
@@ -28,6 +28,22 @@ export const registerUser = createAsyncThunk<
   }
 });
 
+export const loginUser = createAsyncThunk<
+  LoginUserResponse,
+  DataForRegestry,
+  { rejectValue: string }
+>('user/signin', async (userData: DataForRegestry, { rejectWithValue }) => {
+  try {
+    const response = await loginServiceInstance.getToken(userData);
+    document.cookie = `user=${response.token};max-age=86400;samesite=lax;path=/`;
+    return response;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+  }
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState: defaultState,
@@ -37,13 +53,18 @@ const userSlice = createSlice({
       .addCase(registerUser.pending, (state: IdefaultState) => {
         state.errorMessage = '';
       })
-      // .addCase(loadCard.fulfilled, (state: IdefaultState, action) => {
-      //   state.card = action.payload;
-      //   state.loading = false;
-      // })
+      .addCase(loginUser.pending, (state: IdefaultState) => {
+        state.errorMessage = '';
+      })
       .addCase(
         registerUser.rejected,
         (state: IdefaultState, { payload = 'Something went wrong...' }) => {
+          state.errorMessage = payload;
+        }
+      )
+      .addCase(
+        loginUser.rejected,
+        (state: IdefaultState, { payload = 'Incorrect login or password...' }) => {
           state.errorMessage = payload;
         }
       );

@@ -1,9 +1,12 @@
 import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
 import { registerUser } from 'store/reducers/user/userSlice';
 import {
+  ButtonGoBack,
   LoginError,
   Logo,
   StyledBox,
@@ -25,6 +28,7 @@ type Inputs = {
 export function SignUp() {
   const backendError = useAppSelector((store) => store.userReducer.errorMessage);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -42,6 +46,9 @@ export function SignUp() {
 
   return (
     <StyledBox>
+      <ButtonGoBack variant="contained" onClick={() => navigate(-1)}>
+        <ArrowBackIosIcon /> Back
+      </ButtonGoBack>
       <Logo />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <Typography>Сreate your TLZ account</Typography>

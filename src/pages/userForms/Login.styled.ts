@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { Button } from '@mui/material';
 
-import { VIOLET, AZURE_BLUE, RED } from 'styles/constants';
+import { VIOLET, AZURE_BLUE, RED, PURPLE } from 'styles/constants';
 import { rgba } from 'styles/helpers/rgba';
 import logo from 'assets/svg/logo.svg';
 
@@ -13,11 +14,12 @@ export const StyledBox = styled.div`
   background-color: ${rgba(VIOLET, 0.1)};
   min-height: calc(100vh - 60px);
   gap: 15px;
+  position: relative;
 `;
 
 export const Logo = styled.div`
-  width: 170px;
-  height: 140px;
+  width: 140px;
+  height: 100px;
   background-image: url(${logo});
   background-repeat: no-repeat;
   background-size: contain;
@@ -51,4 +53,16 @@ export const StyledError = styled.p`
 
 export const LoginError = styled.div`
   height: 10px;
+`;
+
+export const ButtonGoBack = styled(Button)`
+  &.MuiButton-contained {
+    background-color: ${PURPLE};
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: 85px;
+    left: 30px;
+    top: 20px;
+  }
 `;
