@@ -1,5 +1,6 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import {
   StyledDiv,
@@ -7,13 +8,11 @@ import {
   StyledText,
   WrapperWelcomeText,
   WrapperDivButtons,
-  ButtonLogIn,
-  ButtonSignUp,
   Logo,
   ContainerWelcomePage,
 } from './WelcomePage.styled';
 import { getLoginToken } from 'helpers/getLoginToken';
-import { Button } from '@mui/material';
+import { LanguageToggler } from 'components/Header/LanguageToggler/LanguageToggler';
 
 export const WelcomePage = () => {
   const navigate = useNavigate();
@@ -24,27 +23,30 @@ export const WelcomePage = () => {
     navigate(`${link}`);
   };
 
+  const { t } = useTranslation();
+
   return (
     <StyledDiv>
       <ContainerWelcomePage>
         <WrapperWelcomeText>
           <Logo />
-          <StyledTitle>Welcome</StyledTitle>
-          <StyledText>to TLZ project management app</StyledText>
+          <StyledTitle>{t('Welcome')}</StyledTitle>
+          <StyledText>{t('to TLZ project management app')}</StyledText>
+          <LanguageToggler />
         </WrapperWelcomeText>
         <WrapperDivButtons>
           {loginToken ? (
             <Button variant="contained" onClick={() => moveTo('/')}>
-              Go to Main Page
+              {t('Go to Main Page')}
             </Button>
           ) : (
             <>
-              <ButtonLogIn variant="outlined" onClick={() => moveTo('/signin')}>
-                Sign In
-              </ButtonLogIn>
-              <ButtonSignUp variant="contained" onClick={() => moveTo('/signup')}>
-                Sign Up
-              </ButtonSignUp>
+              <Button variant="outlined" onClick={() => moveTo('/signin')}>
+                {t('Sign In')}
+              </Button>
+              <Button variant="contained" onClick={() => moveTo('/signup')}>
+                {t('Sign Up')}
+              </Button>
             </>
           )}
         </WrapperDivButtons>

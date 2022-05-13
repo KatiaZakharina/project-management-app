@@ -1,9 +1,11 @@
-import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { WrapperFooter, LogoRSS, TeamMates, Year, ContentFooter } from './Footer.styled';
 import { LINK_TO_RSS, TEAM_MATES } from 'appConstants';
 
 export const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <WrapperFooter>
       <ContentFooter>
@@ -12,7 +14,7 @@ export const Footer = () => {
           {TEAM_MATES.map((item, index) => {
             return (
               <a key={index} href={item.link} target="_blank" rel="noreferrer">
-                {item.name}
+                {t(item.name)}
               </a>
             );
           })}

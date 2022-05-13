@@ -2,6 +2,7 @@ import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
 import { registerUser } from 'store/reducers/user/userSlice';
@@ -44,14 +45,16 @@ export function SignUp() {
     reset();
   };
 
+  const { t } = useTranslation();
+
   return (
     <StyledBox>
       <ButtonGoBack variant="contained" onClick={() => navigate(-1)}>
-        <ArrowBackIosIcon /> Back
+        <ArrowBackIosIcon /> {t('Back')}
       </ButtonGoBack>
       <Logo />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <Typography>Сreate your TLZ account</Typography>
+        <Typography>{t('Сreate your TLZ account')}</Typography>
         {inputs.map((input) => (
           <StyledInputBox key={input.id}>
             <TextField
@@ -69,7 +72,7 @@ export function SignUp() {
         ))}
         <LoginError>{<StyledError>{backendError}</StyledError>}</LoginError>
         <Button variant="outlined" type="submit" disabled={!isValid}>
-          Сreate!
+          {t('Сreate!')}
         </Button>
       </StyledForm>
     </StyledBox>

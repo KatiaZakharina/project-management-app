@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { FieldErrors, UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 
 type Inputs = {
@@ -27,23 +28,22 @@ interface InputProperty {
 
 export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErrors) {
   const nameInput: InputProperty = {
-    label: 'Your Name',
+    label: t('Your Name'),
     type: 'text',
     id: 1,
     register: {
       ...register('name', {
-        required: 'field is required',
         pattern: {
           value: /^[A-Za-zА-Яа-яЁё]{2,25}/,
-          message: 'you can use only cyrillic or latin letters.',
+          message: t('you can use only cyrillic or latin letters'),
         },
         minLength: {
           value: 2,
-          message: 'your name should be more than 2 characters.',
+          message: t('your name should be more than 2 characters'),
         },
         maxLength: {
           value: 20,
-          message: 'your name should be less then 20 characters.',
+          message: t('your name should be less then 20 characters'),
         },
       }),
     },
@@ -52,19 +52,18 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
   };
 
   const loginInput: InputProperty = {
-    label: 'Create your login',
+    label: t('Create your login'),
     type: 'text',
     id: 2,
     register: {
       ...register('login', {
-        required: 'field is required',
         minLength: {
           value: 2,
-          message: 'your login should be more than 2 characters.',
+          message: t('your login should be more than 2 characters'),
         },
         maxLength: {
           value: 20,
-          message: 'your login should be less then 20 characters.',
+          message: t('your login should be less then 20 characters'),
         },
       }),
     },
@@ -73,19 +72,18 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
   };
 
   const passwordInput: InputProperty = {
-    label: 'Create your password',
+    label: t('Create your password'),
     type: 'password',
     id: 3,
     register: {
       ...register('password', {
-        required: 'field is required',
         minLength: {
           value: 5,
-          message: 'your password should be more than 5 characters.',
+          message: t('your password should be more than 5 characters'),
         },
         maxLength: {
           value: 10,
-          message: 'your password should be less then 10 characters.',
+          message: t('your password should be less then 10 characters'),
         },
       }),
     },
@@ -100,14 +98,14 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
 
 export function useSignIn(register: UseFormRegister<InputsSignIn>) {
   const loginInput: InputProperty = {
-    label: 'Enter your login',
+    label: t('Enter your login'),
     type: 'text',
     id: 1,
     register: { ...register('login') },
   };
 
   const passwordInput: InputProperty = {
-    label: 'Enter your password',
+    label: t('Enter your password'),
     type: 'password',
     id: 2,
     register: { ...register('password') },
