@@ -5,9 +5,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const toggleClass = () => {
@@ -18,6 +20,7 @@ export const Header = () => {
 
   const toSignOut = () => {
     console.log('я вышел');
+    navigate(`/welcome`);
   };
 
   const buttons = [

@@ -21,7 +21,7 @@ export const WelcomePage = () => {
   const loginToken = getLoginToken();
 
   const moveTo = (link: string) => {
-    navigate(`/${link}`);
+    navigate(`${link}`);
   };
 
   return (
@@ -39,10 +39,10 @@ export const WelcomePage = () => {
             </Button>
           ) : (
             <>
-              <ButtonLogIn variant="outlined" onClick={() => moveTo('signin')}>
+              <ButtonLogIn variant="outlined" onClick={() => moveTo('/signin')}>
                 Sign In
               </ButtonLogIn>
-              <ButtonSignUp variant="contained" onClick={() => moveTo('signup')}>
+              <ButtonSignUp variant="contained" onClick={() => moveTo('/signup')}>
                 Sign Up
               </ButtonSignUp>
             </>
