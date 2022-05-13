@@ -11,15 +11,11 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { PrivateRoute } from 'helpers/PrivateRoute';
 import { NotFound404 } from 'helpers/NotFound404';
 import { store } from 'store/store';
-import { Header } from 'components/Header/Header';
 
 export function App() {
   return (
     <Provider store={store}>
       <GlobalStyle />
-      <PrivateRoute>
-        <Header />
-      </PrivateRoute>
       <Routes>
         <Route
           index

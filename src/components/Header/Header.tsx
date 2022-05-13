@@ -19,7 +19,6 @@ export const Header = () => {
   }, []);
 
   const toSignOut = () => {
-    console.log('я вышел');
     navigate(`/welcome`);
   };
 
