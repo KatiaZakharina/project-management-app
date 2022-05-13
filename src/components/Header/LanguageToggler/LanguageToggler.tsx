@@ -7,6 +7,7 @@ import i18n from 'translation';
 export const LanguageToggler = () => {
   const handleChange = (event: React.MouseEvent<HTMLElement>, newLanguage: string) => {
     i18n.changeLanguage(newLanguage);
+    localStorage.setItem('current-language', newLanguage);
   };
 
   return (
