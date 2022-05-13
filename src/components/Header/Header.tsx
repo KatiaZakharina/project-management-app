@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import EditIcon from '@mui/icons-material/Edit';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useNavigate } from 'react-router-dom';
 
 import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
-import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
   const [isActive, setIsActive] = useState(false);
@@ -25,7 +25,7 @@ export const Header = () => {
   const buttons = [
     { text: 'Add new board', icon: <AddCircleIcon /> },
     { text: 'Edit profile', icon: <EditIcon /> },
-    { text: 'Sign out', icon: <LogoutIcon />, onClick: () => toSignOut() },
+    { text: 'Sign out', icon: <LogoutIcon />, onClick: toSignOut },
   ];
 
   return (
