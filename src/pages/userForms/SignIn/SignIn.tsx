@@ -2,6 +2,7 @@ import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import {
   ButtonGoBack,
@@ -36,14 +37,16 @@ export function SignIn() {
     reset();
   };
 
+  const { t } = useTranslation();
+
   return (
     <StyledBox>
       <ButtonGoBack variant="contained" onClick={() => navigate(-1)}>
-        <ArrowBackIosIcon /> Back
+        <ArrowBackIosIcon /> {t('Back')}
       </ButtonGoBack>
       <Logo />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <Typography>Welcome back to TLZ!</Typography>
+        <Typography>{t('Welcome back to TLZ!')}</Typography>
         {inputs.map((input) => (
           <TextField
             key={input.id}
@@ -58,7 +61,7 @@ export function SignIn() {
           <StyledError>{backendError}</StyledError>
         </LoginError>
         <Button variant="outlined" type="submit">
-          I am back!
+          {t('I am back!')}
         </Button>
       </StyledForm>
     </StyledBox>

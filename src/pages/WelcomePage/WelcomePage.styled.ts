@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button } from '@mui/material';
 
 import { VIOLET } from 'styles/constants';
 import backgroundImage from 'assets/png/background.png';
@@ -75,17 +74,7 @@ export const StyledText = styled.p`
 
 export const WrapperDivButtons = styled.div`
   padding: 10px;
-`;
-
-export const ButtonLogIn = styled(Button)`
-  &.MuiButton-outlined {
-    width: 85px;
-    margin-right: 10px;
-  }
-`;
-
-export const ButtonSignUp = styled(Button)`
-  &.MuiButton-contained {
-    width: 85px;
-  }
+  display: flex;
+  height: 50px;
+  gap: 10px;
 `;

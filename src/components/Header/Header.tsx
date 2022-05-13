@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import EditIcon from '@mui/icons-material/Edit';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
@@ -22,10 +23,15 @@ export const Header = () => {
     navigate(`/welcome`);
   };
 
+  const { t } = useTranslation();
+  const addText = t('Add new board');
+  const editText = t('Edit profile');
+  const outText = t('Sign out');
+
   const buttons = [
-    { text: 'Add new board', icon: <AddCircleIcon /> },
-    { text: 'Edit profile', icon: <EditIcon /> },
-    { text: 'Sign out', icon: <LogoutIcon />, onClick: toSignOut },
+    { text: addText, icon: <AddCircleIcon /> },
+    { text: editText, icon: <EditIcon /> },
+    { text: outText, icon: <LogoutIcon />, onClick: toSignOut },
   ];
 
   return (
