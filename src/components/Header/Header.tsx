@@ -4,6 +4,7 @@ import { WrapperHeader, ContentHeader, Logo } from './Header.styled';
 
 export const Header = () => {
   const [isActive, setIsActive] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     const toggleClass = () => {
@@ -11,6 +12,10 @@ export const Header = () => {
     };
     window.addEventListener('scroll', toggleClass);
   }, []);
+
+  const openModalAddBoard = () => {
+    setOpenModal(true);
+  };
 
   return (
     <WrapperHeader className={isActive ? 'active' : ''}>
