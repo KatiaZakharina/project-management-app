@@ -42,7 +42,10 @@ export function SignUp() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     dispatch(registerUser(data));
-    reset();
+    if (backendError) {
+      reset();
+      navigate('/signin');
+    }
   };
 
   const { t } = useTranslation();
