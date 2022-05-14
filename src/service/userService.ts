@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { SERVER_URI } from 'appConstants';
 import { DataForRegestry } from 'store/reducers/user/type';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 class userService {
   baseUrl: string = SERVER_URI;
@@ -19,6 +20,21 @@ class userService {
   getToken = async (userData: DataForRegestry) => {
     try {
       const response = await this.axiosInstance.post('/signin', userData);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  createBoard = async (boardData: { title: string }) => {
+    const token = getLoginToken();
+    try {
+      const response = await this.axiosInstance.post('/boards', boardData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
+        },
+      });
       return response.data;
     } catch (error) {
       throw error;
