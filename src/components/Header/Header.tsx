@@ -38,9 +38,9 @@ export const Header = () => {
   const outText = t('Sign out');
 
   const buttons = [
-    { text: addText, icon: <AddCircleIcon />, onClick: openModalAddBoard },
-    { text: editText, icon: <EditIcon /> },
-    { text: outText, icon: <LogoutIcon />, onClick: toSignOut },
+    { id: 1, text: addText, icon: <AddCircleIcon />, onClick: openModalAddBoard },
+    { id: 2, text: editText, icon: <EditIcon /> },
+    { id: 3, text: outText, icon: <LogoutIcon />, onClick: toSignOut },
   ];
 
   return (
@@ -49,10 +49,10 @@ export const Header = () => {
         <ContentHeader>
           <Logo />
           <WrapperButtons>
-            {buttons.map((button, index) => {
+            {buttons.map((button) => {
               return (
                 <StyledButton
-                  key={index}
+                  key={button.id}
                   variant="contained"
                   color="primary"
                   startIcon={button.icon}
