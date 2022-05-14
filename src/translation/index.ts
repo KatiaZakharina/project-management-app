@@ -13,9 +13,11 @@ const resources = {
   },
 };
 
+const currentLang = localStorage.getItem('current-language') || 'en';
+
 i18n.use(initReactI18next).init({
   resources,
-  fallbackLng: 'en',
+  fallbackLng: currentLang,
   detection: {
     order: ['cookie', 'localStorage'],
     caches: ['cookie'],
