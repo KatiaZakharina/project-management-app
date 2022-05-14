@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 import { ModalAddBoard } from './ModalAddBoard/ModalAddBoard';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 export const Header = () => {
   const [isActive, setIsActive] = useState(false);
@@ -25,6 +26,8 @@ export const Header = () => {
   };
 
   const toSignOut = () => {
+    const token = getLoginToken();
+    document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
     navigate(`/welcome`);
   };
 
