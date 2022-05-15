@@ -7,9 +7,12 @@ import { useTranslation } from 'react-i18next';
 
 import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
+import { ModalAddBoard } from './ModalAddBoard/ModalAddBoard';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 export const Header = () => {
   const [isActive, setIsActive] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +22,13 @@ export const Header = () => {
     window.addEventListener('scroll', toggleClass);
   }, []);
 
+  const openModalAddBoard = () => {
+    setOpenModal(true);
+  };
+
   const toSignOut = () => {
+    const token = getLoginToken();
+    document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
     navigate(`/welcome`);
   };
 
@@ -29,32 +38,35 @@ export const Header = () => {
   const outText = t('Sign out');
 
   const buttons = [
-    { text: addText, icon: <AddCircleIcon /> },
-    { text: editText, icon: <EditIcon /> },
-    { text: outText, icon: <LogoutIcon />, onClick: toSignOut },
+    { id: 1, text: addText, icon: <AddCircleIcon />, onClick: openModalAddBoard },
+    { id: 2, text: editText, icon: <EditIcon /> },
+    { id: 3, text: outText, icon: <LogoutIcon />, onClick: toSignOut },
   ];
 
   return (
-    <WrapperHeader className={isActive ? 'active' : ''}>
-      <ContentHeader>
-        <Logo />
-        <WrapperButtons>
-          {buttons.map((button, index) => {
-            return (
-              <StyledButton
-                key={index}
-                variant="contained"
-                color="primary"
-                startIcon={button.icon}
-                onClick={button.onClick}
-              >
-                {button.text}
-              </StyledButton>
-            );
-          })}
-          <LanguageToggler />
-        </WrapperButtons>
-      </ContentHeader>
-    </WrapperHeader>
+    <>
+      <WrapperHeader className={isActive ? 'active' : ''}>
+        <ContentHeader>
+          <Logo />
+          <WrapperButtons>
+            {buttons.map((button) => {
+              return (
+                <StyledButton
+                  key={button.id}
+                  variant="contained"
+                  color="primary"
+                  startIcon={button.icon}
+                  onClick={button.onClick}
+                >
+                  {button.text}
+                </StyledButton>
+              );
+            })}
+            <LanguageToggler />
+          </WrapperButtons>
+        </ContentHeader>
+      </WrapperHeader>
+      <ModalAddBoard openModal={openModal} setOpenModal={setOpenModal} />
+    </>
   );
 };
