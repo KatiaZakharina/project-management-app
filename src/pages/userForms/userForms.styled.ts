@@ -51,7 +51,7 @@ export const StyledError = styled.p`
   margin: 5px 0 0 0;
 `;
 
-export const LoginError = styled.div`
+export const BackendError = styled.div`
   height: 10px;
 `;
 

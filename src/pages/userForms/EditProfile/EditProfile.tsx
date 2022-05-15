@@ -2,10 +2,8 @@ import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
-import { registerUser } from 'store/reducers/user/userSlice';
 import {
   ButtonGoBack,
   BackendError,
@@ -17,40 +15,47 @@ import {
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
 import { UserInputs } from '../types';
+import { editUser } from 'store/reducers/user/userSlice';
 
-export function SignUp() {
-  const backendError = useAppSelector((store) => store.userReducer.errorMessage);
+export function EditProfile() {
+  const { name, login, id, password, errorMessage } = useAppSelector((state) => state.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const defaultValues = {
+    name,
+    login,
+    password,
+  };
+
+  const emptyValues = {
+    name: '',
+    login: '',
+    password: '',
+  };
 
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm<UserInputs>({ mode: 'onChange' });
+  } = useForm<UserInputs>({ mode: 'onChange', defaultValues });
 
   const { inputs } = useUserData(register, errors);
 
   const onSubmit: SubmitHandler<UserInputs> = async (data) => {
-    await dispatch(registerUser(data));
-
-    if (!backendError) {
-      reset();
-      navigate('/signin');
-    }
+    dispatch(editUser({ userId: id, data }));
+    reset(emptyValues);
   };
-
-  const { t } = useTranslation();
 
   return (
     <StyledBox>
       <ButtonGoBack variant="contained" onClick={() => navigate(-1)}>
-        <ArrowBackIosIcon /> {t('Back')}
+        <ArrowBackIosIcon /> Back
       </ButtonGoBack>
       <Logo />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <Typography>{t('Сreate your TLZ account')}</Typography>
+        <Typography>Edit your TLZ account</Typography>
         {inputs.map((input) => (
           <StyledInputBox key={input.id}>
             <TextField
@@ -64,12 +69,11 @@ export function SignUp() {
             <StyledError>{input.errors}</StyledError>
           </StyledInputBox>
         ))}
-
         <BackendError>
-          <StyledError>{backendError}</StyledError>
+          <StyledError>{errorMessage}</StyledError>
         </BackendError>
         <Button variant="outlined" type="submit" disabled={!isValid}>
-          {t('Сreate!')}
+          Edit!
         </Button>
       </StyledForm>
     </StyledBox>

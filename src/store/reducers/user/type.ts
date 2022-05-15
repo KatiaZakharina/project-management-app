@@ -2,16 +2,17 @@ export interface IdefaultState {
   id: string;
   login: string;
   name: string;
+  password: string;
   errorMessage: string;
 }
 
-export interface DataForRegestry {
+export interface UserData {
   name?: string;
   login: string;
-  password: string;
+  password?: string;
 }
 
-export interface RegesterUserResponse {
+export interface UserDataResponse {
   id: string;
   name: string;
   login: string;
@@ -20,3 +21,5 @@ export interface RegesterUserResponse {
 export interface LoginUserResponse {
   token: string;
 }
+
+export type EditProps = { userId: string; data: UserData };

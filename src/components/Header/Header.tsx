@@ -32,6 +32,10 @@ export const Header = () => {
     navigate(`/welcome`);
   };
 
+  const toEditProfile = () => {
+    navigate(`/edit-profile`);
+  };
+
   const { t } = useTranslation();
   const addText = t('Add new board');
   const editText = t('Edit profile');
@@ -39,7 +43,7 @@ export const Header = () => {
 
   const buttons = [
     { id: 1, text: addText, icon: <AddCircleIcon />, onClick: openModalAddBoard },
-    { id: 2, text: editText, icon: <EditIcon /> },
+    { id: 2, text: editText, icon: <EditIcon />, onClick: toEditProfile },
     { id: 3, text: outText, icon: <LogoutIcon />, onClick: toSignOut },
   ];
 

@@ -6,15 +6,17 @@ import { useTranslation } from 'react-i18next';
 
 import {
   ButtonGoBack,
-  LoginError,
+  BackendError,
   Logo,
   StyledBox,
   StyledError,
   StyledForm,
-} from '../Login.styled';
+} from '../userForms.styled';
 import { useSignIn } from '../useMakeInput';
 import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
-import { loginUser } from 'store/reducers/user/userSlice';
+import { saveUserData, loginUser, setPassword } from 'store/reducers/user/userSlice';
+import { getUserDataFromToken } from 'helpers/getUserDataFromToken';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 type Inputs = {
   login: string;
@@ -34,6 +36,12 @@ export function SignIn() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await dispatch(loginUser(data));
+
+    // const token = getLoginToken();
+    // const { userId } = getUserDataFromToken(token);
+
+    // dispatch(setPassword(data.password));
+    // dispatch(saveUserData(userId));
 
     if (!backendError) {
       reset();
@@ -61,9 +69,10 @@ export function SignIn() {
             fullWidth
           />
         ))}
-        <LoginError>
+
+        <BackendError>
           <StyledError>{backendError}</StyledError>
-        </LoginError>
+        </BackendError>
         <Button variant="outlined" type="submit">
           {t('I am back!')}
         </Button>

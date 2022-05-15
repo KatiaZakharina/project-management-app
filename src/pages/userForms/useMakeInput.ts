@@ -28,7 +28,7 @@ interface InputProperty {
 
 export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErrors) {
   const nameInput: InputProperty = {
-    label: t('Your Name'),
+    label: t('Name'),
     type: 'text',
     id: 1,
     register: {
@@ -52,7 +52,7 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
   };
 
   const loginInput: InputProperty = {
-    label: t('Create your login'),
+    label: t('Login'),
     type: 'text',
     id: 2,
     register: {
@@ -72,7 +72,7 @@ export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErro
   };
 
   const passwordInput: InputProperty = {
-    label: t('Create your password'),
+    label: t('Password'),
     type: 'password',
     id: 3,
     register: {

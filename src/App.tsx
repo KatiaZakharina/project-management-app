@@ -8,9 +8,10 @@ import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
 import { Footer } from 'components/Footer/Footer';
 import { BoardPage } from 'pages/BoardPage/BoardPage';
 import { MainPage } from 'pages/MainPage/MainPage';
-import { PrivateRoute } from 'helpers/PrivateRoute';
-import { NotFound404 } from 'helpers/NotFound404';
+import { PrivateRoute } from 'components/helpers/PrivateRoute';
+import { NotFound404 } from 'components/helpers/NotFound404';
 import { store } from 'store/store';
+import { EditProfile } from 'pages/userForms/EditProfile/EditProfile';
 
 export function App() {
   return (
@@ -29,6 +30,14 @@ export function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route
+          path="/edit-profile"
+          element={
+            <PrivateRoute>
+              <EditProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/board/:boardID"
           element={
             <PrivateRoute>
@@ -38,6 +47,7 @@ export function App() {
         />
         <Route path="*" element={<NotFound404 />}></Route>
       </Routes>
+
       <Footer />
     </Provider>
   );
