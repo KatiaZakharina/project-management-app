@@ -33,8 +33,9 @@ export function SignIn() {
   const { inputs } = useSignIn(register);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    dispatch(loginUser(data));
-    if (backendError) {
+    await dispatch(loginUser(data));
+
+    if (!backendError) {
       reset();
       navigate('/');
     }
