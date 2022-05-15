@@ -1,5 +1,6 @@
 import { Button, Typography } from '@mui/material';
-import { StyledBox, StyledModal } from './ConfirmationModal.styled';
+
+import { StyledBox, StyledModal, WrapperButtons } from './ConfirmationModal.styled';
 
 interface IConfirmationModal {
   openConfirmationModal: boolean;
@@ -18,12 +19,14 @@ export const ConfirmationModal = ({
     <StyledModal open={openConfirmationModal} onClose={handleClose}>
       <StyledBox>
         <Typography>Are you sure that you want to delete?</Typography>
-        <Button variant="outlined" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button variant="contained" color="warning">
-          Delete
-        </Button>
+        <WrapperButtons>
+          <Button variant="outlined" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="contained" color="warning">
+            Delete
+          </Button>
+        </WrapperButtons>
       </StyledBox>
     </StyledModal>
   );

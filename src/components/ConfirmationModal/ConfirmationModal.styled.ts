@@ -14,11 +14,19 @@ export const StyledBox = styled(Box)`
   position: absolute;
   top: 50%;
   left: 50%;
-  padding: 20px;
+  padding: 30px 20px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 10px;
   transform: translate(-50%, -50%);
   max-width: 400px;
   background-color: ${WHITE};
   border-radius: 10px;
+`;
+
+export const WrapperButtons = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
 `;
