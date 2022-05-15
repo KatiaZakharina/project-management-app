@@ -33,8 +33,12 @@ export function SignIn() {
   const { inputs } = useSignIn(register);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    dispatch(loginUser(data));
-    reset();
+    await dispatch(loginUser(data));
+
+    if (!backendError) {
+      reset();
+      navigate('/');
+    }
   };
 
   const { t } = useTranslation();

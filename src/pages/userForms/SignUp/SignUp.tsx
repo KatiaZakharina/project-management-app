@@ -41,8 +41,12 @@ export function SignUp() {
   const { inputs } = useUserData(register, errors);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    dispatch(registerUser(data));
-    reset();
+    await dispatch(registerUser(data));
+
+    if (!backendError) {
+      reset();
+      navigate('/signin');
+    }
   };
 
   const { t } = useTranslation();
