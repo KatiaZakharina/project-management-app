@@ -1,4 +1,4 @@
-import { Stack, Typography, Button } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import styled from 'styled-components';
 import { TURQUOISE, VIOLET } from 'styles/constants';
 import { rgba } from 'styles/helpers/rgba';

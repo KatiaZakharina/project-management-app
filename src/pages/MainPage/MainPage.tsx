@@ -26,6 +26,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     loadBoards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadBoards = () => {
