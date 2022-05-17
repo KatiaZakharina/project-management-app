@@ -1,6 +1,8 @@
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Button } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { Header } from 'components/Header/Header';
@@ -10,12 +12,10 @@ import {
   StyledStack,
   StyledTypography,
   WrapperDescriptionRepo,
-  DeleteButton,
 } from './MainPage.styled';
 import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
 import { fetchBoards } from 'store/reducers/boards/boardsSlice';
 import { loginServiceInstance } from 'service/userService';
-import { useNavigate } from 'react-router-dom';
 
 export const MainPage = () => {
   const { boards } = useAppSelector((state) => state.boardsReducer);
@@ -69,12 +69,15 @@ export const MainPage = () => {
                 <WrapperDescriptionRepo>
                   <StyledTypography variant="h5">{board.title}</StyledTypography>
                   <StyledTypography variant="subtitle1">
+                    {board.columns?.[0].tasks?.[0].title}
+                  </StyledTypography>
+                  <StyledTypography variant="subtitle1">
                     {board.columns?.[0].tasks?.[0].description}
                   </StyledTypography>
                 </WrapperDescriptionRepo>
-                <DeleteButton
+                <Button
                   data-tag="delete-button"
-                  sx={{ height: 35, marginTop: 1 }}
+                  sx={{ height: 35, marginTop: 2.5 }}
                   variant="contained"
                   color="warning"
                   startIcon={<DeleteIcon />}
@@ -84,7 +87,7 @@ export const MainPage = () => {
                   }}
                 >
                   Delete
-                </DeleteButton>
+                </Button>
               </WrapperBoardDiv>
             );
           })}

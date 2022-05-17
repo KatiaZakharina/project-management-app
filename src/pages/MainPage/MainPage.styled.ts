@@ -59,9 +59,3 @@ export const StyledTypography = styled(Typography)`
     text-overflow: ellipsis;
   }
 `;
-
-export const DeleteButton = styled(Button)`
-  > span&.MuiTouchRipple-root {
-    max-height: 50px;
-  }
-`;
