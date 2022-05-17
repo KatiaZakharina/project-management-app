@@ -16,6 +16,8 @@ import {
   StyledInputBox,
 } from '../Login.styled';
 import { useUserData } from '../useMakeInput';
+import { useEffect } from 'react';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 type Inputs = {
   name: string;
@@ -27,9 +29,14 @@ type Inputs = {
 };
 
 export function SignUp() {
-  const backendError = useAppSelector((store) => store.userReducer.errorMessage);
+  const { errorMessage, isRegistered } = useAppSelector((store) => store.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const token = getLoginToken();
+  if (token) {
+    navigate('/');
+  }
 
   const {
     register,
@@ -42,12 +49,15 @@ export function SignUp() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await dispatch(registerUser(data));
+    reset();
+  };
 
-    if (!backendError) {
-      reset();
+  useEffect(() => {
+    if (isRegistered) {
       navigate('/signin');
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRegistered]);
 
   const { t } = useTranslation();
 
@@ -74,7 +84,7 @@ export function SignUp() {
             </LoginError>
           </StyledInputBox>
         ))}
-        <LoginError>{<StyledError>{backendError}</StyledError>}</LoginError>
+        <LoginError>{<StyledError>{errorMessage}</StyledError>}</LoginError>
         <Button variant="outlined" type="submit" disabled={!isValid}>
           {t('Сreate!')}
         </Button>

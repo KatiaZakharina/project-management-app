@@ -8,6 +8,7 @@ function getState() {
     const app: string = localStorage.getItem('app') || '';
     state = JSON.parse(app);
     state.userReducer.errorMessage = '';
+    state.userReducer.isRegistered = false;
   }
   return state;
 }
