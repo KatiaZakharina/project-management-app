@@ -4,26 +4,24 @@ import { StyledBox, StyledModal, WrapperButtons } from './ConfirmationModal.styl
 
 interface IConfirmationModal {
   openConfirmationModal: boolean;
-  setOpenConfirmationModal: (open: boolean) => void;
+  onCancel: () => void;
+  onConfirm: () => void;
 }
 
 export const ConfirmationModal = ({
   openConfirmationModal,
-  setOpenConfirmationModal,
+  onCancel,
+  onConfirm,
 }: IConfirmationModal) => {
-  const handleClose = () => {
-    setOpenConfirmationModal(false);
-  };
-
   return (
-    <StyledModal open={openConfirmationModal} onClose={handleClose}>
+    <StyledModal open={openConfirmationModal} onClose={onCancel}>
       <StyledBox>
         <Typography>Are you sure that you want to delete?</Typography>
         <WrapperButtons>
-          <Button variant="outlined" onClick={handleClose}>
+          <Button variant="outlined" onClick={onCancel}>
             Cancel
           </Button>
-          <Button variant="contained" color="warning">
+          <Button variant="contained" color="warning" onClick={onConfirm}>
             Delete
           </Button>
         </WrapperButtons>
