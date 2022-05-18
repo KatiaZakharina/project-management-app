@@ -66,3 +66,9 @@ export const ButtonGoBack = styled(Button)`
     top: 20px;
   }
 `;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;

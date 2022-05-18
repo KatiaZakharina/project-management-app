@@ -9,7 +9,9 @@ export const defaultState: IdefaultState = {
   login: '',
   name: '',
   password: '',
-  errorMessage: '',
+  errorMessage: ' ',
+  isAuthorized: false,
+  isRegistered: false,
 };
 
 export const registerUser = createAsyncThunk<UserDataResponse, UserData, { rejectValue: string }>(
@@ -74,6 +76,9 @@ const userSlice = createSlice({
     setPassword: (state, { payload }) => {
       state.password = payload;
     },
+    setUnauthorized(state) {
+      state.isAuthorized = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -106,10 +111,15 @@ const userSlice = createSlice({
         (state: IdefaultState, { payload = 'Something went wrong...' }) => {
           state.errorMessage = payload;
         }
-      );
+      )
+      .addCase(loginUser.fulfilled, (state: IdefaultState) => {
+        state.isAuthorized = true;
+      })
+      .addCase(registerUser.fulfilled, (state: IdefaultState) => {
+        state.isRegistered = true;
+      });
   },
 });
 
-export const { setPassword } = userSlice.actions;
-
+export const { setUnauthorized, setPassword } = userSlice.actions;
 export default userSlice.reducer;

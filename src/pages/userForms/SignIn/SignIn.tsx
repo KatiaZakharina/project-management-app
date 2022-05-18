@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 import {
   ButtonGoBack,
@@ -26,9 +27,17 @@ type Inputs = {
 };
 
 export function SignIn() {
-  const backendError = useAppSelector((store) => store.userReducer.errorMessage);
+  const { isAuthorized, errorMessage } = useAppSelector((store) => store.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const token = getLoginToken();
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { register, handleSubmit, reset } = useForm<Inputs>();
 
@@ -43,11 +52,17 @@ export function SignIn() {
     // dispatch(setPassword(data.password));
     // dispatch(saveUserData(userId));
 
-    if (!backendError) {
+    if (!errorMessage) {
       reset();
-      navigate('/');
     }
   };
+
+  useEffect(() => {
+    if (isAuthorized) {
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthorized]);
 
   const { t } = useTranslation();
 
@@ -71,8 +86,9 @@ export function SignIn() {
         ))}
 
         <BackendError>
-          <StyledError>{backendError}</StyledError>
+          <StyledError>{errorMessage}</StyledError>
         </BackendError>
+
         <Button variant="outlined" type="submit">
           {t('I am back!')}
         </Button>

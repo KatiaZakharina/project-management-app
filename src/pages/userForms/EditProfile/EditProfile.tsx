@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Typography, TextField, Button } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +13,15 @@ import {
   StyledError,
   StyledForm,
   StyledInputBox,
+  ButtonWrapper,
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
 import { UserInputs } from '../types';
 import { editUser } from 'store/reducers/user/userSlice';
+import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 
 export function EditProfile() {
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const { name, login, id, password, errorMessage } = useAppSelector((state) => state.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -43,39 +47,63 @@ export function EditProfile() {
 
   const { inputs } = useUserData(register, errors);
 
-  const onSubmit: SubmitHandler<UserInputs> = async (data) => {
+  const onEdit: SubmitHandler<UserInputs> = async (data) => {
     dispatch(editUser({ userId: id, data }));
     reset(emptyValues);
   };
+  const onSubmit = () => {};
+
+  const onDelete = () => {
+    setOpenConfirmationModal(true);
+  };
+  const onConfirmDelete = () => {
+    setOpenConfirmationModal(false);
+  };
+  const onCancelDelete = () => {
+    setOpenConfirmationModal(false);
+  };
 
   return (
-    <StyledBox>
-      <ButtonGoBack variant="contained" onClick={() => navigate(-1)}>
-        <ArrowBackIosIcon /> Back
-      </ButtonGoBack>
-      <Logo />
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <Typography>Edit your TLZ account</Typography>
-        {inputs.map((input) => (
-          <StyledInputBox key={input.id}>
-            <TextField
-              label={input.label}
-              type={input.type}
-              {...input.register}
-              fullWidth
-              error={input.error}
-              autoComplete="off"
-            />
-            <StyledError>{input.errors}</StyledError>
-          </StyledInputBox>
-        ))}
-        <BackendError>
-          <StyledError>{errorMessage}</StyledError>
-        </BackendError>
-        <Button variant="outlined" type="submit" disabled={!isValid}>
-          Edit!
-        </Button>
-      </StyledForm>
-    </StyledBox>
+    <>
+      <StyledBox>
+        <ButtonGoBack variant="contained" onClick={() => navigate(-1)}>
+          <ArrowBackIosIcon /> Back
+        </ButtonGoBack>
+        <Logo />
+        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+          <Typography>Edit your TLZ account</Typography>
+          {inputs.map((input) => (
+            <StyledInputBox key={input.id}>
+              <TextField
+                label={input.label}
+                type={input.type}
+                {...input.register}
+                fullWidth
+                error={input.error}
+                autoComplete="off"
+              />
+              <StyledError>{input.errors}</StyledError>
+            </StyledInputBox>
+          ))}
+          <BackendError>
+            <StyledError>{errorMessage}</StyledError>
+          </BackendError>
+          <ButtonWrapper>
+            <Button variant="contained" color="warning" onClick={onDelete}>
+              Delete
+            </Button>
+            <Button variant="outlined" type="submit" disabled={!isValid}>
+              Edit !
+            </Button>
+          </ButtonWrapper>
+        </StyledForm>
+      </StyledBox>
+
+      <ConfirmationModal
+        openConfirmationModal={openConfirmationModal}
+        onCancel={onCancelDelete}
+        onConfirm={onConfirmDelete}
+      ></ConfirmationModal>
+    </>
   );
 }

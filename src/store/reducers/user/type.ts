@@ -4,6 +4,8 @@ export interface IdefaultState {
   name: string;
   password: string;
   errorMessage: string;
+  isAuthorized: boolean;
+  isRegistered: boolean;
 }
 
 export interface UserData {

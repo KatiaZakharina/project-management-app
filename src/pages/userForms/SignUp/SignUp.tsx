@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
 import { registerUser } from 'store/reducers/user/userSlice';
@@ -17,11 +18,21 @@ import {
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
 import { UserInputs } from '../types';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 export function SignUp() {
-  const backendError = useAppSelector((store) => store.userReducer.errorMessage);
+  const { errorMessage, isRegistered } = useAppSelector((store) => store.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  const token = getLoginToken();
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     register,
@@ -34,12 +45,15 @@ export function SignUp() {
 
   const onSubmit: SubmitHandler<UserInputs> = async (data) => {
     await dispatch(registerUser(data));
+    reset();
+  };
 
-    if (!backendError) {
-      reset();
+  useEffect(() => {
+    if (isRegistered) {
       navigate('/signin');
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isRegistered]);
 
   const { t } = useTranslation();
 
@@ -66,8 +80,9 @@ export function SignUp() {
         ))}
 
         <BackendError>
-          <StyledError>{backendError}</StyledError>
+          <StyledError>{errorMessage}</StyledError>
         </BackendError>
+
         <Button variant="outlined" type="submit" disabled={!isValid}>
           {t('Сreate!')}
         </Button>
