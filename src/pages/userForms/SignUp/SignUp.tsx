@@ -41,12 +41,13 @@ export function SignUp() {
   const { inputs } = useUserData(register, errors);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await dispatch(registerUser(data));
-
-    if (!backendError) {
-      reset();
-      navigate('/signin');
-    }
+    const promise = dispatch(registerUser(data));
+    promise.then(() => {
+      if (!backendError) {
+        navigate('/signin');
+      }
+    });
+    reset();
   };
 
   const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import { Typography, TextField, Button } from '@mui/material';
+import { Typography, TextField, Button, Snackbar, Alert } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ type Inputs = {
 };
 
 export function SignIn() {
-  const backendError = useAppSelector((store) => store.userReducer.errorMessage);
+  const { errorMessage, name, id } = useAppSelector((store) => store.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -32,10 +32,11 @@ export function SignIn() {
 
   const { inputs } = useSignIn(register);
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await dispatch(loginUser(data));
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    dispatch(loginUser(data));
+    console.log(errorMessage, name, id);
 
-    if (!backendError) {
+    if (!errorMessage) {
       reset();
       navigate('/');
     }
@@ -61,9 +62,14 @@ export function SignIn() {
             fullWidth
           />
         ))}
-        <LoginError>
+        {/* <LoginError>
           <StyledError>{backendError}</StyledError>
-        </LoginError>
+        </LoginError> */}
+        <Snackbar open={!!errorMessage} autoHideDuration={6000} onClose={() => {}}>
+          <Alert onClose={() => {}} severity="error" sx={{ width: '100%' }}>
+            {errorMessage}
+          </Alert>
+        </Snackbar>
         <Button variant="outlined" type="submit">
           {t('I am back!')}
         </Button>
