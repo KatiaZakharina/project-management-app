@@ -13,9 +13,9 @@ import {
   StyledTypography,
   WrapperDescriptionRepo,
 } from './MainPage.styled';
-import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { fetchBoards } from 'store/reducers/boards/boardsSlice';
-import { loginServiceInstance } from 'service/userService';
+import { boardsServiceInstance } from 'service/boardsService';
 
 export const MainPage = () => {
   const { boards } = useAppSelector((state) => state.boardsReducer);
@@ -34,7 +34,8 @@ export const MainPage = () => {
   };
 
   const onConfirm = async () => {
-    await loginServiceInstance.deleteBoard(id);
+    await boardsServiceInstance.deleteBoard(id);
+    //TODO: move to the thunk
     loadBoards();
     closeModal();
   };

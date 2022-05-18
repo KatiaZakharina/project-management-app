@@ -1,4 +1,4 @@
-export interface IdefaultState {
+export interface IDefaultState {
   id: string;
   login: string;
   name: string;
@@ -7,13 +7,13 @@ export interface IdefaultState {
   isRegistered: boolean;
 }
 
-export interface DataForRegestry {
+export interface DataForRegistry {
   name?: string;
   login: string;
   password: string;
 }
 
-export interface RegesterUserResponse {
+export interface RegisterUserResponse {
   id: string;
   name: string;
   login: string;

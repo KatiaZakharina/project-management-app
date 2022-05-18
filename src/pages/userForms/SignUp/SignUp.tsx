@@ -5,7 +5,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { registerUser } from 'store/reducers/user/userSlice';
 import {
   ButtonGoBack,

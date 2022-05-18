@@ -9,7 +9,7 @@ import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 import { ModalAddBoard } from './ModalAddBoard/ModalAddBoard';
 import { getLoginToken } from 'helpers/getLoginToken';
-import { useAppDispatch } from 'store/reducers/user/hooks';
+import { useAppDispatch } from 'store/hooks';
 import { setUnauthorized } from 'store/reducers/user/userSlice';
 
 export const Header = () => {

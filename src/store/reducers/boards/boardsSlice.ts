@@ -1,18 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
-import { loginServiceInstance } from 'service/userService';
-import { BoardDataType } from 'appConstants/types';
+import { boardsServiceInstance } from 'service/boardsService';
+import { BoardDataType, IDefaultBoardState } from 'store/reducers/boards/types';
 
-export const defaultBoardsState = {
-  boards: <BoardDataType[]>[],
+export const defaultBoardsState: IDefaultBoardState = {
+  boards: [],
 };
 
 export const fetchBoards = createAsyncThunk(
   'boards/fetchBoards',
   async (_, { rejectWithValue }) => {
     try {
-      const data = await loginServiceInstance.getBoards();
+      const data = await boardsServiceInstance.getBoards();
       return data;
     } catch (error) {
       if (error instanceof AxiosError) {
