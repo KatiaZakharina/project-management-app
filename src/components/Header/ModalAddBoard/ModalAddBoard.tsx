@@ -1,9 +1,7 @@
 import { Button, TextField, Typography } from '@mui/material';
-import { BoardDataType } from 'appConstants/types';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { loginServiceInstance } from 'service/userService';
 import {
   StyledBox,
   StyledForm,
@@ -11,6 +9,8 @@ import {
   WrapperError,
   StyledError,
 } from './ModalAddBoard.styled';
+import { BoardDataType } from 'store/reducers/boards/types';
+import { boardsServiceInstance } from 'service/boardsService';
 
 interface IModalAddBoard {
   openModal: boolean;
@@ -33,7 +33,8 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   } = useForm<{ title: string }>();
 
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    const newBoard: BoardDataType = await loginServiceInstance.createBoard(data);
+    const newBoard: BoardDataType = await boardsServiceInstance.createBoard(data);
+    //TODO: move to async thunk
     navigate(`/board/${newBoard.id}`);
     handleClose();
   };

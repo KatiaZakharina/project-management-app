@@ -1,10 +1,9 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { SERVER_URI } from 'appConstants';
-import { DataForRegistry } from 'store/reducers/user/type';
 import { getLoginToken } from 'helpers/getLoginToken';
 
-class userService {
+class BoardsService {
   private baseUrl: string;
   private axiosInstance: AxiosInstance;
 
@@ -23,15 +22,20 @@ class userService {
     });
   }
 
-  postUser = async (userData: DataForRegistry) => {
-    const response = await this.axiosInstance.post('/signup', userData);
+  createBoard = async (boardData: { title: string }) => {
+    const response = await this.axiosInstance.post('/boards', boardData);
     return response.data;
   };
 
-  getToken = async (userData: DataForRegistry) => {
-    const response = await this.axiosInstance.post('/signin', userData);
+  getBoards = async () => {
+    const response = await this.axiosInstance.get('/boards');
+    return response.data;
+  };
+
+  deleteBoard = async (id: string) => {
+    const response = await this.axiosInstance.delete(`/boards/${id}`);
     return response.data;
   };
 }
 
-export const loginServiceInstance = new userService();
+export const boardsServiceInstance = new BoardsService();

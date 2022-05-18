@@ -23,3 +23,7 @@ export type BoardTasksType = {
     fileSize: number;
   }[];
 };
+
+export interface IDefaultBoardState {
+  boards: BoardDataType[];
+}
