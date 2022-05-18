@@ -29,7 +29,7 @@ export function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route
-          path="/board/:boardID"
+          path="/boards/:boardID"
           element={
             <PrivateRoute>
               <BoardPage />
