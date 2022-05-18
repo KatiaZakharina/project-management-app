@@ -5,12 +5,18 @@ import { Header } from 'components/Header/Header';
 
 export const MainPage = () => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+
+  const onConfirm = async () => {};
+
+  const onCancel = () => {};
+
   return (
     <>
       <Header></Header>
       <ConfirmationModal
         openConfirmationModal={openConfirmationModal}
-        setOpenConfirmationModal={setOpenConfirmationModal}
+        onCancel={onCancel}
+        onConfirm={onConfirm}
       ></ConfirmationModal>
     </>
   );
