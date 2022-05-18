@@ -12,7 +12,6 @@ import {
   ContainerWelcomePage,
 } from './WelcomePage.styled';
 import { getLoginToken } from 'helpers/getLoginToken';
-import { LanguageToggler } from 'components/Header/LanguageToggler/LanguageToggler';
 
 export const WelcomePage = () => {
   const navigate = useNavigate();
@@ -32,7 +31,6 @@ export const WelcomePage = () => {
           <Logo />
           <StyledTitle>{t('Welcome')}</StyledTitle>
           <StyledText>{t('to TLZ project management app')}</StyledText>
-          <LanguageToggler />
         </WrapperWelcomeText>
         <WrapperDivButtons>
           {loginToken ? (
