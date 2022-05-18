@@ -8,7 +8,9 @@ export const defaultState: IdefaultState = {
   id: '',
   login: '',
   name: '',
-  errorMessage: '',
+  errorMessage: ' ',
+  isAuthorized: false,
+  isRegistered: false,
 };
 
 export const registerUser = createAsyncThunk<
@@ -47,7 +49,11 @@ export const loginUser = createAsyncThunk<
 const userSlice = createSlice({
   name: 'user',
   initialState: defaultState,
-  reducers: {},
+  reducers: {
+    setUnauthorized(state) {
+      state.isAuthorized = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state: IdefaultState) => {
@@ -67,8 +73,15 @@ const userSlice = createSlice({
         (state: IdefaultState, { payload = 'Incorrect login or password...' }) => {
           state.errorMessage = payload;
         }
-      );
+      )
+      .addCase(loginUser.fulfilled, (state: IdefaultState) => {
+        state.isAuthorized = true;
+      })
+      .addCase(registerUser.fulfilled, (state: IdefaultState) => {
+        state.isRegistered = true;
+      });
   },
 });
 
+export const { setUnauthorized } = userSlice.actions;
 export default userSlice.reducer;

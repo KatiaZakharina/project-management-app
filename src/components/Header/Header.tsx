@@ -9,11 +9,14 @@ import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 import { ModalAddBoard } from './ModalAddBoard/ModalAddBoard';
 import { getLoginToken } from 'helpers/getLoginToken';
+import { useAppDispatch } from 'store/reducers/user/hooks';
+import { setUnauthorized } from 'store/reducers/user/userSlice';
 
 export const Header = () => {
   const [isActive, setIsActive] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const toggleClass = () => {
@@ -29,6 +32,7 @@ export const Header = () => {
   const toSignOut = () => {
     const token = getLoginToken();
     document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
+    dispatch(setUnauthorized());
     navigate(`/welcome`);
   };
 

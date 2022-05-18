@@ -3,6 +3,8 @@ export interface IdefaultState {
   login: string;
   name: string;
   errorMessage: string;
+  isAuthorized: boolean;
+  isRegistered: boolean;
 }
 
 export interface DataForRegestry {
