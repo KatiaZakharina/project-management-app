@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 import {
   ButtonGoBack,
@@ -15,6 +16,7 @@ import {
 import { useSignIn } from '../useMakeInput';
 import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
 import { loginUser } from 'store/reducers/user/userSlice';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 type Inputs = {
   login: string;
@@ -24,22 +26,32 @@ type Inputs = {
 };
 
 export function SignIn() {
-  const { errorMessage, name, id } = useAppSelector((store) => store.userReducer);
+  const { isAuthorized, errorMessage } = useAppSelector((store) => store.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const token = getLoginToken();
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { register, handleSubmit, reset } = useForm<Inputs>();
 
   const { inputs } = useSignIn(register);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    dispatch(loginUser(data));
-    console.log(errorMessage, name, id);
-
-    if (!errorMessage) {
-      reset();
+  useEffect(() => {
+    if (isAuthorized) {
       navigate('/');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthorized]);
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    dispatch(loginUser(data));
+    reset();
   };
 
   const { t } = useTranslation();
@@ -62,14 +74,9 @@ export function SignIn() {
             fullWidth
           />
         ))}
-        {/* <LoginError>
-          <StyledError>{backendError}</StyledError>
-        </LoginError> */}
-        <Snackbar open={!!errorMessage} autoHideDuration={6000} onClose={() => {}}>
-          <Alert onClose={() => {}} severity="error" sx={{ width: '100%' }}>
-            {errorMessage}
-          </Alert>
-        </Snackbar>
+        <LoginError>
+          <StyledError>{errorMessage}</StyledError>
+        </LoginError>
         <Button variant="outlined" type="submit">
           {t('I am back!')}
         </Button>

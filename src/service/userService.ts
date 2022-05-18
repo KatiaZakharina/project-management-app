@@ -40,6 +40,36 @@ class userService {
       throw error;
     }
   };
+
+  getBoards = async () => {
+    const token = getLoginToken();
+    try {
+      const response = await this.axiosInstance.get('/boards', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  deleteBoard = async (id: string) => {
+    const token = getLoginToken();
+    try {
+      const response = await this.axiosInstance.delete(`/boards/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'content-type': 'application/json',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 export const loginServiceInstance = new userService();
