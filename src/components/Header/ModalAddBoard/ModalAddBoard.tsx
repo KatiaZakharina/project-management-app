@@ -9,8 +9,8 @@ import {
   WrapperError,
   StyledError,
 } from './ModalAddBoard.styled';
-import { BoardDataType } from 'store/reducers/boards/types';
-import { boardsServiceInstance } from 'service/boardsService';
+import { createBoard } from 'store/reducers/boards/boardsSlice';
+import { useAppDispatch } from 'store/hooks';
 
 interface IModalAddBoard {
   openModal: boolean;
@@ -19,6 +19,7 @@ interface IModalAddBoard {
 
 export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
     setOpenModal(false);
@@ -33,9 +34,8 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   } = useForm<{ title: string }>();
 
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    const newBoard: BoardDataType = await boardsServiceInstance.createBoard(data);
-    //TODO: move to async thunk
-    navigate(`/board/${newBoard.id}`);
+    const newBoard = await dispatch(createBoard(data));
+    navigate(`/boards/${newBoard.payload.id}`);
     handleClose();
   };
 

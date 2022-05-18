@@ -6,6 +6,7 @@ import { BoardDataType, IDefaultBoardState } from 'store/reducers/boards/types';
 
 export const defaultBoardsState: IDefaultBoardState = {
   boards: [],
+  error: '',
 };
 
 export const fetchBoards = createAsyncThunk(
@@ -24,24 +25,53 @@ export const fetchBoards = createAsyncThunk(
   }
 );
 
+export const deleteBoard = createAsyncThunk(
+  'boards/deleteBoard',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const data = await boardsServiceInstance.deleteBoard(id);
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      } else {
+        return rejectWithValue('Something went wrong...');
+      }
+    }
+  }
+);
+
+export const createBoard = createAsyncThunk(
+  'boards/createBoard',
+  async (boardData: { title: string }, { rejectWithValue }) => {
+    try {
+      const data = await boardsServiceInstance.createBoard(boardData);
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      } else {
+        return rejectWithValue('Something went wrong...');
+      }
+    }
+  }
+);
+
 const boardsSlice = createSlice({
   name: 'boards',
   initialState: defaultBoardsState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchBoards.fulfilled,
-      (
-        state,
-        {
-          payload,
-        }: {
-          payload: BoardDataType[];
+    builder
+      .addCase(fetchBoards.pending, (state: IDefaultBoardState) => {
+        state.error = '';
+      })
+      .addCase(
+        fetchBoards.fulfilled,
+        (state: IDefaultBoardState, { payload }: { payload: BoardDataType[] }) => {
+          state.boards = payload;
         }
-      ) => {
-        state.boards = payload;
-      }
-    );
+      );
   },
 });
 

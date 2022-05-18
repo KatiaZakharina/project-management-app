@@ -6,13 +6,22 @@ import { Header } from 'components/Header/Header';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { Button } from '@mui/material';
 import { WrapperBoardFunctional } from './BoardPage.styled';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { deleteBoard } from 'store/reducers/boards/boardsSlice';
+import { useAppDispatch } from 'store/hooks';
 
 export const BoardPage = () => {
   const { boardID } = useParams();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    if (boardID) {
+      await dispatch(deleteBoard(boardID));
+    }
+    navigate('/');
+  };
 
   const onCancel = () => {
     closeModal();
