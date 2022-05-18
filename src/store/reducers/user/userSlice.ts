@@ -2,9 +2,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { loginServiceInstance } from 'service/userService';
-import { DataForRegestry, IdefaultState, LoginUserResponse, RegesterUserResponse } from './type';
+import { DataForRegistry, IDefaultState, LoginUserResponse, RegisterUserResponse } from './type';
 
-export const defaultState: IdefaultState = {
+export const defaultState: IDefaultState = {
   id: '',
   login: '',
   name: '',
@@ -14,10 +14,10 @@ export const defaultState: IdefaultState = {
 };
 
 export const registerUser = createAsyncThunk<
-  RegesterUserResponse,
-  DataForRegestry,
+  RegisterUserResponse,
+  DataForRegistry,
   { rejectValue: string }
->('user/signup', async (userData: DataForRegestry, { rejectWithValue }) => {
+>('user/signup', async (userData: DataForRegistry, { rejectWithValue }) => {
   try {
     const data = await loginServiceInstance.postUser(userData);
     return data;
@@ -32,9 +32,9 @@ export const registerUser = createAsyncThunk<
 
 export const loginUser = createAsyncThunk<
   LoginUserResponse,
-  DataForRegestry,
+  DataForRegistry,
   { rejectValue: string }
->('user/signin', async (userData: DataForRegestry, { rejectWithValue }) => {
+>('user/signin', async (userData: DataForRegistry, { rejectWithValue }) => {
   try {
     const response = await loginServiceInstance.getToken(userData);
     document.cookie = `user=${response.token};max-age=86400;samesite=lax;path=/`;
@@ -56,28 +56,28 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(registerUser.pending, (state: IdefaultState) => {
+      .addCase(registerUser.pending, (state: IDefaultState) => {
         state.errorMessage = '';
       })
-      .addCase(loginUser.pending, (state: IdefaultState) => {
+      .addCase(loginUser.pending, (state: IDefaultState) => {
         state.errorMessage = '';
       })
       .addCase(
         registerUser.rejected,
-        (state: IdefaultState, { payload = 'Something went wrong...' }) => {
+        (state: IDefaultState, { payload = 'Something went wrong...' }) => {
           state.errorMessage = payload;
         }
       )
       .addCase(
         loginUser.rejected,
-        (state: IdefaultState, { payload = 'Incorrect login or password...' }) => {
+        (state: IDefaultState, { payload = 'Incorrect login or password...' }) => {
           state.errorMessage = payload;
         }
       )
-      .addCase(loginUser.fulfilled, (state: IdefaultState) => {
+      .addCase(loginUser.fulfilled, (state: IDefaultState) => {
         state.isAuthorized = true;
       })
-      .addCase(registerUser.fulfilled, (state: IdefaultState) => {
+      .addCase(registerUser.fulfilled, (state: IDefaultState) => {
         state.isRegistered = true;
       });
   },

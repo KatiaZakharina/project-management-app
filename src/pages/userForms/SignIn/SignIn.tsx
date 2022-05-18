@@ -14,7 +14,7 @@ import {
   StyledForm,
 } from '../Login.styled';
 import { useSignIn } from '../useMakeInput';
-import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { loginUser } from 'store/reducers/user/userSlice';
 import { getLoginToken } from 'helpers/getLoginToken';
 
