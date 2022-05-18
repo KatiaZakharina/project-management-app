@@ -50,7 +50,6 @@ export const MainPage = () => {
 
   const moveTo = (event: React.MouseEvent, id: string) => {
     const eventTarget = event.target as Element & { dataset: Record<string, string> };
-    console.log(eventTarget);
     if (
       eventTarget.dataset.tag !== 'delete-button' &&
       eventTarget.dataset.testid !== 'DeleteIcon'

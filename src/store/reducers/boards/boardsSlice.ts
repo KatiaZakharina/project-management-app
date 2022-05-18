@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { BoardDataType } from 'appConstants/types';
 import { AxiosError } from 'axios';
 
 import { loginServiceInstance } from 'service/userService';
+import { BoardDataType } from 'appConstants/types';
 
 export const defaultBoardsState = {
   boards: <BoardDataType[]>[],

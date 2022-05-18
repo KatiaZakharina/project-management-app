@@ -1,5 +1,6 @@
 import { Stack, Typography } from '@mui/material';
 import styled from 'styled-components';
+
 import { TURQUOISE, VIOLET } from 'styles/constants';
 import { rgba } from 'styles/helpers/rgba';
 
@@ -13,9 +14,9 @@ export const StyledStack = styled(Stack)`
   max-width: 1440px;
   margin: 0 auto;
   display: flex;
-  padding: 20px 40px;
+  padding: 20px 60px;
   align-items: center;
-  @media screen and (max-width: 420px) {
+  @media screen and (max-width: 620px) {
     padding: 20px 0;
   }
 `;
@@ -24,7 +25,7 @@ export const WrapperBoardDiv = styled.div`
   display: flex;
   width: 100%;
   max-width: 1200px;
-  min-height: 73px;
+  min-height: 97px;
   gap: 10px;
   justify-content: space-between;
   max-width: 1400px;
@@ -42,6 +43,9 @@ export const WrapperDescriptionRepo = styled.div`
   display: flex;
   flex-direction: column;
   width: 80%;
+  @media screen and (max-width: 420px) {
+    width: 60%;
+  }
 `;
 
 export const StyledTypography = styled(Typography)`

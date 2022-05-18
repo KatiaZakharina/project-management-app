@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 import {
   ButtonGoBack,
@@ -15,7 +16,6 @@ import {
 import { useSignIn } from '../useMakeInput';
 import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
 import { loginUser } from 'store/reducers/user/userSlice';
-import { useEffect } from 'react';
 import { getLoginToken } from 'helpers/getLoginToken';
 
 type Inputs = {
@@ -29,11 +29,14 @@ export function SignIn() {
   const { isAuthorized, errorMessage } = useAppSelector((store) => store.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
   const token = getLoginToken();
-  if (token) {
-    navigate('/');
-  }
+
+  useEffect(() => {
+    if (token) {
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { register, handleSubmit, reset } = useForm<Inputs>();
 
