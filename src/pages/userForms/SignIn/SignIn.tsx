@@ -3,16 +3,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import {
-  ButtonGoBack,
-  LoginError,
-  Logo,
-  StyledBox,
-  StyledError,
-  StyledForm,
-} from '../Login.styled';
+import { ButtonGoBack, Logo, SnackbarStyled, StyledBox, StyledForm } from '../Login.styled';
 import { useSignIn } from '../useMakeInput';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { loginUser } from 'store/reducers/user/userSlice';
@@ -30,6 +23,8 @@ export function SignIn() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = getLoginToken();
+  const [open, setOpen] = useState(false);
+  console.log(!!errorMessage);
 
   useEffect(() => {
     if (token) {
@@ -50,7 +45,7 @@ export function SignIn() {
   }, [isAuthorized]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    dispatch(loginUser(data));
+    await dispatch(loginUser(data));
     reset();
   };
 
@@ -74,9 +69,11 @@ export function SignIn() {
             fullWidth
           />
         ))}
-        <LoginError>
-          <StyledError>{errorMessage}</StyledError>
-        </LoginError>
+        <SnackbarStyled open={!!errorMessage}>
+          <Alert severity="warning" sx={{ width: '100%' }}>
+            {errorMessage}
+          </Alert>
+        </SnackbarStyled>
         <Button variant="outlined" type="submit">
           {t('I am back!')}
         </Button>

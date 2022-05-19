@@ -1,4 +1,4 @@
-import { Typography, TextField, Button } from '@mui/material';
+import { Typography, TextField, Button, Alert } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -11,6 +11,7 @@ import {
   ButtonGoBack,
   LoginError,
   Logo,
+  SnackbarStyled,
   StyledBox,
   StyledError,
   StyledForm,
@@ -72,7 +73,7 @@ export function SignUp() {
       </ButtonGoBack>
       <Logo />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <Typography>{t('Сreate your TLZ account')}</Typography>
+        <Typography>{t('Create your TLZ account')}</Typography>
         {inputs.map((input) => (
           <StyledInputBox key={input.id}>
             <TextField
@@ -88,9 +89,13 @@ export function SignUp() {
             </LoginError>
           </StyledInputBox>
         ))}
-        <LoginError>{<StyledError>{errorMessage}</StyledError>}</LoginError>
+        <SnackbarStyled open={!!errorMessage}>
+          <Alert severity="warning" sx={{ width: '100%' }}>
+            {errorMessage}
+          </Alert>
+        </SnackbarStyled>
         <Button variant="outlined" type="submit" disabled={!isValid}>
-          {t('Сreate!')}
+          {t('Create!')}
         </Button>
       </StyledForm>
     </StyledBox>
