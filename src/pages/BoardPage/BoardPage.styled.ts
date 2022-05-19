@@ -11,8 +11,7 @@ export const ColumnList = styled.div`
 export const ColumnListWrapper = styled.div`
   width: calc(100vw - 20px);
   max-width: 1440px;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 230px);
   margin: 0 auto;
-  margin-top: 30px;
   overflow-y: auto;
 `;

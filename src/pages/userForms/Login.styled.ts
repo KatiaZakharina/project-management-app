@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button } from '@mui/material';
+import { Snackbar, Button } from '@mui/material';
 
 import { VIOLET, AZURE_BLUE, RED, PURPLE } from 'styles/constants';
 import { rgba } from 'styles/helpers/rgba';
@@ -64,5 +64,14 @@ export const ButtonGoBack = styled(Button)`
     width: 85px;
     left: 30px;
     top: 20px;
+  }
+`;
+
+export const SnackbarStyled = styled(Snackbar)`
+  &.MuiSnackbar-root {
+    position: absolute;
+    left: auto;
+    top: 45px;
+    max-height: 50px;
   }
 `;

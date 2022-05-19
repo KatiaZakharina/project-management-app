@@ -21,7 +21,7 @@ export const Column = ({ tasks, title }: BoardColumnsType) => {
 
       <TaskListWrapper>
         <TaskList>
-          {tasks.map((task) => (
+          {tasks?.map((task) => (
             <FakeTask key={task.id}>{JSON.stringify(task.description)}</FakeTask>
           ))}
         </TaskList>

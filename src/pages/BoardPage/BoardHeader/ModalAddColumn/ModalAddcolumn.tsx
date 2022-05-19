@@ -1,6 +1,5 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import {
   StyledBox,
@@ -8,18 +7,17 @@ import {
   StyledModal,
   WrapperError,
   StyledError,
-} from './ModalAddBoard.styled';
-import { createBoard, fetchBoardData } from 'store/reducers/boards/boardsSlice';
-import { useAppDispatch } from 'store/hooks';
-import { BoardDataType } from 'store/reducers/boards/types';
+} from './ModalAddColumn.styled';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { createColumn, fetchBoardData } from 'store/reducers/boards/boardsSlice';
 
-interface IModalAddBoard {
+interface IModalAddColumn {
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
 }
 
-export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
-  const navigate = useNavigate();
+export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => {
+  const { currentBoard } = useAppSelector((state) => state.boardsReducer);
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -35,10 +33,15 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   } = useForm<{ title: string }>();
 
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    const boardData = await dispatch(createBoard(data));
-    const newBoard = boardData.payload as BoardDataType;
-    await dispatch(fetchBoardData(newBoard.id));
-    navigate(`/boards/${newBoard.id}`);
+    const currentOrder = currentBoard?.columns?.length as number;
+    const newColumnData = {
+      title: data.title,
+      order: currentOrder + 1,
+    };
+    console.log(newColumnData);
+    const idBoard = currentBoard?.id as string;
+    await dispatch(createColumn({ id: idBoard, columnData: newColumnData }));
+    await dispatch(fetchBoardData(idBoard));
     handleClose();
   };
 
@@ -46,7 +49,7 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
     <StyledModal open={openModal} onClose={handleClose}>
       <StyledBox>
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <Typography>New board</Typography>
+          <Typography>New list</Typography>
           <TextField
             label="Title"
             type="text"

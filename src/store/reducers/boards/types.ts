@@ -8,7 +8,7 @@ export type BoardColumnsType = {
   id: string;
   title: string;
   order: number;
-  tasks: BoardTasksType[];
+  tasks?: BoardTasksType[];
 };
 
 export type BoardTasksType = {
@@ -28,4 +28,12 @@ export interface IDefaultBoardState {
   boards: BoardDataType[];
   errorMessage: string;
   currentBoard: BoardDataType | null;
+}
+
+export interface IColumnFetchData {
+  id: string;
+  columnData: {
+    title: string;
+    order: number;
+  };
 }

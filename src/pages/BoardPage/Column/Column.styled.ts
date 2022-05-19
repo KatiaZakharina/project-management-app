@@ -23,7 +23,7 @@ export const Title = styled.div`
 `;
 
 export const TaskListWrapper = styled.div`
-  height: calc(100vh - 320px);
+  height: calc(100vh - 350px);
   overflow-y: auto;
 `;
 
