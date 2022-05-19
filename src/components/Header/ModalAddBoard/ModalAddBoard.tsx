@@ -1,6 +1,7 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import {
   StyledBox,
@@ -42,16 +43,18 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
     handleClose();
   };
 
+  const { t } = useTranslation();
+
   return (
     <StyledModal open={openModal} onClose={handleClose}>
       <StyledBox>
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <Typography>New board</Typography>
+          <Typography>{t('New board')}</Typography>
           <TextField
-            label="Title"
+            label={t('Title')}
             type="text"
             {...register('title', {
-              required: 'This field is required',
+              required: t('This field is required'),
             })}
             fullWidth
             error={errors?.title?.message ? true : false}
@@ -61,7 +64,7 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
             <StyledError>{errors?.title?.message}</StyledError>
           </WrapperError>
           <Button variant="outlined" type="submit">
-            Create!
+            {t('Create!')}
           </Button>
         </StyledForm>
       </StyledBox>
