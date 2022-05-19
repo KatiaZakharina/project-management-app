@@ -29,6 +29,7 @@ export const Column = ({ tasks, title }: BoardColumnsType) => {
 
       <AddPanel>
         <ControlPoint />
+        Add new task
       </AddPanel>
     </StyledColumn>
   );

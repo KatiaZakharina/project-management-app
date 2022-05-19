@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-import { GRAY, LIGHT_GRAY, WHITE } from 'styles/constants';
+import { AZURE_BLUE, GRAY, LIGHT_GRAY } from 'styles/constants';
+import { rgba } from 'styles/helpers/rgba';
 
 export const StyledColumn = styled.div`
   position: relative;
@@ -36,6 +37,8 @@ export const TaskList = styled.div`
 export const AddPanel = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 5px;
   padding: 10px;
   cursor: pointer;
 `;
@@ -44,5 +47,5 @@ export const FakeTask = styled.div`
   min-width: 20px;
   margin-bottom: 15px;
   padding: 10px;
-  background-color: ${WHITE};
+  background-color: ${rgba(AZURE_BLUE, 0.3)};
 `;
