@@ -1,6 +1,5 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import {
   StyledBox,
@@ -8,18 +7,23 @@ import {
   StyledModal,
   WrapperError,
   StyledError,
-} from './ModalAddBoard.styled';
-import { createBoard, fetchBoardData } from 'store/reducers/boards/boardsSlice';
-import { useAppDispatch } from 'store/hooks';
+} from './ModalAddColumn.styled';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { useEffect, useState } from 'react';
 
-interface IModalAddBoard {
+interface IModalAddColumn {
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
 }
 
-export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
-  const navigate = useNavigate();
+export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => {
+  const { currentBoard } = useAppSelector((state) => state.boardsReducer);
+  const newOrder = currentBoard?.columns?.length as number;
+  const [order, setOrder] = useState(newOrder);
   const dispatch = useAppDispatch();
+
+  console.log(order);
+  // console.log(currentBoard?.columns?.length);
 
   const handleClose = () => {
     setOpenModal(false);
@@ -34,9 +38,8 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   } = useForm<{ title: string }>();
 
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    const newBoard = await dispatch(createBoard(data));
-    await dispatch(fetchBoardData(newBoard.payload.id));
-    navigate(`/boards/${newBoard.payload.id}`);
+    // const newBoard = await dispatch(createBoard(data));
+    // await dispatch(fetchBoardData(newBoard.payload.id));
     handleClose();
   };
 
@@ -44,7 +47,7 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
     <StyledModal open={openModal} onClose={handleClose}>
       <StyledBox>
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <Typography>New board</Typography>
+          <Typography>New list</Typography>
           <TextField
             label="Title"
             type="text"

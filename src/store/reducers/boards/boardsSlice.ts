@@ -71,6 +71,22 @@ export const fetchBoardData = createAsyncThunk<BoardDataType, string, { rejectVa
   }
 );
 
+// export const createColumn = createAsyncThunk(
+//   'boards/createColumn',
+//   async (columnData: { title: string }, { rejectWithValue }) => {
+//     try {
+//       const data = await boardsServiceInstance.createColumn(id, columnData);
+//       return data;
+//     } catch (error) {
+//       if (error instanceof AxiosError) {
+//         return rejectWithValue(error?.response?.data.message);
+//       } else {
+//         return rejectWithValue('Something went wrong...');
+//       }
+//     }
+//   }
+// );
+
 const boardsSlice = createSlice({
   name: 'boards',
   initialState: defaultBoardsState,
@@ -94,6 +110,9 @@ const boardsSlice = createSlice({
       })
       .addCase(fetchBoardData.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
+      })
+      .addCase(createBoard.pending, (state) => {
+        state.currentBoard = null;
       });
   },
 });
