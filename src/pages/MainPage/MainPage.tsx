@@ -14,8 +14,7 @@ import {
   WrapperDescriptionRepo,
 } from './MainPage.styled';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { fetchBoards } from 'store/reducers/boards/boardsSlice';
-import { boardsServiceInstance } from 'service/boardsService';
+import { deleteBoard, fetchBoards } from 'store/reducers/boards/boardsSlice';
 
 export const MainPage = () => {
   const { boards } = useAppSelector((state) => state.boardsReducer);
@@ -34,8 +33,7 @@ export const MainPage = () => {
   };
 
   const onConfirm = async () => {
-    await boardsServiceInstance.deleteBoard(id);
-    //TODO: move to the thunk
+    await dispatch(deleteBoard(id));
     loadBoards();
     closeModal();
   };

@@ -41,6 +41,11 @@ class BoardsService {
     const response = await this.axiosInstance.delete(`/boards/${id}`);
     return response.data;
   };
+
+  getBoardByID = async (id: string) => {
+    const response = await this.axiosInstance.get(`/boards/${id}`);
+    return response.data;
+  };
 }
 
 export const boardsServiceInstance = new BoardsService();
