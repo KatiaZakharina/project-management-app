@@ -1,8 +1,9 @@
+import { IColumnFetchData } from './types';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { boardsServiceInstance } from 'service/boardsService';
-import { BoardDataType, IDefaultBoardState } from 'store/reducers/boards/types';
+import { BoardDataType, IDefaultBoardState, BoardColumnsType } from 'store/reducers/boards/types';
 
 export const defaultBoardsState: IDefaultBoardState = {
   boards: [],
@@ -19,40 +20,36 @@ export const fetchBoards = createAsyncThunk(
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
-      } else {
-        return rejectWithValue('Something went wrong...');
       }
     }
   }
 );
 
-export const createBoard = createAsyncThunk(
-  'boards/createBoard',
-  async (boardData: { title: string }, { rejectWithValue }) => {
-    try {
-      const data = await boardsServiceInstance.createBoard(boardData);
-      return data;
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return rejectWithValue(error?.response?.data.message);
-      } else {
-        return rejectWithValue('Something went wrong...');
-      }
+export const createBoard = createAsyncThunk<
+  BoardDataType,
+  { title: string },
+  { rejectValue: string }
+>('boards/createBoard', async (boardData: { title: string }, { rejectWithValue }) => {
+  try {
+    const data = await boardsServiceInstance.createBoard(boardData);
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
     }
   }
-);
+});
 
-export const deleteBoard = createAsyncThunk(
+export const deleteBoard = createAsyncThunk<BoardDataType, string, { rejectValue: string }>(
   'boards/deleteBoard',
   async (id: string, { rejectWithValue }) => {
     try {
       const data = await boardsServiceInstance.deleteBoard(id);
+      console.log(data);
       return data;
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
-      } else {
-        return rejectWithValue('Something went wrong...');
       }
     }
   }
@@ -71,6 +68,21 @@ export const fetchBoardData = createAsyncThunk<BoardDataType, string, { rejectVa
   }
 );
 
+export const createColumn = createAsyncThunk<
+  BoardColumnsType,
+  IColumnFetchData,
+  { rejectValue: string }
+>('boards/createColumn', async ({ id, columnData }: IColumnFetchData, { rejectWithValue }) => {
+  try {
+    const data = await boardsServiceInstance.createColumn(id, columnData);
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+  }
+});
+
 const boardsSlice = createSlice({
   name: 'boards',
   initialState: defaultBoardsState,
@@ -86,6 +98,23 @@ const boardsSlice = createSlice({
           state.boards = payload;
         }
       )
+
+      .addCase(createBoard.pending, (state) => {
+        state.errorMessage = '';
+        state.currentBoard = null;
+      })
+      .addCase(createBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(deleteBoard.pending, (state) => {
+        state.errorMessage = '';
+        state.currentBoard = null;
+      })
+      .addCase(deleteBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
       .addCase(fetchBoardData.pending, (state) => {
         state.currentBoard = null;
       })
@@ -93,6 +122,13 @@ const boardsSlice = createSlice({
         state.currentBoard = payload;
       })
       .addCase(fetchBoardData.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(createColumn.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(createColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       });
   },
