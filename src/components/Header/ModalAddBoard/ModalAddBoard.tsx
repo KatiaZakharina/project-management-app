@@ -11,6 +11,7 @@ import {
 } from './ModalAddBoard.styled';
 import { createBoard, fetchBoardData } from 'store/reducers/boards/boardsSlice';
 import { useAppDispatch } from 'store/hooks';
+import { BoardDataType } from 'store/reducers/boards/types';
 
 interface IModalAddBoard {
   openModal: boolean;
@@ -34,9 +35,10 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   } = useForm<{ title: string }>();
 
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    const newBoard = await dispatch(createBoard(data));
-    await dispatch(fetchBoardData(newBoard.payload.id));
-    navigate(`/boards/${newBoard.payload.id}`);
+    const boardData = await dispatch(createBoard(data));
+    const newBoard = boardData.payload as BoardDataType;
+    await dispatch(fetchBoardData(newBoard.id));
+    navigate(`/boards/${newBoard.id}`);
     handleClose();
   };
 

@@ -9,7 +9,7 @@ import {
   StyledError,
 } from './ModalAddColumn.styled';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { useEffect, useState } from 'react';
+import { createColumn, fetchBoardData } from 'store/reducers/boards/boardsSlice';
 
 interface IModalAddColumn {
   openModal: boolean;
@@ -18,12 +18,7 @@ interface IModalAddColumn {
 
 export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => {
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
-  const newOrder = currentBoard?.columns?.length as number;
-  const [order, setOrder] = useState(newOrder);
   const dispatch = useAppDispatch();
-
-  console.log(order);
-  // console.log(currentBoard?.columns?.length);
 
   const handleClose = () => {
     setOpenModal(false);
@@ -38,8 +33,15 @@ export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => 
   } = useForm<{ title: string }>();
 
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    // const newBoard = await dispatch(createBoard(data));
-    // await dispatch(fetchBoardData(newBoard.payload.id));
+    const currentOrder = currentBoard?.columns?.length as number;
+    const newColumnData = {
+      title: data.title,
+      order: currentOrder + 1,
+    };
+    console.log(newColumnData);
+    const idBoard = currentBoard?.id as string;
+    await dispatch(createColumn({ id: idBoard, columnData: newColumnData }));
+    await dispatch(fetchBoardData(idBoard));
     handleClose();
   };
 
