@@ -4,6 +4,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import { Header } from 'components/Header/Header';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
@@ -55,6 +56,8 @@ export const BoardPage = () => {
     setOpenConfirmationModal(false);
   };
 
+  const { t } = useTranslation();
+
   return (
     <>
       <Header></Header>
@@ -62,7 +65,7 @@ export const BoardPage = () => {
         <StyledDiv>
           <StyledTypography variant="h5">{currentBoard?.title}</StyledTypography>
           <Button variant="outlined" color="primary" startIcon={<AddCircleIcon />}>
-            Add new list
+            {t('Add new list')}
           </Button>
         </StyledDiv>
         <Button
@@ -74,7 +77,7 @@ export const BoardPage = () => {
             setOpenConfirmationModal(true);
           }}
         >
-          Delete board
+          {t('Delete board')}
         </Button>
       </WrapperBoardFunctional>
       <ConfirmationModal
@@ -88,7 +91,7 @@ export const BoardPage = () => {
             currentBoard.columns ? (
               currentBoard.columns.map((column) => <Column {...column} key={column.id} />)
             ) : (
-              <p>Create new board</p>
+              <p>{t('Create new board')}</p>
             )
           ) : (
             <CircularProgress

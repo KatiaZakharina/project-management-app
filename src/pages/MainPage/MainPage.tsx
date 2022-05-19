@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { Header } from 'components/Header/Header';
@@ -57,6 +58,8 @@ export const MainPage = () => {
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <>
       <Header />
@@ -85,7 +88,7 @@ export const MainPage = () => {
                     setOpenConfirmationModal(true);
                   }}
                 >
-                  Delete
+                  {t('Delete')}
                 </Button>
               </WrapperBoardDiv>
             );

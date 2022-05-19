@@ -91,7 +91,7 @@ export function SignUp() {
         ))}
         <SnackbarStyled open={!!errorMessage}>
           <Alert severity="warning" sx={{ width: '100%' }}>
-            {errorMessage}
+            {t(errorMessage)}
           </Alert>
         </SnackbarStyled>
         <Button variant="outlined" type="submit" disabled={!isValid}>
