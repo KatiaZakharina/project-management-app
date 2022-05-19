@@ -28,6 +28,10 @@ export const BoardPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setColumns(currentBoard?.columns || []);
+  }, [currentBoard]);
+
   const loadBoardData = async () => {
     if (boardID) {
       await dispatch(fetchBoardData(boardID));

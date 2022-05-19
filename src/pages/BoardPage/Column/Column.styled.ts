@@ -1,3 +1,4 @@
+import CloseIcon from '@mui/icons-material/Close';
 import styled from 'styled-components';
 
 import { AZURE_BLUE, GRAY, LIGHT_GRAY } from 'styles/constants';
@@ -40,6 +41,10 @@ export const AddPanel = styled.div`
   align-items: center;
   gap: 5px;
   padding: 10px;
+  cursor: pointer;
+`;
+
+export const StyledCloseIcon = styled(CloseIcon)`
   cursor: pointer;
 `;
 

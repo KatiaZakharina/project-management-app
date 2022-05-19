@@ -1,10 +1,13 @@
 import { ControlPoint } from '@mui/icons-material';
-import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
 
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { deleteColumn } from 'store/reducers/boards/boardsSlice';
 import { BoardColumnsType } from 'store/reducers/boards/types';
 import {
   AddPanel,
   FakeTask,
+  StyledCloseIcon,
   StyledColumn,
   TaskList,
   TaskListWrapper,
@@ -13,7 +16,19 @@ import {
 
 type ColumnProps = BoardColumnsType & { provided: any };
 
-export const Column = ({ tasks, title, provided }: ColumnProps) => {
+export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
+
+  const onDeleteColumn = () => {
+    if (!boardId) {
+      navigate('/');
+    } else {
+      dispatch(deleteColumn({ boardId, columnId: id }));
+    }
+  };
+
   return (
     <StyledColumn
       ref={provided.innerRef}
@@ -22,7 +37,7 @@ export const Column = ({ tasks, title, provided }: ColumnProps) => {
     >
       <Title>
         <h4>{title}</h4>
-        <CloseIcon />
+        <StyledCloseIcon onClick={onDeleteColumn} style={{ cursor: 'pointer' }} />
       </Title>
 
       <TaskListWrapper>
