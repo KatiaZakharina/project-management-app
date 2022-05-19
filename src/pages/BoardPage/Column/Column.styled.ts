@@ -8,7 +8,7 @@ export const StyledColumn = styled.div`
   display: grid;
   grid-template-rows: 50px 1fr;
   min-width: 250px;
-  margin-bottom: 10px;
+  margin: 0 15px 10px 15px;
   background-color: ${LIGHT_GRAY};
   border-radius: 5px;
 `;

@@ -11,9 +11,15 @@ import {
   Title,
 } from './Column.styled';
 
-export const Column = ({ tasks, title }: BoardColumnsType) => {
+type ColumnProps = BoardColumnsType & { provided: any };
+
+export const Column = ({ tasks, title, provided }: ColumnProps) => {
   return (
-    <StyledColumn>
+    <StyledColumn
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+    >
       <Title>
         <h4>{title}</h4>
         <CloseIcon />
