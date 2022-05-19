@@ -1,8 +1,15 @@
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
+import { GRAY, LIGHT_GRAY } from './constants';
 
 export const GlobalStyle = createGlobalStyle`
   ${normalize}
+
+  #root{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
  
   *,
 *::before,
@@ -13,6 +20,17 @@ export const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
   font-family: Roboto;
 }
+*::-webkit-scrollbar {
+    width: 5px;
+ }
+*::-webkit-scrollbar-track {
+  background: ${LIGHT_GRAY};
+}
+*::-webkit-scrollbar-thumb {
+  background: ${GRAY};
+  border-radius: 2px;
+}
+
 ol li,
 ul li {
   list-style: none;

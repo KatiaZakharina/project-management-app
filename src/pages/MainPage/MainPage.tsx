@@ -61,7 +61,7 @@ export const MainPage = () => {
 
   return (
     <>
-      <Header></Header>
+      <Header />
       <WrapperDivMain>
         <StyledStack spacing={2}>
           {boards.map((board) => {

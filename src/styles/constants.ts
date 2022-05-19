@@ -1,5 +1,7 @@
 export const WHITE = '#fff';
 export const BLACK = '#000';
+export const LIGHT_GRAY = '#ededf2';
+export const GRAY = '#bbbbbb';
 
 export const PURPLE = '#6930c3';
 export const VIOLET = '#5e60ce';
