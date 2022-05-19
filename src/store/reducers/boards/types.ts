@@ -27,4 +27,5 @@ export type BoardTasksType = {
 export interface IDefaultBoardState {
   boards: BoardDataType[];
   error: string;
+  currentBoard: BoardDataType | null;
 }
