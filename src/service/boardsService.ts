@@ -22,13 +22,18 @@ class BoardsService {
     });
   }
 
+  getBoards = async () => {
+    const response = await this.axiosInstance.get('/boards');
+    return response.data;
+  };
+
   createBoard = async (boardData: { title: string }) => {
     const response = await this.axiosInstance.post('/boards', boardData);
     return response.data;
   };
 
-  getBoards = async () => {
-    const response = await this.axiosInstance.get('/boards');
+  getBoard = async (id: string) => {
+    const response = await this.axiosInstance.get(`/boards/${id}`);
     return response.data;
   };
 

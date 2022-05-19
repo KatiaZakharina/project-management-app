@@ -35,7 +35,7 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
     const newBoard: BoardDataType = await boardsServiceInstance.createBoard(data);
     //TODO: move to async thunk
-    navigate(`/board/${newBoard.id}`);
+    navigate(`/boards/${newBoard.id}`);
     handleClose();
   };
 
