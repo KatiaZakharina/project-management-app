@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { ButtonGoBack, Logo, SnackbarStyled, StyledBox, StyledForm } from '../Login.styled';
 import { useSignIn } from '../useMakeInput';
