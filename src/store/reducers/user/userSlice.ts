@@ -8,7 +8,7 @@ export const defaultState: IDefaultState = {
   id: '',
   login: '',
   name: '',
-  errorMessage: ' ',
+  errorMessage: '',
   isAuthorized: false,
   isRegistered: false,
 };
