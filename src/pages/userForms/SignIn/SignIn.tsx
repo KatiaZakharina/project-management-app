@@ -1,4 +1,4 @@
-import { Typography, TextField, Button, Snackbar, Alert } from '@mui/material';
+import { Typography, TextField, Button, Alert } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
@@ -23,8 +23,6 @@ export function SignIn() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = getLoginToken();
-  const [open, setOpen] = useState(false);
-  console.log(!!errorMessage);
 
   useEffect(() => {
     if (token) {
