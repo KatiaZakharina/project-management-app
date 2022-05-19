@@ -32,7 +32,7 @@ class BoardsService {
     return response.data;
   };
 
-  getBoard = async (id: string) => {
+  getBoardById = async (id: string) => {
     const response = await this.axiosInstance.get(`/boards/${id}`);
     return response.data;
   };

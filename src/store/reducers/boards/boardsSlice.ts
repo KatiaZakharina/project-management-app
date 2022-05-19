@@ -27,10 +27,10 @@ export const fetchBoards = createAsyncThunk(
 );
 
 export const fetchBoardData = createAsyncThunk<BoardDataType, string, { rejectValue: string }>(
-  'boards/fetchColumns',
+  'boards/fetchBoardData',
   async (id, { rejectWithValue }) => {
     try {
-      return await boardsServiceInstance.getBoard(id);
+      return await boardsServiceInstance.getBoardById(id);
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);

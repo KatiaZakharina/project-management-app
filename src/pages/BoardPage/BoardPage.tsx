@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 
 import { Header } from 'components/Header/Header';
@@ -12,9 +12,14 @@ export const BoardPage = () => {
   const { boardID } = useParams();
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchBoardData(boardID!));
+    if (!boardID) {
+      navigate('/');
+    } else {
+      dispatch(fetchBoardData(boardID));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
