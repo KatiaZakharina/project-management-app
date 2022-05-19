@@ -1,7 +1,7 @@
 export type BoardDataType = {
   id: string;
   title: string;
-  columns: BoardColumnsType[];
+  columns?: BoardColumnsType[];
 };
 
 export type BoardColumnsType = {
@@ -26,6 +26,6 @@ export type BoardTasksType = {
 
 export interface IDefaultBoardState {
   boards: BoardDataType[];
-  error: string;
+  errorMessage: string;
   currentBoard: BoardDataType | null;
 }

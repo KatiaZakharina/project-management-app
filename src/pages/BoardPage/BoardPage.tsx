@@ -1,14 +1,22 @@
 import { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { Button } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 import { Header } from 'components/Header/Header';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
-import { Button } from '@mui/material';
-import { WrapperBoardFunctional, StyledDiv, StyledTypography } from './BoardPage.styled';
-import { useNavigate, useParams } from 'react-router-dom';
-import { deleteBoard, getBoardByID } from 'store/reducers/boards/boardsSlice';
+import {
+  WrapperBoardFunctional,
+  StyledDiv,
+  StyledTypography,
+  ColumnList,
+  ColumnListWrapper,
+} from './BoardPage.styled';
+import { deleteBoard, fetchBoardData } from 'store/reducers/boards/boardsSlice';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { Column } from './Column/Column';
 
 export const BoardPage = () => {
   const { boardID } = useParams();
@@ -18,14 +26,17 @@ export const BoardPage = () => {
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
 
   useEffect(() => {
-    loadBoardData();
+    if (!boardID) {
+      navigate('/');
+    } else {
+      loadBoardData();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadBoardData = async () => {
     if (boardID) {
-      await dispatch(getBoardByID(boardID));
-      console.log(currentBoard);
+      await dispatch(fetchBoardData(boardID));
     }
   };
 
@@ -63,7 +74,7 @@ export const BoardPage = () => {
             setOpenConfirmationModal(true);
           }}
         >
-          Delete
+          Delete board
         </Button>
       </WrapperBoardFunctional>
       <ConfirmationModal
@@ -71,6 +82,24 @@ export const BoardPage = () => {
         onCancel={onCancel}
         onConfirm={onConfirm}
       ></ConfirmationModal>
+      <ColumnListWrapper>
+        <ColumnList>
+          {currentBoard ? (
+            currentBoard.columns ? (
+              currentBoard.columns.map((column) => <Column {...column} key={column.id} />)
+            ) : (
+              <p>Create new board</p>
+            )
+          ) : (
+            <CircularProgress
+              color="secondary"
+              style={{ margin: 'auto' }}
+              size={80}
+              thickness={4}
+            />
+          )}
+        </ColumnList>
+      </ColumnListWrapper>
     </>
   );
 };

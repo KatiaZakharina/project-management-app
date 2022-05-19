@@ -8,8 +8,8 @@ import { WelcomePage } from 'pages/WelcomePage/WelcomePage';
 import { Footer } from 'components/Footer/Footer';
 import { BoardPage } from 'pages/BoardPage/BoardPage';
 import { MainPage } from 'pages/MainPage/MainPage';
-import { PrivateRoute } from 'helpers/PrivateRoute';
-import { NotFound404 } from 'helpers/NotFound404';
+import { PrivateRoute } from 'components/helpers/PrivateRoute';
+import { NotFound404 } from 'components/helpers/NotFound404';
 import { store } from 'store/store';
 
 export function App() {
