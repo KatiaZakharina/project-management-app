@@ -1,4 +1,4 @@
-import { IColumnFetchData, ITaskFetchData } from './types';
+import { BoardTasksType, IColumnFetchData, ITaskFetchData } from './types';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
@@ -45,7 +45,6 @@ export const deleteBoard = createAsyncThunk<BoardDataType, string, { rejectValue
   async (id: string, { rejectWithValue }) => {
     try {
       const data = await boardsServiceInstance.deleteBoard(id);
-      console.log(data);
       return data;
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -83,11 +82,7 @@ export const createColumn = createAsyncThunk<
   }
 });
 
-export const createTask = createAsyncThunk<
-  BoardColumnsType,
-  ITaskFetchData,
-  { rejectValue: string }
->(
+export const createTask = createAsyncThunk<BoardTasksType, ITaskFetchData, { rejectValue: string }>(
   'boards/column/createTask',
   async ({ boardsId, columnId, taskData }: ITaskFetchData, { rejectWithValue }) => {
     try {
@@ -100,6 +95,22 @@ export const createTask = createAsyncThunk<
     }
   }
 );
+
+export const deleteColumn = createAsyncThunk<
+  string,
+  { boardId: string; columnId: string },
+  { rejectValue: string }
+>('boards/deleteColumn', async ({ boardId, columnId }, { rejectWithValue }) => {
+  try {
+    await boardsServiceInstance.deleteColumn(boardId, columnId);
+    return columnId;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+    return rejectWithValue('Something went wrong...');
+  }
+});
 
 const boardsSlice = createSlice({
   name: 'boards',
@@ -147,6 +158,19 @@ const boardsSlice = createSlice({
         state.errorMessage = '';
       })
       .addCase(createColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(deleteColumn.fulfilled, (state, { payload }) => {
+        const id = payload;
+        console.log(payload);
+
+        if (!state.currentBoard?.columns) return;
+        state.currentBoard.columns = state.currentBoard.columns.filter(
+          (column) => column.id !== id
+        );
+      })
+      .addCase(deleteColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       });
   },

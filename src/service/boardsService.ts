@@ -66,6 +66,10 @@ class BoardsService {
       `/boards/${boardsId}/columns/${columnId}/tasks`,
       taskData
     );
+  };
+
+  deleteColumn = async (boardId: string, columnId: string) => {
+    const response = await this.axiosInstance.delete(`/boards/${boardId}/columns/${columnId}`);
     return response.data;
   };
 }
