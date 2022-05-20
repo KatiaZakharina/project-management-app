@@ -51,6 +51,11 @@ class BoardsService {
     const response = await this.axiosInstance.post(`/boards/${id}/columns`, columnData);
     return response.data;
   };
+
+  deleteColumn = async (boardId: string, columnId: string) => {
+    const response = await this.axiosInstance.delete(`/boards/${boardId}/columns/${columnId}`);
+    return response.data;
+  };
 }
 
 export const boardsServiceInstance = new BoardsService();
