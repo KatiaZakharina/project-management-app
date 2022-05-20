@@ -1,4 +1,4 @@
-import { Typography, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import styled from 'styled-components';
 
 import { PURPLE } from 'styles/constants';
@@ -20,24 +20,10 @@ export const StyledDiv = styled.div`
   gap: 30px;
 `;
 
-export const StyledTypography = styled(Typography)`
-  &.MuiTypography-h5 {
-    max-width: 300px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`;
-
 export const ButtonGoBack = styled(Button)`
   &.MuiButton-contained {
     background-color: ${PURPLE};
     display: flex;
     align-items: center;
   }
-`;
-
-export const StyledForm = styled.form`
-  display: flex;
-  align-items: center;
 `;
