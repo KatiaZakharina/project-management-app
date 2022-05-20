@@ -42,6 +42,11 @@ class BoardsService {
     return response.data;
   };
 
+  updateBoard = async (id: string, boardData: { title: string }) => {
+    const response = await this.axiosInstance.put(`/boards/${id}`, boardData);
+    return response.data;
+  };
+
   getBoardByID = async (id: string) => {
     const response = await this.axiosInstance.get(`/boards/${id}`);
     return response.data;

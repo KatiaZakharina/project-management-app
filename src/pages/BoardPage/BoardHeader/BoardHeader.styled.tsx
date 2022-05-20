@@ -6,10 +6,11 @@ import { PURPLE } from 'styles/constants';
 export const WrapperBoardFunctional = styled.div`
   width: 100%;
   max-width: 1440px;
+  min-height: 55px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px auto;
+  margin: 15px auto;
   padding: 0 20px;
 `;
 
@@ -34,4 +35,9 @@ export const ButtonGoBack = styled(Button)`
     display: flex;
     align-items: center;
   }
+`;
+
+export const StyledForm = styled.form`
+  display: flex;
+  align-items: center;
 `;

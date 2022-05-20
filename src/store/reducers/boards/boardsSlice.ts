@@ -1,4 +1,4 @@
-import { IColumnFetchData } from './types';
+import { IColumnFetchData, IUpdateBoardData } from './types';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
@@ -54,6 +54,21 @@ export const deleteBoard = createAsyncThunk<BoardDataType, string, { rejectValue
     }
   }
 );
+
+export const updateBoard = createAsyncThunk<
+  BoardDataType,
+  IUpdateBoardData,
+  { rejectValue: string }
+>('boards/updateBoard', async ({ id, boardData }: IUpdateBoardData, { rejectWithValue }) => {
+  try {
+    const data = await boardsServiceInstance.updateBoard(id, boardData);
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+  }
+});
 
 export const fetchBoardData = createAsyncThunk<BoardDataType, string, { rejectValue: string }>(
   'boards/fetchBoardData',
@@ -116,12 +131,21 @@ const boardsSlice = createSlice({
       })
 
       .addCase(fetchBoardData.pending, (state) => {
+        state.errorMessage = '';
         state.currentBoard = null;
       })
       .addCase(fetchBoardData.fulfilled, (state, { payload }) => {
         state.currentBoard = payload;
       })
       .addCase(fetchBoardData.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(updateBoard.pending, (state) => {
+        state.errorMessage = '';
+        state.currentBoard = null;
+      })
+      .addCase(updateBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       })
 
