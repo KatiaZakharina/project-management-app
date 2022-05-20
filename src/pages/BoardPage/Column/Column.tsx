@@ -59,7 +59,7 @@ export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
         <ControlPoint />
         Add new task
       </AddPanel>
-      <ModalAddTask openModal={openModal} setOpenModal={setOpenModal} />
+      <ModalAddTask openModal={openModal} setOpenModal={setOpenModal} columnId={id} />
     </StyledColumn>
   );
 };

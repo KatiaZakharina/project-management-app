@@ -1,4 +1,4 @@
-import { BoardTasksType, IColumnFetchData, ITaskFetchData } from './types';
+import { BoardTasksType, IColumnFetchData, ITaskFetchData, ITaskResponse } from './types';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
@@ -82,8 +82,8 @@ export const createColumn = createAsyncThunk<
   }
 });
 
-export const createTask = createAsyncThunk<BoardTasksType, ITaskFetchData, { rejectValue: string }>(
-  'boards/column/createTask',
+export const createTask = createAsyncThunk<ITaskResponse, ITaskFetchData, { rejectValue: string }>(
+  'column/createTask',
   async ({ boardsId, columnId, taskData }: ITaskFetchData, { rejectWithValue }) => {
     try {
       const data = await boardsServiceInstance.createTask(boardsId, columnId, taskData);
@@ -92,6 +92,7 @@ export const createTask = createAsyncThunk<BoardTasksType, ITaskFetchData, { rej
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
       }
+      return rejectWithValue('Something went wrong...');
     }
   }
 );

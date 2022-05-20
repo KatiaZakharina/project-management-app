@@ -38,6 +38,15 @@ export interface IColumnFetchData {
   };
 }
 
+export interface ITaskResponse {
+  id: string;
+  title: string;
+  order: 1;
+  description: string;
+  userId: string;
+  columnId: string;
+}
+
 export interface ITaskFetchData {
   boardsId: string;
   columnId: string;

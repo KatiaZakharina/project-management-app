@@ -7,12 +7,13 @@ import { getAllUsers } from 'store/reducers/user/userSlice';
 import { ModalContext, StyledModal } from './ModalAddTask.styled';
 import { Inputs, useCreateNewTask } from './useMakeInput';
 
-interface IModalAddColumn {
+interface IModalAddTask {
+  columnId: string;
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
 }
 
-export function ModalAddTask({ openModal, setOpenModal }: IModalAddColumn) {
+export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTask) {
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((store) => store.userReducer);
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
@@ -40,7 +41,7 @@ export function ModalAddTask({ openModal, setOpenModal }: IModalAddColumn) {
     dispatch(
       createTask({
         boardsId: currentBoard?.id as string,
-        columnId: '359e81dc-8e55-4764-9dea-f7a1f9ff6db2',
+        columnId: columnId,
         taskData: newTaskData,
       })
     );

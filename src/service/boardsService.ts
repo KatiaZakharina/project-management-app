@@ -66,6 +66,7 @@ class BoardsService {
       `/boards/${boardsId}/columns/${columnId}/tasks`,
       taskData
     );
+    return response.data;
   };
 
   deleteColumn = async (boardId: string, columnId: string) => {
