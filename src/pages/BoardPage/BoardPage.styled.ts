@@ -3,9 +3,7 @@ import styled from 'styled-components';
 export const ColumnList = styled.div`
   display: flex;
   flex: 1 1 auto;
-  gap: 20px;
   height: 100%;
-  margin-left: 20px;
 `;
 
 export const ColumnListWrapper = styled.div`

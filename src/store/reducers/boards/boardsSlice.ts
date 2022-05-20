@@ -45,7 +45,6 @@ export const deleteBoard = createAsyncThunk<BoardDataType, string, { rejectValue
   async (id: string, { rejectWithValue }) => {
     try {
       const data = await boardsServiceInstance.deleteBoard(id);
-      console.log(data);
       return data;
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -95,6 +94,22 @@ export const createColumn = createAsyncThunk<
     if (error instanceof AxiosError) {
       return rejectWithValue(error?.response?.data.message);
     }
+  }
+});
+
+export const deleteColumn = createAsyncThunk<
+  string,
+  { boardId: string; columnId: string },
+  { rejectValue: string }
+>('boards/deleteColumn', async ({ boardId, columnId }, { rejectWithValue }) => {
+  try {
+    await boardsServiceInstance.deleteColumn(boardId, columnId);
+    return columnId;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+    return rejectWithValue('Something went wrong...');
   }
 });
 
@@ -153,6 +168,19 @@ const boardsSlice = createSlice({
         state.errorMessage = '';
       })
       .addCase(createColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(deleteColumn.fulfilled, (state, { payload }) => {
+        const id = payload;
+        console.log(payload);
+
+        if (!state.currentBoard?.columns) return;
+        state.currentBoard.columns = state.currentBoard.columns.filter(
+          (column) => column.id !== id
+        );
+      })
+      .addCase(deleteColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       });
   },
