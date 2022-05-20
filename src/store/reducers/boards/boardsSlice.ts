@@ -1,4 +1,4 @@
-import { IColumnFetchData } from './types';
+import { IColumnFetchData, ITaskFetchData } from './types';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
@@ -82,6 +82,24 @@ export const createColumn = createAsyncThunk<
     }
   }
 });
+
+export const createTask = createAsyncThunk<
+  BoardColumnsType,
+  ITaskFetchData,
+  { rejectValue: string }
+>(
+  'boards/column/createTask',
+  async ({ boardsId, columnId, taskData }: ITaskFetchData, { rejectWithValue }) => {
+    try {
+      const data = await boardsServiceInstance.createTask(boardsId, columnId, taskData);
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      }
+    }
+  }
+);
 
 const boardsSlice = createSlice({
   name: 'boards',

@@ -2,9 +2,22 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { loginServiceInstance } from 'service/userService';
-import { DataForRegistry, IDefaultState, LoginUserResponse, RegisterUserResponse } from './type';
+import {
+  AllUsersResponse,
+  DataForRegistry,
+  IDefaultState,
+  LoginUserResponse,
+  RegisterUserResponse,
+} from './type';
 
 export const defaultState: IDefaultState = {
+  users: [
+    {
+      id: '',
+      name: '',
+      login: '',
+    },
+  ],
   id: '',
   login: '',
   name: '',
@@ -46,6 +59,11 @@ export const loginUser = createAsyncThunk<
   }
 });
 
+export const getAllUsers = createAsyncThunk<AllUsersResponse[]>('user/users', async () => {
+  const response = await loginServiceInstance.getAllUsers();
+  return response;
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState: defaultState,
@@ -79,6 +97,9 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state: IDefaultState) => {
         state.isRegistered = true;
+      })
+      .addCase(getAllUsers.fulfilled, (state: IDefaultState, { payload }) => {
+        state.users = payload;
       });
   },
 });

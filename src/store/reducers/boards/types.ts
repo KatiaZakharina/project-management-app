@@ -37,3 +37,14 @@ export interface IColumnFetchData {
     order: number;
   };
 }
+
+export interface ITaskFetchData {
+  boardsId: string;
+  columnId: string;
+  taskData: {
+    description: string;
+    order: number;
+    title: string;
+    userId: string;
+  };
+}

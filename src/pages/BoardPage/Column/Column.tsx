@@ -1,5 +1,6 @@
 import { ControlPoint } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
+import { useState } from 'react';
 
 import { BoardColumnsType } from 'store/reducers/boards/types';
 import {
@@ -10,8 +11,15 @@ import {
   TaskListWrapper,
   Title,
 } from './Column.styled';
+import { ModalAddTask } from './ModalAddTask/ModalAddTask';
 
 export const Column = ({ tasks, title }: BoardColumnsType) => {
+  const [openModal, setOpenModal] = useState(false);
+
+  function handlerClick() {
+    setOpenModal(true);
+  }
+
   return (
     <StyledColumn>
       <Title>
@@ -27,9 +35,10 @@ export const Column = ({ tasks, title }: BoardColumnsType) => {
         </TaskList>
       </TaskListWrapper>
 
-      <AddPanel>
+      <AddPanel onClick={handlerClick}>
         <ControlPoint />
       </AddPanel>
+      <ModalAddTask openModal={openModal} setOpenModal={setOpenModal} />
     </StyledColumn>
   );
 };

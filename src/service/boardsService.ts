@@ -51,6 +51,23 @@ class BoardsService {
     const response = await this.axiosInstance.post(`/boards/${id}/columns`, columnData);
     return response.data;
   };
+
+  createTask = async (
+    boardsId: string,
+    columnId: string,
+    taskData: {
+      description: string;
+      order: number;
+      title: string;
+      userId: string;
+    }
+  ) => {
+    const response = await this.axiosInstance.post(
+      `/boards/${boardsId}/columns/${columnId}/tasks`,
+      taskData
+    );
+    return response.data;
+  };
 }
 
 export const boardsServiceInstance = new BoardsService();
