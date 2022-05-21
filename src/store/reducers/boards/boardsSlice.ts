@@ -133,6 +133,10 @@ const boardsSlice = createSlice({
         state.errorMessage = '';
         state.currentBoard = null;
       })
+      .addCase(createBoard.fulfilled, (state, { payload }) => {
+        state.boards.push(payload);
+        state.currentBoard = payload;
+      })
       .addCase(createBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       })
@@ -158,7 +162,12 @@ const boardsSlice = createSlice({
 
       .addCase(updateBoard.pending, (state) => {
         state.errorMessage = '';
-        state.currentBoard = null;
+      })
+      .addCase(updateBoard.fulfilled, (state, { payload }) => {
+        if (state.currentBoard) {
+          state.currentBoard.id = payload.id;
+          state.currentBoard.title = payload.title;
+        }
       })
       .addCase(updateBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
@@ -166,6 +175,9 @@ const boardsSlice = createSlice({
 
       .addCase(createColumn.pending, (state) => {
         state.errorMessage = '';
+      })
+      .addCase(createColumn.fulfilled, (state, { payload }) => {
+        state.currentBoard?.columns?.push(payload);
       })
       .addCase(createColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;

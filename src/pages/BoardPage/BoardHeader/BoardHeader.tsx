@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { deleteBoard, fetchBoardData, updateBoard } from 'store/reducers/boards/boardsSlice';
+import { deleteBoard, updateBoard } from 'store/reducers/boards/boardsSlice';
 import { ButtonGoBack, StyledDiv, WrapperBoardFunctional } from './BoardHeader.styled';
 import { ModalAddColumn } from './ModalAddColumn/ModalAddColumn';
 import { EditingTitle } from 'components/EditingTitle/EditingTitle';
@@ -38,7 +38,6 @@ export const BoardHeader = () => {
   const updateBoardTitle = async (data: { title: string }) => {
     const idBoard = currentBoard?.id as string;
     await dispatch(updateBoard({ id: idBoard, boardData: data }));
-    await dispatch(fetchBoardData(idBoard));
   };
 
   const { t } = useTranslation();

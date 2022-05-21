@@ -9,7 +9,7 @@ import {
   StyledError,
 } from './ModalAddColumn.styled';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { createColumn, fetchBoardData } from 'store/reducers/boards/boardsSlice';
+import { createColumn } from 'store/reducers/boards/boardsSlice';
 
 interface IModalAddColumn {
   openModal: boolean;
@@ -40,7 +40,6 @@ export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => 
     };
     const idBoard = currentBoard?.id as string;
     await dispatch(createColumn({ id: idBoard, columnData: newColumnData }));
-    await dispatch(fetchBoardData(idBoard));
     handleClose();
   };
 

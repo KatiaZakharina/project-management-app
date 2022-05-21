@@ -31,7 +31,8 @@ export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
   };
 
   const updateColumnTitle = async (data: { title: string }) => {
-    console.log(data);
+    // const idBoard = currentBoard?.id as string;
+    // await dispatch(updateBoard({ id: idBoard, boardData: data }));
   };
 
   return (
