@@ -7,7 +7,7 @@ import { deleteColumn } from 'store/reducers/boards/boardsSlice';
 import { BoardColumnsType } from 'store/reducers/boards/types';
 import {
   AddPanel,
-  FakeTask,
+  Task,
   StyledCloseIcon,
   StyledColumn,
   TaskList,
@@ -46,15 +46,13 @@ export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
         <h4>{title}</h4>
         <StyledCloseIcon onClick={onDeleteColumn} style={{ cursor: 'pointer' }} />
       </Title>
-
       <TaskListWrapper>
         <TaskList>
           {tasks?.map((task) => (
-            <FakeTask key={task.id}>{JSON.stringify(task.description)}</FakeTask>
+            <Task key={task.id}>{task.description}</Task>
           ))}
         </TaskList>
       </TaskListWrapper>
-
       <AddPanel onClick={handlerClick}>
         <ControlPoint />
         Add new task

@@ -164,7 +164,6 @@ const boardsSlice = createSlice({
 
       .addCase(deleteColumn.fulfilled, (state, { payload }) => {
         const id = payload;
-        console.log(payload);
 
         if (!state.currentBoard?.columns) return;
         state.currentBoard.columns = state.currentBoard.columns.filter(
@@ -173,6 +172,13 @@ const boardsSlice = createSlice({
       })
       .addCase(deleteColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
+      })
+      .addCase(createTask.fulfilled, (state, { payload }) => {
+        const currentColumnIndex = state.currentBoard?.columns?.findIndex(
+          (column) => column.id === payload.columnId
+        );
+        if (!state.currentBoard?.columns || !currentColumnIndex) return;
+        state.currentBoard.columns[currentColumnIndex].tasks?.push(payload);
       });
   },
 });
