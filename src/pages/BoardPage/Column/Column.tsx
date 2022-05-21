@@ -3,7 +3,7 @@ import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { deleteColumn } from 'store/reducers/boards/boardsSlice';
+import { deleteColumn, updateColumn } from 'store/reducers/boards/boardsSlice';
 import { BoardColumnsType } from 'store/reducers/boards/types';
 import {
   AddPanel,
@@ -17,7 +17,7 @@ import {
 
 type ColumnProps = BoardColumnsType & { provided: any };
 
-export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
+export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
@@ -31,8 +31,13 @@ export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
   };
 
   const updateColumnTitle = async (data: { title: string }) => {
-    // const idBoard = currentBoard?.id as string;
-    // await dispatch(updateBoard({ id: idBoard, boardData: data }));
+    const newColumnData = {
+      title: data.title,
+      order: order,
+    };
+    if (boardId) {
+      await dispatch(updateColumn({ boardId, columnId: id, columnData: newColumnData }));
+    }
   };
 
   return (

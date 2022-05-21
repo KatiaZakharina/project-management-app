@@ -113,6 +113,22 @@ export const deleteColumn = createAsyncThunk<
   }
 });
 
+export const updateColumn = createAsyncThunk<
+  BoardColumnsType,
+  { boardId: string; columnId: string; columnData: { title: string; order: number } },
+  { rejectValue: string }
+>('boards/updateColumn', async ({ boardId, columnId, columnData }, { rejectWithValue }) => {
+  try {
+    const data = await boardsServiceInstance.updateColumn(boardId, columnId, columnData);
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+    return rejectWithValue('Something went wrong...');
+  }
+});
+
 const boardsSlice = createSlice({
   name: 'boards',
   initialState: defaultBoardsState,
@@ -185,14 +201,28 @@ const boardsSlice = createSlice({
 
       .addCase(deleteColumn.fulfilled, (state, { payload }) => {
         const id = payload;
-        console.log(payload);
-
         if (!state.currentBoard?.columns) return;
         state.currentBoard.columns = state.currentBoard.columns.filter(
           (column) => column.id !== id
         );
       })
       .addCase(deleteColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(updateColumn.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(updateColumn.fulfilled, (state, { payload }) => {
+        if (state.currentBoard?.columns) {
+          const columnIndex = state.currentBoard.columns.findIndex(
+            (column) => column.id === payload.id
+          );
+          state.currentBoard.columns[columnIndex].title = payload.title;
+          state.currentBoard.columns[columnIndex].order = payload.order;
+        }
+      })
+      .addCase(updateColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       });
   },
