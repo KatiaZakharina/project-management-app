@@ -1,4 +1,5 @@
 import { ControlPoint } from '@mui/icons-material';
+import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -29,6 +30,10 @@ export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
     }
   };
 
+  const updateColumnTitle = async (data: { title: string }) => {
+    console.log(data);
+  };
+
   return (
     <StyledColumn
       ref={provided.innerRef}
@@ -36,7 +41,7 @@ export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
       {...provided.dragHandleProps}
     >
       <Title>
-        <h4>{title}</h4>
+        <EditingTitle title={title} onTitleSubmit={updateColumnTitle} styles="h6" />
         <StyledCloseIcon onClick={onDeleteColumn} style={{ cursor: 'pointer' }} />
       </Title>
 

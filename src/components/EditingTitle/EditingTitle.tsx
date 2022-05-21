@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { IconButton, TextField } from '@mui/material';
+import { IconButton } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { StyledForm, StyledTypography } from './EditingTitle.styled';
+
+import { StyledForm, StyledTextField, StyledTypography } from './EditingTitle.styled';
 
 interface IEditingTitle {
   title: string | undefined;
   onTitleSubmit: SubmitHandler<{ title: string }>;
+  styles: 'h6' | 'h5';
 }
 
-export const EditingTitle = ({ title, onTitleSubmit }: IEditingTitle) => {
+export const EditingTitle = ({ title, onTitleSubmit, styles }: IEditingTitle) => {
   const [edit, setEdit] = useState(false);
 
   const {
@@ -29,11 +31,11 @@ export const EditingTitle = ({ title, onTitleSubmit }: IEditingTitle) => {
       {edit ? (
         <>
           <StyledForm onSubmit={handleSubmit(onSubmit)}>
-            <TextField
+            <StyledTextField
               label="Title"
               type="text"
               {...register('title', {
-                required: true,
+                required: 'true',
               })}
               fullWidth
               defaultValue={title}
@@ -49,7 +51,7 @@ export const EditingTitle = ({ title, onTitleSubmit }: IEditingTitle) => {
           </StyledForm>
         </>
       ) : (
-        <StyledTypography variant="h5" onDoubleClick={() => setEdit(true)}>
+        <StyledTypography variant={styles} onDoubleClick={() => setEdit(true)}>
           {title}
         </StyledTypography>
       )}

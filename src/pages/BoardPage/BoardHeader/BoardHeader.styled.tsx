@@ -10,7 +10,7 @@ export const WrapperBoardFunctional = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 15px auto;
+  margin: 10px auto;
   padding: 0 20px;
 `;
 

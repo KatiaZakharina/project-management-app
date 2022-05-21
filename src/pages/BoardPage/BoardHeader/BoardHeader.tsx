@@ -10,7 +10,7 @@ import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModa
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteBoard, fetchBoardData, updateBoard } from 'store/reducers/boards/boardsSlice';
 import { ButtonGoBack, StyledDiv, WrapperBoardFunctional } from './BoardHeader.styled';
-import { ModalAddColumn } from './ModalAddColumn/ModalAddColumns';
+import { ModalAddColumn } from './ModalAddColumn/ModalAddColumn';
 import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 
 export const BoardHeader = () => {
@@ -35,7 +35,7 @@ export const BoardHeader = () => {
     setOpenConfirmationModal(false);
   };
 
-  const onTitleSubmit = async (data: { title: string }) => {
+  const updateBoardTitle = async (data: { title: string }) => {
     const idBoard = currentBoard?.id as string;
     await dispatch(updateBoard({ id: idBoard, boardData: data }));
     await dispatch(fetchBoardData(idBoard));
@@ -50,7 +50,7 @@ export const BoardHeader = () => {
           <ArrowBackIosIcon /> {t('Go to main page')}
         </ButtonGoBack>
         <StyledDiv>
-          <EditingTitle title={currentBoard?.title} onTitleSubmit={onTitleSubmit} />
+          <EditingTitle title={currentBoard?.title} onTitleSubmit={updateBoardTitle} styles="h5" />
           <Button
             variant="outlined"
             color="primary"
