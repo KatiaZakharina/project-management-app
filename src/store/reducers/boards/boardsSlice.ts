@@ -40,16 +40,17 @@ export const createBoard = createAsyncThunk<
   }
 });
 
-export const deleteBoard = createAsyncThunk<BoardDataType, string, { rejectValue: string }>(
+export const deleteBoard = createAsyncThunk<string, string, { rejectValue: string }>(
   'boards/deleteBoard',
   async (id: string, { rejectWithValue }) => {
     try {
-      const data = await boardsServiceInstance.deleteBoard(id);
-      return data;
+      await boardsServiceInstance.deleteBoard(id);
+      return id;
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
       }
+      return rejectWithValue('Something went wrong...');
     }
   }
 );
@@ -63,6 +64,7 @@ export const fetchBoardData = createAsyncThunk<BoardDataType, string, { rejectVa
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
       }
+      return rejectWithValue('Something went wrong...');
     }
   }
 );
@@ -126,6 +128,12 @@ const boardsSlice = createSlice({
         state.errorMessage = '';
         state.currentBoard = null;
       })
+      .addCase(deleteBoard.fulfilled, (state, { payload }) => {
+        console.log(payload);
+        const id = payload;
+        if (!state.boards) return;
+        state.boards = state.boards.filter((board) => board.id !== id);
+      })
       .addCase(deleteBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       })
@@ -149,7 +157,6 @@ const boardsSlice = createSlice({
 
       .addCase(deleteColumn.fulfilled, (state, { payload }) => {
         const id = payload;
-        console.log(payload);
 
         if (!state.currentBoard?.columns) return;
         state.currentBoard.columns = state.currentBoard.columns.filter(

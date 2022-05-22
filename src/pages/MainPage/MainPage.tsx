@@ -35,7 +35,6 @@ export const MainPage = () => {
 
   const onConfirm = async () => {
     await dispatch(deleteBoard(id));
-    loadBoards();
     closeModal();
   };
 
