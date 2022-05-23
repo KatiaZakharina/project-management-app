@@ -1,8 +1,7 @@
-import CloseIcon from '@mui/icons-material/Close';
 import styled from 'styled-components';
+import CloseIcon from '@mui/icons-material/Close';
 
-import { AZURE_BLUE, GRAY, LIGHT_GRAY } from 'styles/constants';
-import { rgba } from 'styles/helpers/rgba';
+import { GRAY, LIGHT_GRAY } from 'styles/constants';
 
 export const StyledColumn = styled.div`
   position: relative;
@@ -24,29 +23,6 @@ export const Title = styled.div`
   padding: 10px;
 `;
 
-export const TaskListWrapper = styled.div`
-  height: calc(100vh - 350px);
-  overflow-y: auto;
-`;
-
-export const TaskList = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  overflow-y: auto;
-  gap: 15px;
-`;
-
-export const TaskItem = styled.div`
-  background-color: ${rgba(AZURE_BLUE, 0.3)};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  border-radius: 5px;
-  gap: 10px;
-`;
-
 export const AddPanel = styled.div`
   display: flex;
   justify-content: center;
@@ -58,10 +34,4 @@ export const AddPanel = styled.div`
 
 export const StyledCloseIcon = styled(CloseIcon)`
   cursor: pointer;
-`;
-
-export const StyledControlBox = styled.div`
-  display: flex;
-  max-width: 50px;
-  gap: 5px;
 `;
