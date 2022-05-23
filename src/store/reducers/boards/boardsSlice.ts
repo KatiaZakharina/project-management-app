@@ -1,9 +1,13 @@
-import { IColumnFetchData } from './types';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { boardsServiceInstance } from 'service/boardsService';
-import { BoardDataType, IDefaultBoardState, BoardColumnsType } from 'store/reducers/boards/types';
+import {
+  BoardDataType,
+  IDefaultBoardState,
+  BoardColumnsType,
+  IColumnFetchData,
+} from 'store/reducers/boards/types';
 
 export const defaultBoardsState: IDefaultBoardState = {
   boards: [],
