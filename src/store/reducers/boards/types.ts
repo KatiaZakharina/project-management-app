@@ -37,3 +37,10 @@ export interface IColumnFetchData {
     order: number;
   };
 }
+
+export interface IUpdateBoardData {
+  id: string;
+  boardData: {
+    title: string;
+  };
+}
