@@ -1,9 +1,14 @@
-import { IColumnFetchData, IUpdateBoardData } from './types';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { boardsServiceInstance } from 'service/boardsService';
-import { BoardDataType, IDefaultBoardState, BoardColumnsType } from 'store/reducers/boards/types';
+import {
+  BoardDataType,
+  IDefaultBoardState,
+  BoardColumnsType,
+  IColumnFetchData,
+  IUpdateBoardData,
+} from 'store/reducers/boards/types';
 
 export const defaultBoardsState: IDefaultBoardState = {
   boards: [],
@@ -40,16 +45,17 @@ export const createBoard = createAsyncThunk<
   }
 });
 
-export const deleteBoard = createAsyncThunk<BoardDataType, string, { rejectValue: string }>(
+export const deleteBoard = createAsyncThunk<string, string, { rejectValue: string }>(
   'boards/deleteBoard',
   async (id: string, { rejectWithValue }) => {
     try {
-      const data = await boardsServiceInstance.deleteBoard(id);
-      return data;
+      await boardsServiceInstance.deleteBoard(id);
+      return id;
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
       }
+      return rejectWithValue('Something went wrong...');
     }
   }
 );
@@ -78,6 +84,7 @@ export const fetchBoardData = createAsyncThunk<BoardDataType, string, { rejectVa
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
       }
+      return rejectWithValue('Something went wrong...');
     }
   }
 );
@@ -161,6 +168,10 @@ const boardsSlice = createSlice({
         state.errorMessage = '';
         state.currentBoard = null;
       })
+      .addCase(deleteBoard.fulfilled, (state, { payload }) => {
+        const id = payload;
+        state.boards = state.boards.filter((board) => board.id !== id);
+      })
       .addCase(deleteBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       })
@@ -201,6 +212,7 @@ const boardsSlice = createSlice({
 
       .addCase(deleteColumn.fulfilled, (state, { payload }) => {
         const id = payload;
+
         if (!state.currentBoard?.columns) return;
         state.currentBoard.columns = state.currentBoard.columns.filter(
           (column) => column.id !== id
