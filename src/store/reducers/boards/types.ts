@@ -48,7 +48,7 @@ export interface ITaskResponse {
 }
 
 export interface ITaskFetchData {
-  boardsId: string;
+  boardId: string;
   columnId: string;
   taskData: {
     description: string;
@@ -56,4 +56,15 @@ export interface ITaskFetchData {
     title: string;
     userId: string;
   };
+}
+
+export interface ITaskDelete {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+}
+
+export interface ITaskDeleteResponse {
+  columnId: string;
+  taskId: string;
 }

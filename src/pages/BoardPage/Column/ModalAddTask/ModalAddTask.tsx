@@ -40,7 +40,7 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
     };
     dispatch(
       createTask({
-        boardsId: currentBoard?.id as string,
+        boardId: currentBoard?.id as string,
         columnId: columnId,
         taskData: newTaskData,
       })

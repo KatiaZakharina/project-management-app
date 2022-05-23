@@ -8,7 +8,8 @@ export const StyledColumn = styled.div`
   position: relative;
   display: grid;
   grid-template-rows: 50px 1fr;
-  min-width: 250px;
+  width: 100%;
+  max-width: 250px;
   margin: 0 15px 10px 15px;
   background-color: ${LIGHT_GRAY};
   border-radius: 5px;
@@ -33,6 +34,17 @@ export const TaskList = styled.div`
   flex-direction: column;
   padding: 10px;
   overflow-y: auto;
+  gap: 15px;
+`;
+
+export const TaskItem = styled.div`
+  background-color: ${rgba(AZURE_BLUE, 0.3)};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 5px;
+  gap: 10px;
 `;
 
 export const AddPanel = styled.div`
@@ -48,9 +60,8 @@ export const StyledCloseIcon = styled(CloseIcon)`
   cursor: pointer;
 `;
 
-export const FakeTask = styled.div`
-  min-width: 20px;
-  margin-bottom: 15px;
-  padding: 10px;
-  background-color: ${rgba(AZURE_BLUE, 0.3)};
+export const StyledControlBox = styled.div`
+  display: flex;
+  max-width: 50px;
+  gap: 5px;
 `;
