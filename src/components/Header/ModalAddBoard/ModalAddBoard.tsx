@@ -10,7 +10,7 @@ import {
   WrapperError,
   StyledError,
 } from './ModalAddBoard.styled';
-import { createBoard, fetchBoardData } from 'store/reducers/boards/boardsSlice';
+import { createBoard } from 'store/reducers/boards/boardsSlice';
 import { useAppDispatch } from 'store/hooks';
 import { BoardDataType } from 'store/reducers/boards/types';
 
@@ -38,7 +38,6 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
     const boardData = await dispatch(createBoard(data));
     const newBoard = boardData.payload as BoardDataType;
-    await dispatch(fetchBoardData(newBoard.id));
     navigate(`/boards/${newBoard.id}`);
     handleClose();
   };

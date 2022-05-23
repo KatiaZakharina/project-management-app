@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography, Accordion } from '@mui/material';
 import styled from 'styled-components';
 
 import { TURQUOISE, VIOLET } from 'styles/constants';
@@ -21,31 +21,10 @@ export const StyledStack = styled(Stack)`
   }
 `;
 
-export const WrapperBoardDiv = styled.div`
+export const WrapperButtons = styled.div`
   display: flex;
-  width: 100%;
-  max-width: 1200px;
-  min-height: 97px;
+  justify-content: flex-end;
   gap: 10px;
-  justify-content: space-between;
-  max-width: 1400px;
-  padding: 10px 20px;
-  background-color: ${rgba(TURQUOISE, 0.4)};
-  box-shadow: 3px 3px 3px ${rgba(VIOLET, 0.4)};
-  border-radius: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: ${rgba(TURQUOISE, 0.6)};
-  }
-`;
-
-export const WrapperDescriptionRepo = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  @media screen and (max-width: 420px) {
-    width: 60%;
-  }
 `;
 
 export const StyledTypography = styled(Typography)`
@@ -61,5 +40,19 @@ export const StyledTypography = styled(Typography)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin: 5px 0;
+  }
+`;
+
+export const StyledAccordion = styled(Accordion)`
+  width: 100%;
+  max-width: 1400px;
+  &.MuiAccordion-root {
+    background-color: ${rgba(TURQUOISE, 0.4)};
+    box-shadow: 3px 3px 3px ${rgba(VIOLET, 0.4)};
+    border-radius: 10px;
+  }
+  &:hover {
+    background-color: ${rgba(TURQUOISE, 0.6)};
   }
 `;
