@@ -7,6 +7,7 @@ import {
   IDefaultBoardState,
   BoardColumnsType,
   IColumnFetchData,
+  IUpdateBoardData,
 } from 'store/reducers/boards/types';
 
 export const defaultBoardsState: IDefaultBoardState = {
@@ -59,6 +60,21 @@ export const deleteBoard = createAsyncThunk<string, string, { rejectValue: strin
   }
 );
 
+export const updateBoard = createAsyncThunk<
+  BoardDataType,
+  IUpdateBoardData,
+  { rejectValue: string }
+>('boards/updateBoard', async ({ id, boardData }: IUpdateBoardData, { rejectWithValue }) => {
+  try {
+    const data = await boardsServiceInstance.updateBoard(id, boardData);
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+  }
+});
+
 export const fetchBoardData = createAsyncThunk<BoardDataType, string, { rejectValue: string }>(
   'boards/fetchBoardData',
   async (id, { rejectWithValue }) => {
@@ -104,6 +120,22 @@ export const deleteColumn = createAsyncThunk<
   }
 });
 
+export const updateColumn = createAsyncThunk<
+  BoardColumnsType,
+  { boardId: string; columnId: string; columnData: { title: string; order: number } },
+  { rejectValue: string }
+>('boards/updateColumn', async ({ boardId, columnId, columnData }, { rejectWithValue }) => {
+  try {
+    const data = await boardsServiceInstance.updateColumn(boardId, columnId, columnData);
+    return data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+    return rejectWithValue('Something went wrong...');
+  }
+});
+
 const boardsSlice = createSlice({
   name: 'boards',
   initialState: defaultBoardsState,
@@ -124,6 +156,10 @@ const boardsSlice = createSlice({
         state.errorMessage = '';
         state.currentBoard = null;
       })
+      .addCase(createBoard.fulfilled, (state, { payload }) => {
+        state.boards.push(payload);
+        state.currentBoard = payload;
+      })
       .addCase(createBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       })
@@ -141,6 +177,7 @@ const boardsSlice = createSlice({
       })
 
       .addCase(fetchBoardData.pending, (state) => {
+        state.errorMessage = '';
         state.currentBoard = null;
       })
       .addCase(fetchBoardData.fulfilled, (state, { payload }) => {
@@ -150,8 +187,24 @@ const boardsSlice = createSlice({
         state.errorMessage = payload;
       })
 
+      .addCase(updateBoard.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(updateBoard.fulfilled, (state, { payload }) => {
+        if (state.currentBoard) {
+          state.currentBoard.id = payload.id;
+          state.currentBoard.title = payload.title;
+        }
+      })
+      .addCase(updateBoard.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
       .addCase(createColumn.pending, (state) => {
         state.errorMessage = '';
+      })
+      .addCase(createColumn.fulfilled, (state, { payload }) => {
+        state.currentBoard?.columns?.push(payload);
       })
       .addCase(createColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
@@ -166,6 +219,22 @@ const boardsSlice = createSlice({
         );
       })
       .addCase(deleteColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(updateColumn.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(updateColumn.fulfilled, (state, { payload }) => {
+        if (state.currentBoard?.columns) {
+          const columnIndex = state.currentBoard.columns.findIndex(
+            (column) => column.id === payload.id
+          );
+          state.currentBoard.columns[columnIndex].title = payload.title;
+          state.currentBoard.columns[columnIndex].order = payload.order;
+        }
+      })
+      .addCase(updateColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       });
   },

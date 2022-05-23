@@ -16,6 +16,7 @@ export const StyledColumn = styled.div`
 
 export const Title = styled.div`
   display: flex;
+  min-height: 60px;
   justify-content: space-between;
   align-items: center;
   width: 100%;

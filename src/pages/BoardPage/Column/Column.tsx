@@ -1,8 +1,9 @@
 import { ControlPoint } from '@mui/icons-material';
+import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { deleteColumn } from 'store/reducers/boards/boardsSlice';
+import { deleteColumn, updateColumn } from 'store/reducers/boards/boardsSlice';
 import { BoardColumnsType } from 'store/reducers/boards/types';
 import {
   AddPanel,
@@ -16,7 +17,7 @@ import {
 
 type ColumnProps = BoardColumnsType & { provided: any };
 
-export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
+export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
@@ -29,6 +30,16 @@ export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
     }
   };
 
+  const updateColumnTitle = async (data: { title: string }) => {
+    const newColumnData = {
+      title: data.title,
+      order: order,
+    };
+    if (boardId) {
+      await dispatch(updateColumn({ boardId, columnId: id, columnData: newColumnData }));
+    }
+  };
+
   return (
     <StyledColumn
       ref={provided.innerRef}
@@ -36,7 +47,7 @@ export const Column = ({ tasks, title, provided, id }: ColumnProps) => {
       {...provided.dragHandleProps}
     >
       <Title>
-        <h4>{title}</h4>
+        <EditingTitle title={title} onTitleSubmit={updateColumnTitle} styles="h6" />
         <StyledCloseIcon onClick={onDeleteColumn} style={{ cursor: 'pointer' }} />
       </Title>
 
