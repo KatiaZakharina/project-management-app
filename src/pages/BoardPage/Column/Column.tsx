@@ -1,5 +1,7 @@
 import { ControlPoint } from '@mui/icons-material';
+import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { EditingTitle } from 'components/EditingTitle/EditingTitle';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -21,13 +23,22 @@ export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
-  const onDeleteColumn = () => {
+  const onConfirm = async () => {
     if (!boardId) {
       navigate('/');
     } else {
       dispatch(deleteColumn({ boardId, columnId: id }));
     }
+  };
+
+  const onCancel = () => {
+    closeModal();
+  };
+
+  const closeModal = () => {
+    setOpenConfirmationModal(false);
   };
 
   const updateColumnTitle = async (data: { title: string }) => {
@@ -48,7 +59,10 @@ export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
     >
       <Title>
         <EditingTitle title={title} onTitleSubmit={updateColumnTitle} styles="h6" />
-        <StyledCloseIcon onClick={onDeleteColumn} style={{ cursor: 'pointer' }} />
+        <StyledCloseIcon
+          onClick={() => setOpenConfirmationModal(true)}
+          style={{ cursor: 'pointer' }}
+        />
       </Title>
 
       <TaskListWrapper>
@@ -63,6 +77,12 @@ export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
         <ControlPoint />
         Add new task
       </AddPanel>
+
+      <ConfirmationModal
+        openConfirmationModal={openConfirmationModal}
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+      ></ConfirmationModal>
     </StyledColumn>
   );
 };
