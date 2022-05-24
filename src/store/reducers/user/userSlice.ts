@@ -11,13 +11,7 @@ import {
 } from './type';
 
 export const defaultState: IDefaultState = {
-  users: [
-    {
-      id: '',
-      name: '',
-      login: '',
-    },
-  ],
+  users: [],
   id: '',
   login: '',
   name: '',

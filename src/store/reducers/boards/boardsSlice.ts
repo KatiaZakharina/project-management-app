@@ -1,5 +1,4 @@
 import {
-  BoardTasksType,
   IColumnFetchData,
   ITaskDelete,
   ITaskDeleteResponse,
@@ -11,7 +10,6 @@ import { AxiosError } from 'axios';
 
 import { boardsServiceInstance } from 'service/boardsService';
 import { BoardDataType, IDefaultBoardState, BoardColumnsType } from 'store/reducers/boards/types';
-import { Satellite } from '@mui/icons-material';
 
 export const defaultBoardsState: IDefaultBoardState = {
   boards: [],
@@ -120,25 +118,22 @@ export const deleteColumn = createAsyncThunk<
     return rejectWithValue('Something went wrong...');
   }
 });
-// /////////////////////////////////////////////////////////
+
 export const deleteTask = createAsyncThunk<
   ITaskDeleteResponse,
   ITaskDelete,
   { rejectValue: string }
->(
-  'boards/columns/deleteTask',
-  async ({ boardId, columnId, taskId }: ITaskDelete, { rejectWithValue }) => {
-    try {
-      await boardsServiceInstance.deleteTask(boardId, columnId, taskId);
-      return { columnId, taskId };
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return rejectWithValue(error?.response?.data.message);
-      }
-      return rejectWithValue('Something went wrong...');
+>('column/deleteTask', async ({ boardId, columnId, taskId }: ITaskDelete, { rejectWithValue }) => {
+  try {
+    await boardsServiceInstance.deleteTask(boardId, columnId, taskId);
+    return { columnId, taskId };
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
     }
+    return rejectWithValue('Something went wrong...');
   }
-);
+});
 
 const boardsSlice = createSlice({
   name: 'boards',
@@ -208,6 +203,9 @@ const boardsSlice = createSlice({
           return;
         state.currentBoard.columns[currentColumnIndex].tasks?.push(payload);
       })
+      .addCase(deleteTask.pending, (state) => {
+        state.errorMessage = '';
+      })
       .addCase(deleteTask.fulfilled, (state, { payload }) => {
         const columnId = payload.columnId;
         const taskId = payload.taskId;
@@ -215,11 +213,14 @@ const boardsSlice = createSlice({
         const currentColumnIndex = state.currentBoard?.columns?.findIndex(
           (column) => column.id === columnId
         );
-
         if (!state.currentBoard?.columns || (!currentColumnIndex && currentColumnIndex !== 0))
           return;
-        debugger;
-        state.currentBoard?.columns[currentColumnIndex].tasks?.filter((task) => task.id !== taskId);
+        state.currentBoard.columns[currentColumnIndex].tasks = state.currentBoard?.columns[
+          currentColumnIndex
+        ].tasks?.filter((task) => task.id !== taskId);
+      })
+      .addCase(deleteTask.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
       });
   },
 });

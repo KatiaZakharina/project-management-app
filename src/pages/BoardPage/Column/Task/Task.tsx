@@ -25,9 +25,9 @@ export function Task({ tasks, columnId }: ITaskProps) {
     setOpenConfirmationModal(false);
   };
 
-  const onConfirm = async () => {
+  const onConfirm = () => {
     if (boardId) {
-      await dispatch(deleteTask({ boardId, columnId, taskId: currentTaskId }));
+      dispatch(deleteTask({ boardId, columnId, taskId: currentTaskId }));
     }
     setOpenConfirmationModal(false);
   };

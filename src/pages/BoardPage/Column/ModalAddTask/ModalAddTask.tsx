@@ -1,6 +1,7 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { createTask } from 'store/reducers/boards/boardsSlice';
 import { getAllUsers } from 'store/reducers/user/userSlice';
@@ -17,7 +18,9 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((store) => store.userReducer);
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
-  const { register, handleSubmit } = useForm<Inputs>();
+
+  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const [executor, setExecutor] = useState('');
 
   const { inputs } = useCreateNewTask(register);
 
@@ -36,7 +39,7 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
       title: data.title,
       order: 1,
       description: data.description,
-      userId: data.executor,
+      userId: executor,
     };
     dispatch(
       createTask({
@@ -45,6 +48,7 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
         taskData: newTaskData,
       })
     );
+    reset();
     handleClose();
   };
 
@@ -62,14 +66,19 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
             {...input.register}
           />
         ))}
+
         <FormControl>
           <InputLabel>Executor</InputLabel>
-          <Select label="Executor" {...register('executor')}>
+          <Select
+            label="Executor"
+            onChange={(event) => setExecutor(event.target.value)}
+            value={executor}
+          >
             <MenuItem selected disabled>
               Executors
             </MenuItem>
             {users.map((user) => (
-              <MenuItem key={user.id} value={user.id}>
+              <MenuItem key={user.id} value={user.id ?? ''}>
                 {user.name}
               </MenuItem>
             ))}

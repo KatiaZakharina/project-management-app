@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { deleteColumn, deleteTask } from 'store/reducers/boards/boardsSlice';
+import { deleteColumn } from 'store/reducers/boards/boardsSlice';
 import { BoardColumnsType } from 'store/reducers/boards/types';
 import { AddPanel, StyledCloseIcon, StyledColumn, Title } from './Column.styled';
 import { ModalAddTask } from './ModalAddTask/ModalAddTask';
