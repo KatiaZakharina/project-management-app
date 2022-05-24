@@ -56,6 +56,7 @@ export interface ITaskFetchData {
     title: string;
     userId: string;
   };
+  taskId?: string;
 }
 
 export interface ITaskDelete {

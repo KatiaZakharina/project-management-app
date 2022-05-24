@@ -15,7 +15,9 @@ type ColumnProps = BoardColumnsType & { provided: any };
 export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
+
   const [openModal, setOpenModal] = useState(false);
 
   const onDeleteColumn = () => {

@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { Column } from './Column/Column';
 import { BoardHeader } from './BoardHeader/BoardHeader';
 import { BoardColumnsType } from 'store/reducers/boards/types';
+import { getAllUsers } from 'store/reducers/user/userSlice';
 
 export const BoardPage = () => {
   const { boardID } = useParams();
@@ -24,6 +25,7 @@ export const BoardPage = () => {
       navigate('/');
     } else {
       loadBoardData();
+      dispatch(getAllUsers());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

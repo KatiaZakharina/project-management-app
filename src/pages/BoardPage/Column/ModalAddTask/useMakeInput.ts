@@ -17,9 +17,14 @@ interface InputProperty {
   rows?: number;
   id: number;
   register?: UseFormRegisterReturn;
+  content?: string;
 }
 
-export function useCreateNewTask(register: UseFormRegister<Inputs>) {
+export function createNewTask(
+  register: UseFormRegister<Inputs>,
+  titleContent?: string,
+  descriptionContent?: string
+) {
   const titleInput: InputProperty = {
     label: 'Title task',
     variant: 'outlined',
@@ -31,6 +36,7 @@ export function useCreateNewTask(register: UseFormRegister<Inputs>) {
         required: 'field is required',
       }),
     },
+    content: titleContent,
   };
 
   const descriptionInput: InputProperty = {
@@ -44,7 +50,8 @@ export function useCreateNewTask(register: UseFormRegister<Inputs>) {
         required: 'field is required',
       }),
     },
-    placeholder: '',
+    placeholder: 'Description for your task',
+    content: descriptionContent,
   };
 
   const inputs = [titleInput, descriptionInput];

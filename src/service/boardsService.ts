@@ -78,6 +78,7 @@ class BoardsService {
     const response = await this.axiosInstance.delete(
       `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`
     );
+    return response.data;
   };
 
   updateColumn = async (
@@ -88,6 +89,24 @@ class BoardsService {
     const response = await this.axiosInstance.put(
       `/boards/${boardId}/columns/${columnId}`,
       columnData
+    );
+    return response.data;
+  };
+
+  updateTask = async (
+    boardId: string,
+    columnId: string,
+    taskData: {
+      description: string;
+      order: number;
+      title: string;
+      userId: string;
+    },
+    taskId: string
+  ) => {
+    const response = await this.axiosInstance.put(
+      `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
+      taskData
     );
     return response.data;
   };

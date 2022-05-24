@@ -3,25 +3,39 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { createTask } from 'store/reducers/boards/boardsSlice';
-import { ModalContext, StyledModal } from '../../../../styles/ModalTask.styled';
-import { Inputs, createNewTask } from './useMakeInput';
+import { updateTask } from 'store/reducers/boards/boardsSlice';
+import { ModalContext, StyledModal } from 'styles/ModalTask.styled';
+import { Inputs, createNewTask } from '../../ModalAddTask/useMakeInput';
 
-interface IModalAddTask {
+interface IModalUpdateTask {
   columnId: string;
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
+  taskId: string;
 }
 
-export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTask) {
+export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: IModalUpdateTask) {
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((store) => store.userReducer);
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
 
   const { register, handleSubmit, reset } = useForm<Inputs>();
+
   const [executor, setExecutor] = useState('');
 
-  const { inputs } = createNewTask(register);
+  if (!currentBoard?.columns) return <></>;
+  const currentColumnIndex = currentBoard?.columns?.findIndex((column) => column.id === columnId);
+
+  if (!currentBoard?.columns || (!currentColumnIndex && currentColumnIndex !== 0)) return <></>;
+  const currentTaskIndex = currentBoard?.columns[currentColumnIndex].tasks?.findIndex(
+    (task: { id: string | undefined }) => task.id === taskId
+  );
+
+  const titleContent = currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].title;
+  const descriptionContent =
+    currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].description;
+
+  const { inputs } = createNewTask(register, titleContent, descriptionContent);
 
   function handleClose() {
     setOpenModal(false);
@@ -30,17 +44,21 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
   const onSubmit: SubmitHandler<{ title: string; description: string; executor: string }> = async (
     data
   ) => {
-    const newTaskData = {
+    const updateTaskData = {
       title: data.title,
       order: 1,
       description: data.description,
       userId: executor,
+      boardId: currentBoard?.id,
+      columnId: columnId,
     };
+
     dispatch(
-      createTask({
+      updateTask({
         boardId: currentBoard?.id as string,
         columnId: columnId,
-        taskData: newTaskData,
+        taskData: updateTaskData,
+        taskId: taskId,
       })
     );
     reset();
@@ -59,6 +77,7 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
             rows={input.rows}
             multiline={input.multiline}
             {...input.register}
+            defaultValue={input.content}
           />
         ))}
 

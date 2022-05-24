@@ -8,6 +8,7 @@ import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModa
 import { BoardTasksType } from 'store/reducers/boards/types';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteTask } from 'store/reducers/boards/boardsSlice';
+import { ModalUpdateTask } from './ModalUpdateTask/ModalUpdateTask';
 
 interface ITaskProps {
   tasks: BoardTasksType[] | undefined;
@@ -15,11 +16,12 @@ interface ITaskProps {
 }
 
 export function Task({ tasks, columnId }: ITaskProps) {
+  const dispatch = useAppDispatch();
+  const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
+
+  const [openModalTransform, setOpenModalTransform] = useState(false);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState('');
-
-  const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
-  const dispatch = useAppDispatch();
 
   const onCancel = () => {
     setOpenConfirmationModal(false);
@@ -39,7 +41,13 @@ export function Task({ tasks, columnId }: ITaskProps) {
           <TaskItem key={task.id}>
             <Typography>{task.description}</Typography>
             <StyledControlBox>
-              <EditIcon onClick={() => {}} style={{ cursor: 'pointer' }} />
+              <EditIcon
+                onClick={() => {
+                  setCurrentTaskId(task.id);
+                  setOpenModalTransform(true);
+                }}
+                style={{ cursor: 'pointer' }}
+              />
               <CloseIcon
                 onClick={() => {
                   setCurrentTaskId(task.id);
@@ -50,6 +58,14 @@ export function Task({ tasks, columnId }: ITaskProps) {
             </StyledControlBox>
           </TaskItem>
         ))}
+        {openModalTransform && (
+          <ModalUpdateTask
+            openModal={openModalTransform}
+            setOpenModal={setOpenModalTransform}
+            columnId={columnId}
+            taskId={currentTaskId}
+          />
+        )}
         {openConfirmationModal && (
           <ConfirmationModal
             openConfirmationModal={openConfirmationModal}

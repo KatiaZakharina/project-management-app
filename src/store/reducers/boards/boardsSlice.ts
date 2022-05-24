@@ -171,6 +171,23 @@ export const updateColumn = createAsyncThunk<
   }
 });
 
+export const updateTask = createAsyncThunk<ITaskResponse, ITaskFetchData, { rejectValue: string }>(
+  'column/updateTask',
+  async ({ boardId, columnId, taskData, taskId }: ITaskFetchData, { rejectWithValue }) => {
+    try {
+      if (taskId) {
+        const data = await boardsServiceInstance.updateTask(boardId, columnId, taskData, taskId);
+        return data;
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      }
+      return rejectWithValue('Something went wrong...');
+    }
+  }
+);
+
 const boardsSlice = createSlice({
   name: 'boards',
   initialState: defaultBoardsState,
@@ -256,6 +273,26 @@ const boardsSlice = createSlice({
       .addCase(deleteColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       })
+
+      .addCase(updateColumn.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(updateColumn.fulfilled, (state, { payload }) => {
+        if (state.currentBoard?.columns) {
+          const columnIndex = state.currentBoard.columns.findIndex(
+            (column) => column.id === payload.id
+          );
+          state.currentBoard.columns[columnIndex].title = payload.title;
+          state.currentBoard.columns[columnIndex].order = payload.order;
+        }
+      })
+      .addCase(updateColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(createTask.pending, (state) => {
+        state.errorMessage = '';
+      })
       .addCase(createTask.fulfilled, (state, { payload }) => {
         const currentColumnIndex = state.currentBoard?.columns?.findIndex(
           (column) => column.id === payload.columnId
@@ -264,6 +301,36 @@ const boardsSlice = createSlice({
           return;
         state.currentBoard.columns[currentColumnIndex].tasks?.push(payload);
       })
+      .addCase(createTask.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(updateTask.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(updateTask.fulfilled, (state, { payload }) => {
+        const currentColumnIndex = state.currentBoard?.columns?.findIndex(
+          (column) => column.id === payload.columnId
+        );
+        if (!state.currentBoard?.columns || (!currentColumnIndex && currentColumnIndex !== 0))
+          return;
+        const currentTaskIndex = state.currentBoard?.columns[currentColumnIndex].tasks?.findIndex(
+          (task: { id: string }) => task.id === payload.id
+        );
+
+        state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].title =
+          payload.title;
+
+        state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].description =
+          payload.description;
+
+        state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].userId =
+          payload.userId;
+      })
+      .addCase(updateTask.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
       .addCase(deleteTask.pending, (state) => {
         state.errorMessage = '';
       })
@@ -281,21 +348,6 @@ const boardsSlice = createSlice({
         ].tasks?.filter((task) => task.id !== taskId);
       })
       .addCase(deleteTask.rejected, (state, { payload = 'Something went wrong...' }) => {
-        state.errorMessage = payload;
-      })
-      .addCase(updateColumn.pending, (state) => {
-        state.errorMessage = '';
-      })
-      .addCase(updateColumn.fulfilled, (state, { payload }) => {
-        if (state.currentBoard?.columns) {
-          const columnIndex = state.currentBoard.columns.findIndex(
-            (column) => column.id === payload.id
-          );
-          state.currentBoard.columns[columnIndex].title = payload.title;
-          state.currentBoard.columns[columnIndex].order = payload.order;
-        }
-      })
-      .addCase(updateColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       });
   },
