@@ -42,8 +42,8 @@ class BoardsService {
     return response.data;
   };
 
-  getBoardByID = async (id: string) => {
-    const response = await this.axiosInstance.get(`/boards/${id}`);
+  updateBoard = async (id: string, boardData: { title: string }) => {
+    const response = await this.axiosInstance.put(`/boards/${id}`, boardData);
     return response.data;
   };
 
@@ -77,6 +77,17 @@ class BoardsService {
   deleteTask = async (boardId: string, columnId: string, taskId: string) => {
     const response = await this.axiosInstance.delete(
       `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`
+    );
+  };
+
+  updateColumn = async (
+    boardId: string,
+    columnId: string,
+    columnData: { title: string; order: number }
+  ) => {
+    const response = await this.axiosInstance.put(
+      `/boards/${boardId}/columns/${columnId}`,
+      columnData
     );
     return response.data;
   };

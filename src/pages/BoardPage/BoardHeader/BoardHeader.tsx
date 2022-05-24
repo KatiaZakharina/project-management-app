@@ -1,31 +1,23 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Button } from '@mui/material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { deleteBoard } from 'store/reducers/boards/boardsSlice';
+import { Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
-import {
-  ButtonGoBack,
-  StyledDiv,
-  StyledTypography,
-  WrapperBoardFunctional,
-} from './BoardHeader.styled';
-import { ModalAddColumn } from './ModalAddColumn/ModalAddcolumn';
+
+import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { deleteBoard, updateBoard } from 'store/reducers/boards/boardsSlice';
+import { ButtonGoBack, StyledDiv, WrapperBoardFunctional } from './BoardHeader.styled';
+import { ModalAddColumn } from './ModalAddColumn/ModalAddColumn';
+import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 
 export const BoardHeader = () => {
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
-
-  const openModalAddColumn = () => {
-    setOpenModal(true);
-  };
-
+  const [openAddColumnModal, setOpenAddColumnModal] = useState(false);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
   const onConfirm = async () => {
@@ -43,21 +35,26 @@ export const BoardHeader = () => {
     setOpenConfirmationModal(false);
   };
 
+  const updateBoardTitle = async (data: { title: string }) => {
+    const idBoard = currentBoard?.id as string;
+    await dispatch(updateBoard({ id: idBoard, boardData: data }));
+  };
+
   const { t } = useTranslation();
 
   return (
     <>
       <WrapperBoardFunctional>
         <ButtonGoBack variant="contained" onClick={() => navigate('/')}>
-          <ArrowBackIosIcon /> {t('Back')}
+          <ArrowBackIosIcon /> {t('Go to main page')}
         </ButtonGoBack>
         <StyledDiv>
-          <StyledTypography variant="h5">{currentBoard?.title}</StyledTypography>
+          <EditingTitle title={currentBoard?.title} onTitleSubmit={updateBoardTitle} styles="h5" />
           <Button
             variant="outlined"
             color="primary"
             startIcon={<AddCircleIcon />}
-            onClick={openModalAddColumn}
+            onClick={() => setOpenAddColumnModal(true)}
           >
             Add new list
           </Button>
@@ -74,7 +71,7 @@ export const BoardHeader = () => {
           Delete board
         </Button>
       </WrapperBoardFunctional>
-      <ModalAddColumn openModal={openModal} setOpenModal={setOpenModal} />
+      <ModalAddColumn openModal={openAddColumnModal} setOpenModal={setOpenAddColumnModal} />
       <ConfirmationModal
         openConfirmationModal={openConfirmationModal}
         onCancel={onCancel}

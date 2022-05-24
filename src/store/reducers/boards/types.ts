@@ -68,3 +68,10 @@ export interface ITaskDeleteResponse {
   columnId: string;
   taskId: string;
 }
+
+export interface IUpdateBoardData {
+  id: string;
+  boardData: {
+    title: string;
+  };
+}
