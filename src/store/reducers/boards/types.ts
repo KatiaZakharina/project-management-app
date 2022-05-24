@@ -1,6 +1,7 @@
 export type BoardDataType = {
   id: string;
   title: string;
+  description: string;
   columns?: BoardColumnsType[];
 };
 

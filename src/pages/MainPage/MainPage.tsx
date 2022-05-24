@@ -48,7 +48,7 @@ export const MainPage = () => {
     setId('');
   };
 
-  const moveTo = (event: React.MouseEvent, id: string) => {
+  const moveTo = (id: string) => {
     navigate(`/boards/${id}`);
   };
 
@@ -70,18 +70,9 @@ export const MainPage = () => {
                   <StyledTypography variant="h5">{board.title}</StyledTypography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <StyledTypography variant="subtitle1">
-                    {board.columns?.[0].tasks?.[0].title}
-                  </StyledTypography>
-                  <StyledTypography variant="subtitle1">
-                    {board.columns?.[0].tasks?.[0].description}
-                  </StyledTypography>
+                  <StyledTypography variant="subtitle1">{board.description}</StyledTypography>
                   <WrapperButtons>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={(event) => moveTo(event, board.id)}
-                    >
+                    <Button variant="contained" color="secondary" onClick={() => moveTo(board.id)}>
                       To board
                     </Button>
                     <Button

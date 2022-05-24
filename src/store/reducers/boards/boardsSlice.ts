@@ -32,18 +32,21 @@ export const fetchBoards = createAsyncThunk(
 
 export const createBoard = createAsyncThunk<
   BoardDataType,
-  { title: string },
+  { title: string; description: string },
   { rejectValue: string }
->('boards/createBoard', async (boardData: { title: string }, { rejectWithValue }) => {
-  try {
-    const data = await boardsServiceInstance.createBoard(boardData);
-    return data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      return rejectWithValue(error?.response?.data.message);
+>(
+  'boards/createBoard',
+  async (boardData: { title: string; description: string }, { rejectWithValue }) => {
+    try {
+      const data = await boardsServiceInstance.createBoard(boardData);
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      }
     }
   }
-});
+);
 
 export const deleteBoard = createAsyncThunk<string, string, { rejectValue: string }>(
   'boards/deleteBoard',
