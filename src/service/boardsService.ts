@@ -27,7 +27,7 @@ class BoardsService {
     return response.data;
   };
 
-  createBoard = async (boardData: { title: string }) => {
+  createBoard = async (boardData: { title: string; description: string }) => {
     const response = await this.axiosInstance.post('/boards', boardData);
     return response.data;
   };
@@ -42,7 +42,7 @@ class BoardsService {
     return response.data;
   };
 
-  updateBoard = async (id: string, boardData: { title: string }) => {
+  updateBoard = async (id: string, boardData: { title: string; description: string }) => {
     const response = await this.axiosInstance.put(`/boards/${id}`, boardData);
     return response.data;
   };

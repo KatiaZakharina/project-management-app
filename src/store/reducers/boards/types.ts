@@ -1,6 +1,7 @@
 export type BoardDataType = {
   id: string;
   title: string;
+  description: string;
   columns?: BoardColumnsType[];
 };
 
@@ -42,5 +43,6 @@ export interface IUpdateBoardData {
   id: string;
   boardData: {
     title: string;
+    description: string;
   };
 }

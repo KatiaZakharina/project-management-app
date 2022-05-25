@@ -37,7 +37,12 @@ export const BoardHeader = () => {
 
   const updateBoardTitle = async (data: { title: string }) => {
     const idBoard = currentBoard?.id as string;
-    await dispatch(updateBoard({ id: idBoard, boardData: data }));
+    const description = currentBoard?.description as string;
+    const newData = {
+      title: data.title,
+      description,
+    };
+    await dispatch(updateBoard({ id: idBoard, boardData: newData }));
   };
 
   const { t } = useTranslation();

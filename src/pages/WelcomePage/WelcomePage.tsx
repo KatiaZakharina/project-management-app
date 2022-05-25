@@ -35,7 +35,7 @@ export const WelcomePage = () => {
         <WrapperDivButtons>
           {loginToken ? (
             <Button variant="contained" onClick={() => moveTo('/')}>
-              {t('Go to Main Page')}
+              {t('Go to main page')}
             </Button>
           ) : (
             <>

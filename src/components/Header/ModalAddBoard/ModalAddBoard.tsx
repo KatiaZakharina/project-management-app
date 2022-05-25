@@ -33,9 +33,9 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<{ title: string }>();
+  } = useForm<{ title: string; description: string }>();
 
-  const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
+  const onSubmit: SubmitHandler<{ title: string; description: string }> = async (data) => {
     const boardData = await dispatch(createBoard(data));
     const newBoard = boardData.payload as BoardDataType;
     navigate(`/boards/${newBoard.id}`);
@@ -61,6 +61,19 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
           />
           <WrapperError>
             <StyledError>{errors?.title?.message}</StyledError>
+          </WrapperError>
+          <TextField
+            label={t('Description')}
+            type="text"
+            {...register('description', {
+              required: t('This field is required'),
+            })}
+            fullWidth
+            error={errors?.description?.message ? true : false}
+            autoComplete="off"
+          />
+          <WrapperError>
+            <StyledError>{errors?.description?.message}</StyledError>
           </WrapperError>
           <Button variant="outlined" type="submit">
             {t('Create!')}
