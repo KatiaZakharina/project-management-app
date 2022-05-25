@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 
 import { Header } from 'components/Header/Header';
 import { ColumnList, ColumnListWrapper } from './BoardPage.styled';
@@ -58,6 +59,8 @@ export const BoardPage = () => {
     setColumns(newColumns);
   };
 
+  const { t } = useTranslation();
+
   return (
     <>
       <Header />
@@ -83,7 +86,7 @@ export const BoardPage = () => {
             </ColumnListWrapper>
           </DragDropContext>
         ) : (
-          <p>Create new board</p>
+          <p>{t('Create new board')}</p>
         )
       ) : (
         <CircularProgress color="secondary" style={{ margin: 'auto' }} size={80} thickness={4} />
