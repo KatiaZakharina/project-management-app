@@ -6,7 +6,6 @@ import logoRSS from 'assets/svg/rs_school_js.svg';
 export const WrapperFooter = styled.footer`
   height: 60px;
   background-color: ${PURPLE};
-  position: fixed;
   bottom: 0;
   width: 100%;
 `;
