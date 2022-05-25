@@ -59,6 +59,9 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
             error={errors?.title?.message ? true : false}
             autoComplete="off"
           />
+          <WrapperError>
+            <StyledError>{errors?.title?.message}</StyledError>
+          </WrapperError>
           <TextField
             label={t('Description')}
             type="text"
