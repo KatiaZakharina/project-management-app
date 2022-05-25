@@ -82,7 +82,7 @@ export const MainPage = () => {
                       color="secondary"
                       onClick={(event) => moveTo(event, board.id)}
                     >
-                      To board
+                      {t('To board')}
                     </Button>
                     <Button
                       data-tag="delete-button"

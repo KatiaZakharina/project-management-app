@@ -35,5 +35,9 @@
   "Add new list": "Добавить новый список",
   "Delete board": "Удалить доску",
   "Create new board": "Создать новую доску",
-  "User was not founded!": "Пользователь не зарегистрирован!"
+  "User was not founded!": "Пользователь не зарегистрирован!",
+  "To board": "Доска",
+  "Go to main page": "Все доски",
+  "Add new task": "Добавить новую задачу",
+  "Save": "Сохранить"
 }

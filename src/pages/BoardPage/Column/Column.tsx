@@ -1,5 +1,6 @@
 import { ControlPoint } from '@mui/icons-material';
 import { EditingTitle } from 'components/EditingTitle/EditingTitle';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -40,6 +41,8 @@ export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <StyledColumn
       ref={provided.innerRef}
@@ -61,7 +64,7 @@ export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
 
       <AddPanel>
         <ControlPoint />
-        Add new task
+        {t('Add new task')}
       </AddPanel>
     </StyledColumn>
   );
