@@ -3,6 +3,7 @@ import { IconButton } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { t } from 'i18next';
 
 import { StyledForm, StyledTextField, StyledTypography } from './EditingTitle.styled';
 
@@ -42,10 +43,10 @@ export const EditingTitle = ({ title, onTitleSubmit, styles }: IEditingTitle) =>
               error={errors?.title?.message ? true : false}
               autoComplete="off"
             />
-            <IconButton title="Save" type="submit" color="primary">
+            <IconButton title={t('Save')} type="submit" color="primary">
               <SaveIcon />
             </IconButton>
-            <IconButton color="primary" title="Cancel" onClick={() => setEdit(false)}>
+            <IconButton color="primary" title={t('Cancel')} onClick={() => setEdit(false)}>
               <HighlightOffIcon />
             </IconButton>
           </StyledForm>

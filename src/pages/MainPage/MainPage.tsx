@@ -73,7 +73,7 @@ export const MainPage = () => {
                   <StyledTypography variant="subtitle1">{board.description}</StyledTypography>
                   <WrapperButtons>
                     <Button variant="contained" color="secondary" onClick={() => moveTo(board.id)}>
-                      To board
+                      {t('To board')}
                     </Button>
                     <Button
                       data-tag="delete-button"

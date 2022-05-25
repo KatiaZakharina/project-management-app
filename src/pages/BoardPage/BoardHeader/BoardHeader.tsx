@@ -61,7 +61,7 @@ export const BoardHeader = () => {
             startIcon={<AddCircleIcon />}
             onClick={() => setOpenAddColumnModal(true)}
           >
-            Add new list
+            {t('Add new list')}
           </Button>
         </StyledDiv>
         <Button
@@ -73,7 +73,7 @@ export const BoardHeader = () => {
             setOpenConfirmationModal(true);
           }}
         >
-          Delete board
+          {t('Delete board')}
         </Button>
       </WrapperBoardFunctional>
       <ModalAddColumn openModal={openAddColumnModal} setOpenModal={setOpenAddColumnModal} />
