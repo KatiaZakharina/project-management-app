@@ -96,6 +96,7 @@ export const createColumn = createAsyncThunk<
 >('boards/createColumn', async ({ id, columnData }: IColumnFetchData, { rejectWithValue }) => {
   try {
     const data = await boardsServiceInstance.createColumn(id, columnData);
+    console.log(data);
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -127,6 +128,7 @@ export const updateColumn = createAsyncThunk<
 >('boards/updateColumn', async ({ boardId, columnId, columnData }, { rejectWithValue }) => {
   try {
     const data = await boardsServiceInstance.updateColumn(boardId, columnId, columnData);
+    console.log(data);
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {
