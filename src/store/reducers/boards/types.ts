@@ -35,7 +35,6 @@ export interface IColumnFetchData {
   id: string;
   columnData: {
     title: string;
-    order: number;
   };
 }
 

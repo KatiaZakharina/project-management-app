@@ -47,7 +47,7 @@ class BoardsService {
     return response.data;
   };
 
-  createColumn = async (id: string, columnData: { title: string; order: number }) => {
+  createColumn = async (id: string, columnData: { title: string }) => {
     const response = await this.axiosInstance.post(`/boards/${id}/columns`, columnData);
     return response.data;
   };

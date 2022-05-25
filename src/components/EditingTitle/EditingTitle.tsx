@@ -43,11 +43,11 @@ export const EditingTitle = ({ title, onTitleSubmit, styles }: IEditingTitle) =>
               error={errors?.title?.message ? true : false}
               autoComplete="off"
             />
-            <IconButton title={t('Save')} type="submit" color="primary">
-              <SaveIcon />
-            </IconButton>
             <IconButton color="primary" title={t('Cancel')} onClick={() => setEdit(false)}>
               <HighlightOffIcon />
+            </IconButton>
+            <IconButton title={t('Save')} type="submit" color="primary">
+              <SaveIcon />
             </IconButton>
           </StyledForm>
         </>
