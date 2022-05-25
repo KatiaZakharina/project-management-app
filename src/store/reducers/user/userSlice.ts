@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { loginServiceInstance } from 'service/userService';
-import { DataForRegistry, IDefaultState, LoginUserResponse, RegisterUserResponse } from './type';
+import { DataForRegistry, IDefaultState, LoginUserResponse, IUser } from './type';
 
 export const defaultState: IDefaultState = {
   users: [],
@@ -14,22 +14,21 @@ export const defaultState: IDefaultState = {
   isRegistered: false,
 };
 
-export const registerUser = createAsyncThunk<
-  RegisterUserResponse,
-  DataForRegistry,
-  { rejectValue: string }
->('user/signup', async (userData: DataForRegistry, { rejectWithValue }) => {
-  try {
-    const data = await loginServiceInstance.postUser(userData);
-    return data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      return rejectWithValue(error?.response?.data.message);
-    } else {
-      return rejectWithValue('Something went wrong...');
+export const registerUser = createAsyncThunk<IUser, DataForRegistry, { rejectValue: string }>(
+  'user/signup',
+  async (userData: DataForRegistry, { rejectWithValue }) => {
+    try {
+      const data = await loginServiceInstance.postUser(userData);
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      } else {
+        return rejectWithValue('Something went wrong...');
+      }
     }
   }
-});
+);
 
 export const loginUser = createAsyncThunk<
   LoginUserResponse,
@@ -47,7 +46,7 @@ export const loginUser = createAsyncThunk<
   }
 });
 
-export const getAllUsers = createAsyncThunk<RegisterUserResponse[]>('user/users', async () => {
+export const getAllUsers = createAsyncThunk<IUser[]>('user/users', async () => {
   const response = await loginServiceInstance.getAllUsers();
   return response;
 });

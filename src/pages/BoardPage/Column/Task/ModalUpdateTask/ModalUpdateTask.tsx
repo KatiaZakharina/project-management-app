@@ -30,13 +30,11 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
     (task: { id: string | undefined }) => task.id === taskId
   );
 
-  const titleContent = currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].title;
+  const baseTask = currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!];
+  const titleContent = baseTask.title;
+  const descriptionContent = baseTask.description;
+  const currentExecutorId = baseTask.userId;
 
-  const descriptionContent =
-    currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].description;
-
-  const currentExecutorId =
-    currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].userId;
   const executorContent = users.filter((executor) => executor.id === currentExecutorId);
 
   const { inputs } = createNewTask(register, titleContent, descriptionContent);
@@ -60,9 +58,8 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
       title: data.title,
       order: currentOrder,
       description: data.description,
-      userId: currentExecutorId ?? executor,
+      userId: executor ?? currentExecutorId,
     };
-    console.log(updateTaskData);
 
     dispatch(
       updateTask({
@@ -107,7 +104,7 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
             ))}
           </Select>
         </FormControl>
-        <Button type="submit">Close Child Modal</Button>
+        <Button type="submit">Save and Close</Button>
       </ModalContext>
     </StyledModal>
   );

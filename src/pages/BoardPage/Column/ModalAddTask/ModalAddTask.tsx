@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { createTask } from 'store/reducers/boards/boardsSlice';
-import { ModalContext, StyledModal } from '../../../../styles/ModalTask.styled';
+import { ModalContext, StyledModal } from 'styles/ModalTask.styled';
 import { Inputs, createNewTask } from './useMakeInput';
 
 interface IModalAddTask {
@@ -43,6 +43,7 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
       })
     );
     reset();
+    setExecutor('');
     handleClose();
   };
 
@@ -78,7 +79,7 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
             ))}
           </Select>
         </FormControl>
-        <Button type="submit">Close Child Modal</Button>
+        <Button type="submit">Save and Close</Button>
       </ModalContext>
     </StyledModal>
   );

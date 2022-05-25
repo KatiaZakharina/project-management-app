@@ -1,5 +1,5 @@
 export interface IDefaultState {
-  users: RegisterUserResponse[];
+  users: IUser[];
   id: string;
   login: string;
   name: string;
@@ -14,7 +14,7 @@ export interface DataForRegistry {
   password: string;
 }
 
-export interface RegisterUserResponse {
+export interface IUser {
   id: string;
   name: string;
   login: string;

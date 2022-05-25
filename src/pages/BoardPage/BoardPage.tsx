@@ -25,7 +25,7 @@ export const BoardPage = () => {
     if (!boardID) {
       navigate('/');
     } else {
-      loadBoardData();
+      dispatch(fetchBoardData(boardID));
       dispatch(getAllUsers());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,12 +34,6 @@ export const BoardPage = () => {
   useEffect(() => {
     setColumns(currentBoard?.columns || []);
   }, [currentBoard]);
-
-  const loadBoardData = async () => {
-    if (boardID) {
-      await dispatch(fetchBoardData(boardID));
-    }
-  };
 
   //dnd
 
