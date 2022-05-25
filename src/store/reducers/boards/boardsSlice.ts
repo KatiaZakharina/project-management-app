@@ -12,6 +12,8 @@ import {
   ITaskDeleteResponse,
   ITaskFetchData,
   ITaskResponse,
+  ITaskUpdate,
+  ITaskUpdateData,
 } from 'store/reducers/boards/types';
 
 export const defaultBoardsState: IDefaultBoardState = {
@@ -174,12 +176,12 @@ export const updateColumn = createAsyncThunk<
   }
 });
 
-export const updateTask = createAsyncThunk<ITaskResponse, ITaskFetchData, { rejectValue: string }>(
+export const updateTask = createAsyncThunk<ITaskResponse, ITaskUpdateData, { rejectValue: string }>(
   'column/updateTask',
-  async ({ boardId, columnId, taskData, taskId }: ITaskFetchData, { rejectWithValue }) => {
+  async ({ updateTaskData, taskId }: ITaskUpdateData, { rejectWithValue }) => {
     try {
       if (taskId) {
-        const data = await boardsServiceInstance.updateTask(boardId, columnId, taskData, taskId);
+        const data = await boardsServiceInstance.updateTask(updateTaskData, taskId);
         return data;
       }
     } catch (error) {

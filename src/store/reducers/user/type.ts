@@ -1,5 +1,5 @@
 export interface IDefaultState {
-  users: AllUsersResponse[];
+  users: RegisterUserResponse[];
   id: string;
   login: string;
   name: string;
@@ -22,10 +22,4 @@ export interface RegisterUserResponse {
 
 export interface LoginUserResponse {
   token: string;
-}
-
-export interface AllUsersResponse {
-  id: string;
-  name: string;
-  login: string;
 }

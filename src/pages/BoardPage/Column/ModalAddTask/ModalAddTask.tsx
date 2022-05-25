@@ -32,7 +32,6 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
   ) => {
     const newTaskData = {
       title: data.title,
-      order: 1,
       description: data.description,
       userId: executor,
     };

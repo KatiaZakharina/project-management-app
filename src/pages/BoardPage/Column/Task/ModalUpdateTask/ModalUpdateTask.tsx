@@ -1,6 +1,7 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { boardsServiceInstance } from 'service/boardsService';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { updateTask } from 'store/reducers/boards/boardsSlice';
@@ -18,10 +19,8 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((store) => store.userReducer);
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
-
-  const { register, handleSubmit, reset } = useForm<Inputs>();
-
   const [executor, setExecutor] = useState('');
+  const { register, handleSubmit, reset } = useForm<Inputs>();
 
   if (!currentBoard?.columns) return <></>;
   const currentColumnIndex = currentBoard?.columns?.findIndex((column) => column.id === columnId);
@@ -32,8 +31,13 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
   );
 
   const titleContent = currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].title;
+
   const descriptionContent =
     currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].description;
+
+  const currentExecutorId =
+    currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].userId;
+  const executorContent = users.filter((executor) => executor.id === currentExecutorId);
 
   const { inputs } = createNewTask(register, titleContent, descriptionContent);
 
@@ -44,20 +48,25 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
   const onSubmit: SubmitHandler<{ title: string; description: string; executor: string }> = async (
     data
   ) => {
+    const currentOrder = await boardsServiceInstance.getTaskById(
+      currentBoard?.id,
+      columnId,
+      taskId
+    );
+
     const updateTaskData = {
-      title: data.title,
-      order: 1,
-      description: data.description,
-      userId: executor,
-      boardId: currentBoard?.id,
+      boardId: currentBoard?.id as string,
       columnId: columnId,
+      title: data.title,
+      order: currentOrder,
+      description: data.description,
+      userId: currentExecutorId ?? executor,
     };
+    console.log(updateTaskData);
 
     dispatch(
       updateTask({
-        boardId: currentBoard?.id as string,
-        columnId: columnId,
-        taskData: updateTaskData,
+        updateTaskData,
         taskId: taskId,
       })
     );
@@ -82,14 +91,14 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
         ))}
 
         <FormControl>
-          <InputLabel>Executor</InputLabel>
+          <InputLabel>{executorContent[0].name}</InputLabel>
           <Select
             label="Executor"
             onChange={(event) => setExecutor(event.target.value)}
             value={executor}
           >
             <MenuItem selected disabled>
-              Executors
+              Executor
             </MenuItem>
             {users.map((user) => (
               <MenuItem key={user.id} value={user.id ?? ''}>

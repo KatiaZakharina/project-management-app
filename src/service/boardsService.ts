@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { SERVER_URI } from 'appConstants';
 import { getLoginToken } from 'helpers/getLoginToken';
+import { ITaskUpdate } from 'store/reducers/boards/types';
 
 class BoardsService {
   private baseUrl: string;
@@ -57,7 +58,6 @@ class BoardsService {
     columnId: string,
     taskData: {
       description: string;
-      order: number;
       title: string;
       userId: string;
     }
@@ -93,20 +93,17 @@ class BoardsService {
     return response.data;
   };
 
-  updateTask = async (
-    boardId: string,
-    columnId: string,
-    taskData: {
-      description: string;
-      order: number;
-      title: string;
-      userId: string;
-    },
-    taskId: string
-  ) => {
+  getTaskById = async (boardId: string, columnId: string, taskId: string) => {
+    const response = await this.axiosInstance.get(
+      `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`
+    );
+    return response.data.order;
+  };
+
+  updateTask = async (updateTaskData: ITaskUpdate, taskId: string) => {
     const response = await this.axiosInstance.put(
-      `/boards/${boardId}/columns/${columnId}/tasks/${taskId}`,
-      taskData
+      `/boards/${updateTaskData.boardId}/columns/${updateTaskData.columnId}/tasks/${taskId}`,
+      updateTaskData
     );
     return response.data;
   };

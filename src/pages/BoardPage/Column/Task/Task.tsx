@@ -34,30 +34,34 @@ export function Task({ tasks, columnId }: ITaskProps) {
     setOpenConfirmationModal(false);
   };
 
+  const sortTask = tasks ? [...tasks] : [];
+
   return (
     <TaskListWrapper>
       <TaskList>
-        {tasks?.map((task) => (
-          <TaskItem key={task.id}>
-            <Typography>{task.description}</Typography>
-            <StyledControlBox>
-              <EditIcon
-                onClick={() => {
-                  setCurrentTaskId(task.id);
-                  setOpenModalTransform(true);
-                }}
-                style={{ cursor: 'pointer' }}
-              />
-              <CloseIcon
-                onClick={() => {
-                  setCurrentTaskId(task.id);
-                  setOpenConfirmationModal(true);
-                }}
-                style={{ cursor: 'pointer' }}
-              />
-            </StyledControlBox>
-          </TaskItem>
-        ))}
+        {sortTask
+          ?.sort((a, b) => a.order - b.order)
+          .map((task) => (
+            <TaskItem key={task.id}>
+              <Typography>{task.description}</Typography>
+              <StyledControlBox>
+                <EditIcon
+                  onClick={() => {
+                    setCurrentTaskId(task.id);
+                    setOpenModalTransform(true);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                />
+                <CloseIcon
+                  onClick={() => {
+                    setCurrentTaskId(task.id);
+                    setOpenConfirmationModal(true);
+                  }}
+                  style={{ cursor: 'pointer' }}
+                />
+              </StyledControlBox>
+            </TaskItem>
+          ))}
         {openModalTransform && (
           <ModalUpdateTask
             openModal={openModalTransform}

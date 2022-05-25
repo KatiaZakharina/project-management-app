@@ -2,13 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { loginServiceInstance } from 'service/userService';
-import {
-  AllUsersResponse,
-  DataForRegistry,
-  IDefaultState,
-  LoginUserResponse,
-  RegisterUserResponse,
-} from './type';
+import { DataForRegistry, IDefaultState, LoginUserResponse, RegisterUserResponse } from './type';
 
 export const defaultState: IDefaultState = {
   users: [],
@@ -53,7 +47,7 @@ export const loginUser = createAsyncThunk<
   }
 });
 
-export const getAllUsers = createAsyncThunk<AllUsersResponse[]>('user/users', async () => {
+export const getAllUsers = createAsyncThunk<RegisterUserResponse[]>('user/users', async () => {
   const response = await loginServiceInstance.getAllUsers();
   return response;
 });

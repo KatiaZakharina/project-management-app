@@ -16,7 +16,6 @@ export type BoardTasksType = {
   id: string;
   title: string;
   order: number;
-  done?: boolean;
   description: string;
   userId: string;
   files?: {
@@ -41,7 +40,7 @@ export interface IColumnFetchData {
 export interface ITaskResponse {
   id: string;
   title: string;
-  order: 1;
+  order: number;
   description: string;
   userId: string;
   columnId: string;
@@ -52,11 +51,25 @@ export interface ITaskFetchData {
   columnId: string;
   taskData: {
     description: string;
-    order: number;
+    order?: number;
     title: string;
     userId: string;
   };
   taskId?: string;
+}
+
+export interface ITaskUpdate {
+  boardId: string;
+  columnId: string;
+  description: string;
+  order?: number;
+  title: string;
+  userId: string;
+}
+
+export interface ITaskUpdateData {
+  updateTaskData: ITaskUpdate;
+  taskId: string;
 }
 
 export interface ITaskDelete {
