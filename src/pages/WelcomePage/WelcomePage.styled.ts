@@ -5,7 +5,6 @@ import backgroundImage from 'assets/png/background.png';
 import logo from 'assets/svg/logo.svg';
 
 export const StyledDiv = styled.div`
-  position: fixed;
   width: 100vw;
   height: calc(100vh - 60px);
   padding: 20px;

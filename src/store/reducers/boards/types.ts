@@ -16,10 +16,9 @@ export type BoardTasksType = {
   id: string;
   title: string;
   order: number;
-  done: boolean;
   description: string;
   userId: string;
-  files: {
+  files?: {
     filename: string;
     fileSize: number;
   }[];
@@ -36,6 +35,52 @@ export interface IColumnFetchData {
   columnData: {
     title: string;
   };
+}
+
+export interface ITaskResponse {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  columnId: string;
+}
+
+export interface ITaskFetchData {
+  boardId: string;
+  columnId: string;
+  taskData: {
+    description: string;
+    order?: number;
+    title: string;
+    userId: string;
+  };
+  taskId?: string;
+}
+
+export interface ITaskUpdate {
+  boardId: string;
+  columnId: string;
+  description: string;
+  order?: number;
+  title: string;
+  userId: string;
+}
+
+export interface ITaskUpdateData {
+  updateTaskData: ITaskUpdate;
+  taskId: string;
+}
+
+export interface ITaskDelete {
+  boardId: string;
+  columnId: string;
+  taskId: string;
+}
+
+export interface ITaskDeleteResponse {
+  columnId: string;
+  taskId: string;
 }
 
 export interface IUpdateBoardData {

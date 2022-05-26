@@ -32,6 +32,11 @@ class userService {
     const response = await this.axiosInstance.post('/signin', userData);
     return response.data;
   };
+
+  getAllUsers = async () => {
+    const response = await this.axiosInstance.get('/users');
+    return response.data;
+  };
 }
 
 export const loginServiceInstance = new userService();

@@ -7,6 +7,7 @@ import { rgba } from 'styles/helpers/rgba';
 export const WrapperDivMain = styled.div`
   width: 100%;
   padding: 10px 20px;
+  min-height: calc(100vh - 60px - 80px);
 `;
 
 export const StyledStack = styled(Stack)`
