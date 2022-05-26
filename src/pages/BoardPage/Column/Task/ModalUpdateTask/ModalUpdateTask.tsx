@@ -1,6 +1,7 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { boardsServiceInstance } from 'service/boardsService';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -21,6 +22,7 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
   const { currentBoard } = useAppSelector((state) => state.boardsReducer);
   const [executor, setExecutor] = useState('');
   const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { t } = useTranslation();
 
   if (!currentBoard?.columns) return <></>;
   const currentColumnIndex = currentBoard?.columns?.findIndex((column) => column.id === columnId);
@@ -90,12 +92,12 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
         <FormControl>
           <InputLabel>{executorContent[0].name}</InputLabel>
           <Select
-            label="Executor"
+            label={t('Executor')}
             onChange={(event) => setExecutor(event.target.value)}
             value={executor}
           >
             <MenuItem selected disabled>
-              Executor
+              {t('Executor')}
             </MenuItem>
             {users.map((user) => (
               <MenuItem key={user.id} value={user.id ?? ''}>
@@ -104,7 +106,7 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
             ))}
           </Select>
         </FormControl>
-        <Button type="submit">Save and Close</Button>
+        <Button type="submit">{t('Save and Close')}</Button>
       </ModalContext>
     </StyledModal>
   );

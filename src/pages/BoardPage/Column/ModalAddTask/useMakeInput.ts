@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 
 export type Inputs = {
@@ -26,9 +27,9 @@ export function createNewTask(
   descriptionContent?: string
 ) {
   const titleInput: InputProperty = {
-    label: 'Title task',
+    label: t('Title task'),
     variant: 'outlined',
-    placeholder: 'Title for your task',
+    placeholder: t('Title for your task'),
     multiline: false,
     id: 1,
     register: {
@@ -40,7 +41,7 @@ export function createNewTask(
   };
 
   const descriptionInput: InputProperty = {
-    label: 'Description task',
+    label: t('Description task'),
     variant: 'outlined',
     multiline: true,
     rows: 4,
@@ -50,7 +51,7 @@ export function createNewTask(
         required: 'field is required',
       }),
     },
-    placeholder: 'Description for your task',
+    placeholder: t('Description for your task'),
     content: descriptionContent,
   };
 

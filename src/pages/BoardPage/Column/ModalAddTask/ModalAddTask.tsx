@@ -1,6 +1,7 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { createTask } from 'store/reducers/boards/boardsSlice';
@@ -47,6 +48,8 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
     handleClose();
   };
 
+  const { t } = useTranslation();
+
   return (
     <StyledModal open={openModal} onClose={handleClose}>
       <ModalContext onSubmit={handleSubmit(onSubmit)}>
@@ -63,14 +66,14 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
         ))}
 
         <FormControl>
-          <InputLabel>Executor</InputLabel>
+          <InputLabel>{t('Executor')}</InputLabel>
           <Select
-            label="Executor"
+            label={t('Executor')}
             onChange={(event) => setExecutor(event.target.value)}
             value={executor}
           >
             <MenuItem selected disabled>
-              Executors
+              {t('Executor')}
             </MenuItem>
             {users.map((user) => (
               <MenuItem key={user.id} value={user.id ?? ''}>
@@ -79,7 +82,7 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
             ))}
           </Select>
         </FormControl>
-        <Button type="submit">Save and Close</Button>
+        <Button type="submit">{t('Save and Close')}</Button>
       </ModalContext>
     </StyledModal>
   );
