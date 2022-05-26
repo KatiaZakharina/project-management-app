@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { SERVER_URI } from 'appConstants';
-import { DataForRegistry, IUser } from 'store/reducers/user/type';
+import { DataForRegistry } from 'store/reducers/user/type';
 import { getLoginToken } from 'helpers/getLoginToken';
 
 class userService {
@@ -28,9 +28,13 @@ class userService {
     return response.data;
   };
 
+  deleteUser = async (id: string) => {
+    const response = await this.axiosInstance.post(`/users/${id}`);
+    return response.data;
+  };
+
   updateUser = async (userId: string, data: DataForRegistry) => {
     const response = await this.axiosInstance.put(`/users/${userId}`, data);
-    console.log(response);
     return response.data;
   };
 

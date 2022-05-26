@@ -9,7 +9,7 @@ export const ColumnList = styled.div`
 export const ColumnListWrapper = styled.div`
   width: calc(100vw - 20px);
   max-width: 1440px;
-  height: calc(100vh - 230px);
+  height: calc(100vh - 215px);
   margin: 0 auto;
   overflow-y: auto;
 `;

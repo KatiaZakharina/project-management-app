@@ -8,6 +8,12 @@ import {
   BoardColumnsType,
   IColumnFetchData,
   IUpdateBoardData,
+  ITaskDelete,
+  ITaskDeleteResponse,
+  ITaskFetchData,
+  ITaskResponse,
+  ITaskUpdate,
+  ITaskUpdateData,
 } from 'store/reducers/boards/types';
 
 export const defaultBoardsState: IDefaultBoardState = {
@@ -32,18 +38,21 @@ export const fetchBoards = createAsyncThunk(
 
 export const createBoard = createAsyncThunk<
   BoardDataType,
-  { title: string },
+  { title: string; description: string },
   { rejectValue: string }
->('boards/createBoard', async (boardData: { title: string }, { rejectWithValue }) => {
-  try {
-    const data = await boardsServiceInstance.createBoard(boardData);
-    return data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      return rejectWithValue(error?.response?.data.message);
+>(
+  'boards/createBoard',
+  async (boardData: { title: string; description: string }, { rejectWithValue }) => {
+    try {
+      const data = await boardsServiceInstance.createBoard(boardData);
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      }
     }
   }
-});
+);
 
 export const deleteBoard = createAsyncThunk<string, string, { rejectValue: string }>(
   'boards/deleteBoard',
@@ -104,6 +113,21 @@ export const createColumn = createAsyncThunk<
   }
 });
 
+export const createTask = createAsyncThunk<ITaskResponse, ITaskFetchData, { rejectValue: string }>(
+  'column/createTask',
+  async ({ boardId, columnId, taskData }: ITaskFetchData, { rejectWithValue }) => {
+    try {
+      const data = await boardsServiceInstance.createTask(boardId, columnId, taskData);
+      return data;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      }
+      return rejectWithValue('Something went wrong...');
+    }
+  }
+);
+
 export const deleteColumn = createAsyncThunk<
   string,
   { boardId: string; columnId: string },
@@ -112,6 +136,22 @@ export const deleteColumn = createAsyncThunk<
   try {
     await boardsServiceInstance.deleteColumn(boardId, columnId);
     return columnId;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+    return rejectWithValue('Something went wrong...');
+  }
+});
+
+export const deleteTask = createAsyncThunk<
+  ITaskDeleteResponse,
+  ITaskDelete,
+  { rejectValue: string }
+>('column/deleteTask', async ({ boardId, columnId, taskId }: ITaskDelete, { rejectWithValue }) => {
+  try {
+    await boardsServiceInstance.deleteTask(boardId, columnId, taskId);
+    return { columnId, taskId };
   } catch (error) {
     if (error instanceof AxiosError) {
       return rejectWithValue(error?.response?.data.message);
@@ -135,6 +175,23 @@ export const updateColumn = createAsyncThunk<
     return rejectWithValue('Something went wrong...');
   }
 });
+
+export const updateTask = createAsyncThunk<ITaskResponse, ITaskUpdateData, { rejectValue: string }>(
+  'column/updateTask',
+  async ({ updateTaskData, taskId }: ITaskUpdateData, { rejectWithValue }) => {
+    try {
+      if (taskId) {
+        const data = await boardsServiceInstance.updateTask(updateTaskData, taskId);
+        return data;
+      }
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      }
+      return rejectWithValue('Something went wrong...');
+    }
+  }
+);
 
 const boardsSlice = createSlice({
   name: 'boards',
@@ -235,6 +292,67 @@ const boardsSlice = createSlice({
         }
       })
       .addCase(updateColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(createTask.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(createTask.fulfilled, (state, { payload }) => {
+        const currentColumnIndex = state.currentBoard?.columns?.findIndex(
+          (column) => column.id === payload.columnId
+        );
+        if (!state.currentBoard?.columns || (!currentColumnIndex && currentColumnIndex !== 0))
+          return;
+        state.currentBoard.columns[currentColumnIndex].tasks?.push(payload);
+      })
+      .addCase(createTask.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(updateTask.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(updateTask.fulfilled, (state, { payload }) => {
+        const currentColumnIndex = state.currentBoard?.columns?.findIndex(
+          (column) => column.id === payload.columnId
+        );
+        if (!state.currentBoard?.columns || (!currentColumnIndex && currentColumnIndex !== 0))
+          return;
+        const currentTaskIndex = state.currentBoard?.columns[currentColumnIndex].tasks?.findIndex(
+          (task: { id: string }) => task.id === payload.id
+        );
+
+        state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].title =
+          payload.title;
+
+        state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].description =
+          payload.description;
+
+        state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].userId =
+          payload.userId;
+      })
+      .addCase(updateTask.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
+
+      .addCase(deleteTask.pending, (state) => {
+        state.errorMessage = '';
+      })
+      .addCase(deleteTask.fulfilled, (state, { payload }) => {
+        const columnId = payload.columnId;
+        const taskId = payload.taskId;
+
+        const currentColumnIndex = state.currentBoard?.columns?.findIndex(
+          (column) => column.id === columnId
+        );
+        if (!state.currentBoard?.columns || (!currentColumnIndex && currentColumnIndex !== 0))
+          return;
+        state.currentBoard.columns[currentColumnIndex].tasks = state.currentBoard?.columns[
+          currentColumnIndex
+        ].tasks?.filter((task) => task.id !== taskId);
+      })
+      .addCase(deleteTask.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       });
   },

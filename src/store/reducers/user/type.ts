@@ -1,12 +1,11 @@
 export interface IDefaultState {
   users: IUser[];
   id: string;
-  login: string;
   password: string;
-  name: string;
   errorMessage: string;
   isAuthorized: boolean;
   isRegistered: boolean;
+  isDeleted: boolean;
 }
 
 export interface DataForRegistry {

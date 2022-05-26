@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Typography, TextField, Button, Alert } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -6,7 +6,6 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 import {
   ButtonGoBack,
-  BackendError,
   Logo,
   StyledBox,
   StyledError,
@@ -16,21 +15,25 @@ import {
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
 import { UserInputs } from '../types';
-import { editUser } from 'store/reducers/user/userSlice';
+import { deleteUser, editUser, setUnauthorized } from 'store/reducers/user/userSlice';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useTranslation } from 'react-i18next';
+import { getLoginToken } from 'helpers/getLoginToken';
 
 export function EditProfile() {
-  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
-  const { name, login, id, password, errorMessage } = useAppSelector((state) => state.userReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { id, password, errorMessage, isDeleted } = useAppSelector((state) => state.userReducer);
+  const token = getLoginToken();
+  console.log(id, password, errorMessage, isDeleted);
+
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
   const defaultValues = {
-    name,
-    login,
-    password,
+    name: 'K',
+    login: 'K',
+    password: 'K',
   };
 
   const emptyValues = {
@@ -52,12 +55,21 @@ export function EditProfile() {
     dispatch(editUser({ userId: id, data }));
     reset(emptyValues);
   };
-  const onSubmit = () => {};
+
+  useEffect(() => {
+    if (isDeleted) {
+      document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
+      dispatch(setUnauthorized());
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDeleted]);
 
   const onDelete = () => {
     setOpenConfirmationModal(true);
   };
-  const onConfirmDelete = () => {
+  const onConfirmDelete = async () => {
+    await dispatch(deleteUser(id));
     setOpenConfirmationModal(false);
   };
   const onCancelDelete = () => {
@@ -73,7 +85,7 @@ export function EditProfile() {
           <ArrowBackIosIcon /> Back
         </ButtonGoBack>
         <Logo />
-        <StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <StyledForm onSubmit={handleSubmit(onEdit)}>
           <Typography>Edit your TLZ account</Typography>
           {inputs.map((input) => (
             <StyledInputBox key={input.id}>

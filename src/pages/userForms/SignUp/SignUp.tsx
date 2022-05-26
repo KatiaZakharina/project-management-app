@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { registerUser } from 'store/reducers/user/userSlice';
 import {
   ButtonGoBack,
-  BackendError,
   Logo,
   SnackbarStyled,
   StyledBox,

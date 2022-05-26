@@ -7,12 +7,11 @@ import { DataForRegistry, IDefaultState, LoginUserResponse, IUser, EditProps } f
 export const defaultState: IDefaultState = {
   users: [],
   id: '',
-  login: '',
-  name: '',
   password: '',
   errorMessage: '',
   isAuthorized: false,
   isRegistered: false,
+  isDeleted: false,
 };
 
 export const registerUser = createAsyncThunk<IUser, DataForRegistry, { rejectValue: string }>(
@@ -31,11 +30,24 @@ export const registerUser = createAsyncThunk<IUser, DataForRegistry, { rejectVal
   }
 );
 
-export const editUser = createAsyncThunk<unknown, EditProps, { rejectValue: string }>(
+export const editUser = createAsyncThunk<DataForRegistry, EditProps, { rejectValue: string }>(
   'user/edit',
   async ({ data, userId }: EditProps, { rejectWithValue }) => {
     try {
       return await loginServiceInstance.updateUser(userId, data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      }
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk<void, string, { rejectValue: string }>(
+  'user/delete',
+  async (id, { rejectWithValue }) => {
+    try {
+      return await loginServiceInstance.deleteUser(id);
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);

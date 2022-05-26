@@ -33,13 +33,8 @@ export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => 
   } = useForm<{ title: string }>();
 
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    const currentOrder = currentBoard?.columns?.length as number;
-    const newColumnData = {
-      title: data.title,
-      order: currentOrder + 1,
-    };
     const idBoard = currentBoard?.id as string;
-    await dispatch(createColumn({ id: idBoard, columnData: newColumnData }));
+    await dispatch(createColumn({ id: idBoard, columnData: data }));
     handleClose();
   };
 

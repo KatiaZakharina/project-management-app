@@ -35,5 +35,16 @@
   "Add new list": "Add new list",
   "Delete board": "Delete board",
   "Create new board": "Create new board",
-  "User was not founded!": "User was not founded!"
+  "User was not founded!": "User was not founded!",
+  "To board": "To board",
+  "Go to main page": "Go to main page",
+  "Add new task": "Add new task",
+  "Save": "Save",
+  "Executor": "Executor",
+  "Save and Close": "Save and Close",
+  "Title task": "Title task",
+  "Title for your task": "Title for your task",
+  "Description task": "Description task",
+  "Description for your task": "Description for your task",
+  "Description": "Description"
 }
