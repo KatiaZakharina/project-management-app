@@ -1,56 +1,31 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 
 import { loginServiceInstance } from 'service/userService';
-import { UserData, IdefaultState, LoginUserResponse, UserDataResponse, EditProps } from './type';
+import { DataForRegistry, IDefaultState, LoginUserResponse, IUser, EditProps } from './type';
 
-export const defaultState: IdefaultState = {
+export const defaultState: IDefaultState = {
+  users: [],
   id: '',
   login: '',
   name: '',
   password: '',
-  errorMessage: ' ',
+  errorMessage: '',
   isAuthorized: false,
   isRegistered: false,
 };
 
-export const registerUser = createAsyncThunk<UserDataResponse, UserData, { rejectValue: string }>(
+export const registerUser = createAsyncThunk<IUser, DataForRegistry, { rejectValue: string }>(
   'user/signup',
-  async (userData: UserData, { rejectWithValue }) => {
+  async (userData: DataForRegistry, { rejectWithValue }) => {
     try {
       const data = await loginServiceInstance.postUser(userData);
       return data;
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
-      }
-    }
-  }
-);
-
-export const loginUser = createAsyncThunk<LoginUserResponse, UserData, { rejectValue: string }>(
-  'user/signin',
-  async (userData: UserData, { rejectWithValue }) => {
-    try {
-      const response = await loginServiceInstance.getToken(userData);
-      document.cookie = `user=${response.token};max-age=86400;samesite=lax;path=/`;
-      return response;
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return rejectWithValue(error?.response?.data.message);
-      }
-    }
-  }
-);
-
-export const saveUserData = createAsyncThunk<UserDataResponse, string, { rejectValue: string }>(
-  'user/getUserData',
-  async (userId: string, { rejectWithValue }) => {
-    try {
-      return await loginServiceInstance.getUser(userId);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        return rejectWithValue(error?.response?.data.message);
+      } else {
+        return rejectWithValue('Something went wrong...');
       }
     }
   }
@@ -69,57 +44,66 @@ export const editUser = createAsyncThunk<unknown, EditProps, { rejectValue: stri
   }
 );
 
+export const loginUser = createAsyncThunk<
+  LoginUserResponse,
+  DataForRegistry,
+  { rejectValue: string }
+>('user/signin', async (userData: DataForRegistry, { rejectWithValue }) => {
+  try {
+    const response = await loginServiceInstance.getToken(userData);
+    document.cookie = `user=${response.token};max-age=86400;samesite=lax;path=/`;
+    return response;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return rejectWithValue(error?.response?.data.message);
+    }
+  }
+});
+
+export const getAllUsers = createAsyncThunk<IUser[]>('user/users', async () => {
+  const response = await loginServiceInstance.getAllUsers();
+  return response;
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState: defaultState,
   reducers: {
-    setPassword: (state, { payload }) => {
-      state.password = payload;
-    },
     setUnauthorized(state) {
       state.isAuthorized = false;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(saveUserData.fulfilled, (state: IdefaultState, { payload }) => {
-        state.id = payload.id;
-        state.login = payload.login;
-        state.name = payload.name;
-      })
-      .addCase(registerUser.pending, (state: IdefaultState) => {
+      .addCase(registerUser.pending, (state: IDefaultState) => {
         state.errorMessage = '';
       })
-      .addCase(loginUser.pending, (state: IdefaultState) => {
+      .addCase(loginUser.pending, (state: IDefaultState) => {
         state.errorMessage = '';
       })
       .addCase(
         registerUser.rejected,
-        (state: IdefaultState, { payload = 'Something went wrong...' }) => {
+        (state: IDefaultState, { payload = 'Something went wrong...' }) => {
           state.errorMessage = payload;
         }
       )
       .addCase(
         loginUser.rejected,
-        (state: IdefaultState, { payload = 'Incorrect login or password...' }) => {
-          console.log(payload, 'pay');
+        (state: IDefaultState, { payload = 'Incorrect login or password...' }) => {
           state.errorMessage = payload;
         }
       )
-      .addCase(
-        saveUserData.rejected,
-        (state: IdefaultState, { payload = 'Something went wrong...' }) => {
-          state.errorMessage = payload;
-        }
-      )
-      .addCase(loginUser.fulfilled, (state: IdefaultState) => {
+      .addCase(loginUser.fulfilled, (state: IDefaultState) => {
         state.isAuthorized = true;
       })
-      .addCase(registerUser.fulfilled, (state: IdefaultState) => {
+      .addCase(registerUser.fulfilled, (state: IDefaultState) => {
         state.isRegistered = true;
+      })
+      .addCase(getAllUsers.fulfilled, (state: IDefaultState, { payload }) => {
+        state.users = payload;
       });
   },
 });
 
-export const { setUnauthorized, setPassword } = userSlice.actions;
+export const { setUnauthorized } = userSlice.actions;
 export default userSlice.reducer;

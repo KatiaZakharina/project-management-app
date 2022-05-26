@@ -1,7 +1,5 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
 import {
   StyledBox,
@@ -9,18 +7,17 @@ import {
   StyledModal,
   WrapperError,
   StyledError,
-} from './ModalAddBoard.styled';
-import { createBoard } from 'store/reducers/boards/boardsSlice';
-import { useAppDispatch } from 'store/hooks';
-import { BoardDataType } from 'store/reducers/boards/types';
+} from './ModalAddColumn.styled';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { createColumn } from 'store/reducers/boards/boardsSlice';
 
-interface IModalAddBoard {
+interface IModalAddColumn {
   openModal: boolean;
   setOpenModal: (open: boolean) => void;
 }
 
-export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
-  const navigate = useNavigate();
+export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => {
+  const { currentBoard } = useAppSelector((state) => state.boardsReducer);
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -36,24 +33,26 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
   } = useForm<{ title: string }>();
 
   const onSubmit: SubmitHandler<{ title: string }> = async (data) => {
-    const boardData = await dispatch(createBoard(data));
-    const newBoard = boardData.payload as BoardDataType;
-    navigate(`/boards/${newBoard.id}`);
+    const currentOrder = currentBoard?.columns?.length as number;
+    const newColumnData = {
+      title: data.title,
+      order: currentOrder + 1,
+    };
+    const idBoard = currentBoard?.id as string;
+    await dispatch(createColumn({ id: idBoard, columnData: newColumnData }));
     handleClose();
   };
-
-  const { t } = useTranslation();
 
   return (
     <StyledModal open={openModal} onClose={handleClose}>
       <StyledBox>
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <Typography>{t('New board')}</Typography>
+          <Typography>New list</Typography>
           <TextField
-            label={t('Title')}
+            label="Title"
             type="text"
             {...register('title', {
-              required: t('This field is required'),
+              required: 'This field is required',
             })}
             fullWidth
             error={errors?.title?.message ? true : false}
@@ -63,7 +62,7 @@ export const ModalAddBoard = ({ openModal, setOpenModal }: IModalAddBoard) => {
             <StyledError>{errors?.title?.message}</StyledError>
           </WrapperError>
           <Button variant="outlined" type="submit">
-            {t('Create!')}
+            Create!
           </Button>
         </StyledForm>
       </StyledBox>

@@ -2,18 +2,29 @@ import { useEffect, useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import EditIcon from '@mui/icons-material/Edit';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import { WrapperHeader, ContentHeader, Logo, WrapperButtons, StyledButton } from './Header.styled';
+import {
+  WrapperHeader,
+  ContentHeader,
+  Logo,
+  WrapperButtons,
+  StyledButton,
+  StyledIconButton,
+  LayoutBurger,
+} from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 import { ModalAddBoard } from './ModalAddBoard/ModalAddBoard';
 import { getLoginToken } from 'helpers/getLoginToken';
-import { useAppDispatch } from 'store/reducers/user/hooks';
+import { useAppDispatch } from 'store/hooks';
 import { setUnauthorized } from 'store/reducers/user/userSlice';
 
 export const Header = () => {
   const [isActive, setIsActive] = useState(false);
+  const [isBurgerMenu, setIsBurgerMenu] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -27,6 +38,7 @@ export const Header = () => {
 
   const openModalAddBoard = () => {
     setOpenModal(true);
+    setIsBurgerMenu(false);
   };
 
   const toSignOut = () => {
@@ -56,7 +68,20 @@ export const Header = () => {
       <WrapperHeader className={isActive ? 'active' : ''}>
         <ContentHeader>
           <Logo />
-          <WrapperButtons>
+          <LayoutBurger
+            className={isBurgerMenu ? 'active' : ''}
+            onClick={() => setIsBurgerMenu(false)}
+          />
+          <WrapperButtons className={isBurgerMenu ? 'active' : ''}>
+            {isBurgerMenu ? (
+              <StyledIconButton color="secondary" onClick={() => setIsBurgerMenu(false)}>
+                <CloseIcon />
+              </StyledIconButton>
+            ) : (
+              <StyledIconButton color="secondary" onClick={() => setIsBurgerMenu(true)}>
+                <MenuIcon />
+              </StyledIconButton>
+            )}
             {buttons.map((button) => {
               return (
                 <StyledButton
@@ -72,6 +97,10 @@ export const Header = () => {
             })}
             <LanguageToggler />
           </WrapperButtons>
+
+          <StyledIconButton color="secondary" onClick={() => setIsBurgerMenu(true)}>
+            <MenuIcon />
+          </StyledIconButton>
         </ContentHeader>
       </WrapperHeader>
       <ModalAddBoard openModal={openModal} setOpenModal={setOpenModal} />

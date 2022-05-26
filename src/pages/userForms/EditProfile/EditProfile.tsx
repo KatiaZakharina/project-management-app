@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Typography, TextField, Button } from '@mui/material';
+import { Typography, TextField, Button, Alert } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
-import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
 import {
   ButtonGoBack,
   BackendError,
@@ -13,12 +12,14 @@ import {
   StyledError,
   StyledForm,
   StyledInputBox,
-  ButtonWrapper,
+  SnackbarStyled,
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
 import { UserInputs } from '../types';
 import { editUser } from 'store/reducers/user/userSlice';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { useTranslation } from 'react-i18next';
 
 export function EditProfile() {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -63,6 +64,8 @@ export function EditProfile() {
     setOpenConfirmationModal(false);
   };
 
+  const { t } = useTranslation();
+
   return (
     <>
       <StyledBox>
@@ -85,17 +88,20 @@ export function EditProfile() {
               <StyledError>{input.errors}</StyledError>
             </StyledInputBox>
           ))}
-          <BackendError>
-            <StyledError>{errorMessage}</StyledError>
-          </BackendError>
-          <ButtonWrapper>
+          <SnackbarStyled open={!!errorMessage}>
+            <Alert severity="warning" sx={{ width: '100%' }}>
+              {t(errorMessage)}
+            </Alert>
+          </SnackbarStyled>
+
+          <div>
             <Button variant="contained" color="warning" onClick={onDelete}>
               Delete
             </Button>
             <Button variant="outlined" type="submit" disabled={!isValid}>
               Edit !
             </Button>
-          </ButtonWrapper>
+          </div>
         </StyledForm>
       </StyledBox>
 

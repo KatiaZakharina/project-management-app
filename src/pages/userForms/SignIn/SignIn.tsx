@@ -1,22 +1,14 @@
-import { Typography, TextField, Button } from '@mui/material';
+import { Typography, TextField, Button, Alert } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
-import {
-  ButtonGoBack,
-  BackendError,
-  Logo,
-  StyledBox,
-  StyledError,
-  StyledForm,
-} from '../userForms.styled';
+import { ButtonGoBack, Logo, SnackbarStyled, StyledBox, StyledForm } from '../userForms.styled';
 import { useSignIn } from '../useMakeInput';
-import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
-import { saveUserData, loginUser, setPassword } from 'store/reducers/user/userSlice';
-import { getUserDataFromToken } from 'helpers/getUserDataFromToken';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { loginUser } from 'store/reducers/user/userSlice';
 import { getLoginToken } from 'helpers/getLoginToken';
 
 type Inputs = {
@@ -84,11 +76,11 @@ export function SignIn() {
             fullWidth
           />
         ))}
-
-        <BackendError>
-          <StyledError>{errorMessage}</StyledError>
-        </BackendError>
-
+        <SnackbarStyled open={!!errorMessage}>
+          <Alert severity="warning" sx={{ width: '100%' }}>
+            {t(errorMessage)}
+          </Alert>
+        </SnackbarStyled>
         <Button variant="outlined" type="submit">
           {t('I am back!')}
         </Button>

@@ -1,16 +1,17 @@
-import { Typography, TextField, Button } from '@mui/material';
+import { Typography, TextField, Button, Alert } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from 'store/reducers/user/hooks';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { registerUser } from 'store/reducers/user/userSlice';
 import {
   ButtonGoBack,
   BackendError,
   Logo,
+  SnackbarStyled,
   StyledBox,
   StyledError,
   StyledForm,
@@ -64,7 +65,7 @@ export function SignUp() {
       </ButtonGoBack>
       <Logo />
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <Typography>{t('Сreate your TLZ account')}</Typography>
+        <Typography>{t('Create your TLZ account')}</Typography>
         {inputs.map((input) => (
           <StyledInputBox key={input.id}>
             <TextField
@@ -78,13 +79,13 @@ export function SignUp() {
             <StyledError>{input.errors}</StyledError>
           </StyledInputBox>
         ))}
-
-        <BackendError>
-          <StyledError>{errorMessage}</StyledError>
-        </BackendError>
-
+        <SnackbarStyled open={!!errorMessage}>
+          <Alert severity="warning" sx={{ width: '100%' }}>
+            {t(errorMessage)}
+          </Alert>
+        </SnackbarStyled>
         <Button variant="outlined" type="submit" disabled={!isValid}>
-          {t('Сreate!')}
+          {t('Create!')}
         </Button>
       </StyledForm>
     </StyledBox>

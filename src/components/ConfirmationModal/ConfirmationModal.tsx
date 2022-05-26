@@ -1,4 +1,5 @@
 import { Button, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 import { StyledBox, StyledModal, WrapperButtons } from './ConfirmationModal.styled';
 
@@ -13,16 +14,18 @@ export const ConfirmationModal = ({
   onCancel,
   onConfirm,
 }: IConfirmationModal) => {
+  const { t } = useTranslation();
+
   return (
     <StyledModal open={openConfirmationModal} onClose={onCancel}>
       <StyledBox>
-        <Typography>Are you sure that you want to delete?</Typography>
+        <Typography>{t('Are you sure that you want to delete?')}</Typography>
         <WrapperButtons>
           <Button variant="outlined" onClick={onCancel}>
-            Cancel
+            {t('Cancel')}
           </Button>
           <Button variant="contained" color="warning" onClick={onConfirm}>
-            Delete
+            {t('Delete')}
           </Button>
         </WrapperButtons>
       </StyledBox>

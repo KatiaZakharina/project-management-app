@@ -38,7 +38,7 @@ export function App() {
           }
         />
         <Route
-          path="/board/:boardID"
+          path="/boards/:boardID"
           element={
             <PrivateRoute>
               <BoardPage />
