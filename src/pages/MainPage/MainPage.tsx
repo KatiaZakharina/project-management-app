@@ -58,40 +58,36 @@ export const MainPage = () => {
   return (
     <>
       <Header />
-      <FetchingWrapper errorMessage={errorMessage} isLoading={!boards}>
-        <WrapperDivMain>
-          {!!boards.length ? (
-            <StyledStack spacing={2}>
-              {boards.map((board) => {
-                return (
-                  <StyledAccordion key={board.id}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                    >
-                      <StyledTypography variant="h5">{board.title}</StyledTypography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <StyledTypography variant="subtitle1">{board.description}</StyledTypography>
-                      <WrapperButtons>
-                        <Button
-                          variant="contained"
-                          color="secondary"
-                          onClick={() => moveTo(board.id)}
-                        >
-                          {t('To board')}
-                        </Button>
-                        <Button
-                          data-tag="delete-button"
-                          variant="contained"
-                          color="warning"
-                          startIcon={<DeleteIcon />}
-                          onClick={() => {
-                            setId(board.id);
-                            setOpenConfirmationModal(true);
-                          }}
-                        >
+          <FetchingWrapper errorMessage={errorMessage} isLoading={!boards}>
+      <WrapperDivMain>
+        <StyledStack spacing={2}>
+          {boards.map((board) => {
+            return (
+              <StyledAccordion key={board.id}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  style={{ display: '-webkit-box' }}
+                >
+                  <StyledTypography variant="h5">{board.title}</StyledTypography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <StyledTypography variant="subtitle1">{board.description}</StyledTypography>
+                  <WrapperButtons>
+                    <Button variant="contained" color="secondary" onClick={() => moveTo(board.id)}>
+                      {t('To board')}
+                    </Button>
+                    <Button
+                      data-tag="delete-button"
+                      variant="contained"
+                      color="warning"
+                      startIcon={<DeleteIcon />}
+                      onClick={() => {
+                        setId(board.id);
+                        setOpenConfirmationModal(true);
+                      }}
+                         >
                           {t('Delete')}
                         </Button>
                       </WrapperButtons>

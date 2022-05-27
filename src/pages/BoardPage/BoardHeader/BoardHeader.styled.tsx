@@ -12,6 +12,7 @@ export const WrapperBoardFunctional = styled.div`
   padding: 0 20px;
   @media screen and (max-width: 600px) {
     padding: 0 10px;
+    gap: 5px;
   }
 `;
 
@@ -34,7 +35,7 @@ export const StyledButton = styled(Button)`
 
 export const StyledSpan = styled.span`
   padding-left: 5px;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 900px) {
     display: none;
   }
 `;
