@@ -53,6 +53,9 @@ export const StyledAccordion = styled(Accordion)`
     box-shadow: 3px 3px 3px ${rgba(VIOLET, 0.4)};
     border-radius: 10px;
   }
+  &::before {
+    display: none;
+  }
   &:hover {
     background-color: ${rgba(TURQUOISE, 0.6)};
   }

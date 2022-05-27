@@ -53,7 +53,7 @@ export const WrapperButtons = styled.div`
       display: flex;
       gap: 10px;
       height: 100vh;
-      width: 291px;
+      width: 320px;
       flex-direction: column;
       background-color: ${VIOLET};
       position: absolute;
@@ -93,7 +93,7 @@ export const LayoutBurger = styled.div`
   &.active {
     position: absolute;
     height: 100vh;
-    width: calc(100vw - 290px);
+    width: calc(100vw - 320px);
     left: 0;
     top: 0;
     bottom: 0;

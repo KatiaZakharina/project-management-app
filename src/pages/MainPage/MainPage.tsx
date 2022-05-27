@@ -66,6 +66,7 @@ export const MainPage = () => {
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
+                  style={{ display: '-webkit-box' }}
                 >
                   <StyledTypography variant="h5">{board.title}</StyledTypography>
                 </AccordionSummary>
