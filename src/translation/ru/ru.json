@@ -35,5 +35,16 @@
   "Add new list": "Добавить новый список",
   "Delete board": "Удалить доску",
   "Create new board": "Создать новую доску",
-  "User was not founded!": "Пользователь не зарегистрирован!"
+  "User was not founded!": "Пользователь не зарегистрирован!",
+  "To board": "Доска",
+  "Go to main page": "Все доски",
+  "Add new task": "Добавить новую задачу",
+  "Save": "Сохранить",
+  "Executor": "Исполнитель",
+  "Save and Close": "Сохранить и закрыть",
+  "Title task": "Заголовок задачи",
+  "Title for your task": "Заголовок для задачи",
+  "Description task": "Описание задачи",
+  "Description for your task": "Описание для задачи",
+  "Description": "Описание"
 }

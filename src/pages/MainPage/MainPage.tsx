@@ -26,13 +26,8 @@ export const MainPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadBoards();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const loadBoards = () => {
     dispatch(fetchBoards());
-  };
+  }, [dispatch]);
 
   const onConfirm = async () => {
     await dispatch(deleteBoard(id));
@@ -48,7 +43,7 @@ export const MainPage = () => {
     setId('');
   };
 
-  const moveTo = (event: React.MouseEvent, id: string) => {
+  const moveTo = (id: string) => {
     navigate(`/boards/${id}`);
   };
 
@@ -70,19 +65,10 @@ export const MainPage = () => {
                   <StyledTypography variant="h5">{board.title}</StyledTypography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <StyledTypography variant="subtitle1">
-                    {board.columns?.[0].tasks?.[0].title}
-                  </StyledTypography>
-                  <StyledTypography variant="subtitle1">
-                    {board.columns?.[0].tasks?.[0].description}
-                  </StyledTypography>
+                  <StyledTypography variant="subtitle1">{board.description}</StyledTypography>
                   <WrapperButtons>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={(event) => moveTo(event, board.id)}
-                    >
-                      To board
+                    <Button variant="contained" color="secondary" onClick={() => moveTo(board.id)}>
+                      {t('To board')}
                     </Button>
                     <Button
                       data-tag="delete-button"
