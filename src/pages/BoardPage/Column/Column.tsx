@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ControlPoint } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { DraggableProvided } from 'react-beautiful-dnd';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, updateColumn } from 'store/reducers/boards/boardsSlice';
@@ -12,7 +13,7 @@ import { Task } from './Task/Task';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 
-type ColumnProps = BoardColumnsType & { provided: any };
+type ColumnProps = BoardColumnsType & { provided: DraggableProvided };
 
 export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
   const dispatch = useAppDispatch();
