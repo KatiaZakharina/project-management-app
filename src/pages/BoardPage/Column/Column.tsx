@@ -18,10 +18,11 @@ type ColumnProps = BoardColumnsType & { provided: DraggableProvided };
 export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [openModal, setOpenModal] = useState(false);
 
   const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+
+  const [openModal, setOpenModal] = useState(false);
 
   const onDeleteColumn = () => {
     if (!boardId) {
