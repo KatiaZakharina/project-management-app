@@ -12,7 +12,6 @@ import {
   ITaskDeleteResponse,
   ITaskFetchData,
   ITaskResponse,
-  ITaskUpdate,
   ITaskUpdateData,
 } from 'store/reducers/boards/types';
 
