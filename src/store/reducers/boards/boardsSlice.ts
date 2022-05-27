@@ -21,7 +21,7 @@ export const defaultBoardsState: IDefaultBoardState = {
   errorMessage: '',
 };
 
-export const fetchBoards = createAsyncThunk(
+export const fetchBoards = createAsyncThunk<BoardDataType[], void, { rejectValue: string }>(
   'boards/fetchBoards',
   async (_, { rejectWithValue }) => {
     try {
@@ -207,6 +207,9 @@ const boardsSlice = createSlice({
           state.boards = payload;
         }
       )
+      .addCase(fetchBoards.rejected, (state, { payload = 'Something went wrong...' }) => {
+        state.errorMessage = payload;
+      })
 
       .addCase(createBoard.pending, (state) => {
         state.errorMessage = '';

@@ -1,9 +1,8 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import { AccordionSummary, AccordionDetails, Button, Typography } from '@mui/material';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { AccordionSummary, AccordionDetails, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
