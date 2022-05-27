@@ -1,4 +1,4 @@
-import { TextField, Typography } from '@mui/material';
+import { IconButton, TextField, Typography } from '@mui/material';
 import styled from 'styled-components';
 
 export const StyledTypography = styled(Typography)`
@@ -7,6 +7,9 @@ export const StyledTypography = styled(Typography)`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    @media screen and (max-width: 550px) {
+      max-width: 130px;
+    }
   }
   &.MuiTypography-h6 {
     font-weight: 400;
@@ -26,5 +29,13 @@ export const StyledForm = styled.form`
 export const StyledTextField = styled(TextField)`
   & input {
     padding: 10px 15px;
+  }
+`;
+
+export const StyledIconButton = styled(IconButton)`
+  &.MuiIconButton-colorPrimary {
+    @media screen and (max-width: 800px) {
+      padding: 2px;
+    }
   }
 `;
