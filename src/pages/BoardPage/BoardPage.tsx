@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Header } from 'components/Header/Header';
 import { ColumnList, ColumnListWrapper } from './BoardPage.styled';
-import { fetchBoardData } from 'store/reducers/boards/boardsSlice';
+import { fetchBoardData, updateColumn } from 'store/reducers/boards/boardsSlice';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { Column } from './Column/Column';
 import { BoardHeader } from './BoardHeader/BoardHeader';
@@ -40,7 +40,17 @@ export const BoardPage = () => {
   const reorder = (list: BoardColumnsType[], startIndex: number, endIndex: number) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
+    const newColumn = { ...removed };
+    newColumn.order = endIndex + 1;
+    result.push(newColumn);
+
+    dispatch(
+      updateColumn({
+        boardId: boardID!,
+        columnId: removed.id,
+        columnData: { title: removed.title, order: endIndex + 1 },
+      })
+    );
 
     return result;
   };
@@ -50,7 +60,9 @@ export const BoardPage = () => {
       return;
     }
 
-    const newColumns = reorder(columns, result.source.index, result.destination.index);
+    const newColumns = reorder(columns, result.source.index, result.destination.index).sort(
+      (a, b) => a.order - b.order
+    );
 
     setColumns(newColumns);
   };
@@ -70,11 +82,14 @@ export const BoardPage = () => {
               <Droppable droppableId="droppable" direction="horizontal">
                 {(provided) => (
                   <ColumnList ref={provided.innerRef} {...provided.droppableProps}>
-                    {columns.map((column, index) => (
-                      <Draggable key={column.id} draggableId={column.id} index={index}>
-                        {(provided) => <Column {...column} key={column.id} provided={provided} />}
-                      </Draggable>
-                    ))}
+                    {columns
+                      .slice()
+                      .sort((a, b) => a.order - b.order)
+                      .map((column, index) => (
+                        <Draggable key={column.id} draggableId={column.id} index={index}>
+                          {(provided) => <Column {...column} key={column.id} provided={provided} />}
+                        </Draggable>
+                      ))}
                     {provided.placeholder}
                   </ColumnList>
                 )}

@@ -12,7 +12,6 @@ import {
   ITaskDeleteResponse,
   ITaskFetchData,
   ITaskResponse,
-  ITaskUpdate,
   ITaskUpdateData,
 } from 'store/reducers/boards/types';
 
@@ -283,13 +282,15 @@ const boardsSlice = createSlice({
         state.errorMessage = '';
       })
       .addCase(updateColumn.fulfilled, (state, { payload }) => {
-        if (state.currentBoard?.columns) {
-          const columnIndex = state.currentBoard.columns.findIndex(
-            (column) => column.id === payload.id
-          );
-          state.currentBoard.columns[columnIndex].title = payload.title;
-          state.currentBoard.columns[columnIndex].order = payload.order;
-        }
+        // if (state.currentBoard?.columns) {
+        //   const columnIndex = state.currentBoard.columns.findIndex(
+        //     (column) => column.id === payload.id
+        //   );
+        //   console.log(payload, 'payload');
+        //   console.log('columnIndex', columnIndex);
+        //   state.currentBoard.columns[columnIndex].title = payload.title;
+        //   state.currentBoard.columns[columnIndex].order = payload.order;
+        // }
       })
       .addCase(updateColumn.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
