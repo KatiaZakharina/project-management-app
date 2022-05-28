@@ -8,7 +8,8 @@ export const StyledTypography = styled(Typography)`
     overflow: hidden;
     text-overflow: ellipsis;
     @media screen and (max-width: 550px) {
-      max-width: 130px;
+      max-width: 85px;
+      margin: 0 5px;
     }
   }
   &.MuiTypography-h6 {

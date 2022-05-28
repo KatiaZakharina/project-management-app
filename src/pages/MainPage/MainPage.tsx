@@ -1,9 +1,8 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import { AccordionSummary, AccordionDetails, Button } from '@mui/material';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { AccordionSummary, AccordionDetails, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
@@ -14,12 +13,14 @@ import {
   StyledTypography,
   StyledAccordion,
   WrapperButtons,
+  EmptyBoards,
 } from './MainPage.styled';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteBoard, fetchBoards } from 'store/reducers/boards/boardsSlice';
+import { FetchingWrapper } from 'components/helpers/FetchingWrapper/FetchingWrapper';
 
 export const MainPage = () => {
-  const { boards } = useAppSelector((state) => state.boardsReducer);
+  const { boards, errorMessage } = useAppSelector((state) => state.boardsReducer);
   const dispatch = useAppDispatch();
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [id, setId] = useState('');
@@ -57,6 +58,7 @@ export const MainPage = () => {
   return (
     <>
       <Header />
+          <FetchingWrapper errorMessage={errorMessage} isLoading={!boards}>
       <WrapperDivMain>
         <StyledStack spacing={2}>
           {boards.map((board) => {
@@ -66,6 +68,7 @@ export const MainPage = () => {
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
+                  style={{ display: '-webkit-box' }}
                 >
                   <StyledTypography variant="h5">{board.title}</StyledTypography>
                 </AccordionSummary>
@@ -84,16 +87,20 @@ export const MainPage = () => {
                         setId(board.id);
                         setOpenConfirmationModal(true);
                       }}
-                    >
-                      {t('Delete')}
-                    </Button>
-                  </WrapperButtons>
-                </AccordionDetails>
-              </StyledAccordion>
-            );
-          })}
-        </StyledStack>
-      </WrapperDivMain>
+                         >
+                          {t('Delete')}
+                        </Button>
+                      </WrapperButtons>
+                    </AccordionDetails>
+                  </StyledAccordion>
+                );
+              })}
+            </StyledStack>
+          ) : (
+            <EmptyBoards>Create your first board</EmptyBoards>
+          )}
+        </WrapperDivMain>
+      </FetchingWrapper>
       <ConfirmationModal
         openConfirmationModal={openConfirmationModal}
         onCancel={onCancel}

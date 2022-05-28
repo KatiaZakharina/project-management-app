@@ -1,8 +1,7 @@
-import { ControlPoint } from '@mui/icons-material';
 import { useState } from 'react';
-import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { ControlPoint } from '@mui/icons-material';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, updateColumn } from 'store/reducers/boards/boardsSlice';
@@ -10,6 +9,7 @@ import { BoardColumnsType } from 'store/reducers/boards/types';
 import { AddPanel, StyledCloseIcon, StyledColumn, Title } from './Column.styled';
 import { ModalAddTask } from './ModalAddTask/ModalAddTask';
 import { Task } from './Task/Task';
+import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 
 type ColumnProps = BoardColumnsType & { provided: any };
 
