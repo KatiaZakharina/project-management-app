@@ -294,8 +294,7 @@ const boardsSlice = createSlice({
           const columnIndex = state.currentBoard.columns.findIndex(
             (column) => column.id === payload.id
           );
-          console.log(payload, 'payload');
-          console.log('columnIndex', columnIndex);
+
           state.currentBoard.columns[columnIndex].title = payload.title;
           state.currentBoard.columns[columnIndex].order = payload.order;
         }
