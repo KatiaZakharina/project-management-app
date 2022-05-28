@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Header } from 'components/Header/Header';
 import { ColumnList, ColumnListWrapper } from './BoardPage.styled';
-import { fetchBoardData, updateColumn } from 'store/reducers/boards/boardsSlice';
+import { fetchBoardData, updateColumn, updateColumns } from 'store/reducers/boards/boardsSlice';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { Column } from './Column/Column';
 import { BoardHeader } from './BoardHeader/BoardHeader';
@@ -35,14 +35,10 @@ export const BoardPage = () => {
     setColumns(currentBoard?.columns || []);
   }, [currentBoard]);
 
-  //dnd
-
   const reorder = (list: BoardColumnsType[], startIndex: number, endIndex: number) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
-    const newColumn = { ...removed };
-    newColumn.order = endIndex + 1;
-    result.push(newColumn);
+    result.splice(endIndex, 0, removed);
 
     dispatch(
       updateColumn({
@@ -52,7 +48,13 @@ export const BoardPage = () => {
       })
     );
 
-    return result;
+    return result
+      .map((column, index) => ({
+        id: column.id,
+        title: column.title,
+        order: index + 1,
+      }))
+      .sort((a, b) => a.order - b.order);
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -60,11 +62,8 @@ export const BoardPage = () => {
       return;
     }
 
-    const newColumns = reorder(columns, result.source.index, result.destination.index).sort(
-      (a, b) => a.order - b.order
-    );
-
-    setColumns(newColumns);
+    const newColumns = reorder(columns, result.source.index, result.destination.index);
+    dispatch(updateColumns(newColumns));
   };
 
   const { t } = useTranslation();

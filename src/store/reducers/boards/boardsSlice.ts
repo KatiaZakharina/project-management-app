@@ -195,7 +195,12 @@ export const updateTask = createAsyncThunk<ITaskResponse, ITaskUpdateData, { rej
 const boardsSlice = createSlice({
   name: 'boards',
   initialState: defaultBoardsState,
-  reducers: {},
+  reducers: {
+    updateColumns: (state, { payload }) => {
+      if (!state.currentBoard) return;
+      state.currentBoard.columns = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchBoards.pending, (state: IDefaultBoardState) => {
@@ -362,4 +367,5 @@ const boardsSlice = createSlice({
   },
 });
 
+export const { updateColumns } = boardsSlice.actions;
 export default boardsSlice.reducer;
