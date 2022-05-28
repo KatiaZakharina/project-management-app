@@ -1,9 +1,7 @@
-import { Typography } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 
-import { StyledControlBox, TaskItem, TaskList, TaskListWrapper } from './Task.styled';
+import { TaskList, TaskListWrapper } from './Task.styled';
+import { TaskItem } from './TaskItem/TaskItem';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { BoardTasksType } from 'store/reducers/boards/types';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
@@ -42,25 +40,13 @@ export function Task({ tasks, columnId }: ITaskProps) {
         {sortTask
           ?.sort((a, b) => a.order - b.order)
           .map((task) => (
-            <TaskItem key={task.id}>
-              <Typography>{task.description}</Typography>
-              <StyledControlBox>
-                <EditIcon
-                  onClick={() => {
-                    setCurrentTaskId(task.id);
-                    setOpenModalTransform(true);
-                  }}
-                  style={{ cursor: 'pointer' }}
-                />
-                <CloseIcon
-                  onClick={() => {
-                    setCurrentTaskId(task.id);
-                    setOpenConfirmationModal(true);
-                  }}
-                  style={{ cursor: 'pointer' }}
-                />
-              </StyledControlBox>
-            </TaskItem>
+            <TaskItem
+              key={task.id}
+              task={task}
+              setCurrentTaskId={setCurrentTaskId}
+              setOpenConfirmationModal={setOpenConfirmationModal}
+              setOpenModalTransform={setOpenModalTransform}
+            />
           ))}
         {openModalTransform && (
           <ModalUpdateTask
