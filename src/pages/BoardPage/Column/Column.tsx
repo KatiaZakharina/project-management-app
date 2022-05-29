@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { ControlPoint } from '@mui/icons-material';
+import { DraggableProvided } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { DraggableProvided } from 'react-beautiful-dnd';
+import { ControlPoint } from '@mui/icons-material';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteColumn, updateColumn } from 'store/reducers/boards/boardsSlice';
