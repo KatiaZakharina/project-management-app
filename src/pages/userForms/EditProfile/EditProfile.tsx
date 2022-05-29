@@ -12,6 +12,7 @@ import {
   StyledForm,
   StyledInputBox,
   SnackbarStyled,
+  ButtonWrapper,
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
 import { UserInputs } from '../types';
@@ -106,14 +107,14 @@ export function EditProfile() {
             </Alert>
           </SnackbarStyled>
 
-          <div>
+          <ButtonWrapper>
             <Button variant="contained" color="warning" onClick={onDelete}>
               Delete
             </Button>
             <Button variant="outlined" type="submit" disabled={!isValid}>
               Edit !
             </Button>
-          </div>
+          </ButtonWrapper>
         </StyledForm>
       </StyledBox>
 
