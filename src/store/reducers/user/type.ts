@@ -29,4 +29,4 @@ export interface LoginUserResponse {
   token: string;
 }
 
-export type EditProps = { userId: string; data: DataForRegistry };
+export type EditProps = { id: string; data: DataForRegistry };

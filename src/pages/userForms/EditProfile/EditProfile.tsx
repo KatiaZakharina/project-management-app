@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useTranslation } from 'react-i18next';
 import { getLoginToken } from 'helpers/getFromCookie';
 import { FetchingWrapper } from 'components/helpers/FetchingWrapper/FetchingWrapper';
+import { DataForRegistry } from 'store/reducers/user/type';
 
 export function EditProfile() {
   const dispatch = useAppDispatch();
@@ -31,28 +32,31 @@ export function EditProfile() {
 
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
-  useEffect(() => {
-    dispatch(fetchUser(id));
-  }, []);
-
-  const emptyValues = {
-    name: '',
-    login: '',
-    password: '',
-  };
-
   const {
     register,
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm<UserInputs>({ mode: 'onChange', defaultValues: user || emptyValues });
+  } = useForm<UserInputs>({ mode: 'onChange' });
+
+  useEffect(() => {
+    dispatch(fetchUser(id));
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    const emptyValues = {
+      name: '',
+      login: '',
+      password: '',
+    };
+
+    reset(user ? { login: user.login, name: user.name, password: user.password } : emptyValues);
+  }, [reset, user]);
 
   const { inputs } = useUserData(register, errors);
 
-  const onEdit: SubmitHandler<UserInputs> = async (data) => {
-    dispatch(editUser({ userId: id, data }));
-    reset(emptyValues);
+  const onEdit: SubmitHandler<DataForRegistry> = async (data) => {
+    await dispatch(editUser({ data, id }));
   };
 
   useEffect(() => {

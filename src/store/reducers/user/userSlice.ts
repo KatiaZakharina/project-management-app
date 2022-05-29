@@ -41,9 +41,9 @@ export const registerUser = createAsyncThunk<IUser, DataForRegistry, { rejectVal
 
 export const editUser = createAsyncThunk<DataForRegistry, EditProps, { rejectValue: string }>(
   'user/edit',
-  async ({ data, userId }: EditProps, { rejectWithValue }) => {
+  async ({ id, data }: EditProps, { rejectWithValue }) => {
     try {
-      return await loginServiceInstance.updateUser(userId, data);
+      return await loginServiceInstance.updateUser(id, data);
     } catch (error) {
       if (error instanceof AxiosError) {
         return rejectWithValue(error?.response?.data.message);
@@ -130,6 +130,9 @@ const userSlice = createSlice({
       .addCase(fetchUser.pending, (state: IDefaultState) => {
         state.user = null;
       })
+      .addCase(editUser.pending, (state: IDefaultState) => {
+        state.user = null;
+      })
       .addCase(
         registerUser.rejected,
         (state: IDefaultState, { payload = 'Something went wrong...' }) => {
@@ -154,6 +157,12 @@ const userSlice = createSlice({
           state.errorMessage = payload;
         }
       )
+      .addCase(
+        editUser.rejected,
+        (state: IDefaultState, { payload = 'Something went wrong...' }) => {
+          state.errorMessage = payload;
+        }
+      )
       .addCase(loginUser.fulfilled, (state: IDefaultState, { payload }) => {
         state.isAuthorized = true;
 
@@ -166,6 +175,10 @@ const userSlice = createSlice({
       .addCase(fetchUser.fulfilled, (state: IDefaultState, { payload }) => {
         const password = getPassword();
         state.user = { ...payload, password };
+      })
+      .addCase(editUser.fulfilled, (state: IDefaultState, { payload }) => {
+        document.cookie = `password=${payload.password};max-age=0;samesite=lax;path=/`;
+        state.user = { ...payload, password: payload.password };
       })
       .addCase(getAllUsers.fulfilled, (state: IDefaultState, { payload }) => {
         state.users = payload;
