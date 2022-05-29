@@ -10,7 +10,7 @@ import {
   EditProps,
   LoginData,
 } from './type';
-import { getPassword } from 'helpers/getFromCookie';
+import { getLoginToken, getPassword } from 'helpers/getFromCookie';
 import { getUserDataFromToken } from 'helpers/getUserDataFromToken';
 
 export const defaultState: IDefaultState = {
@@ -117,6 +117,11 @@ const userSlice = createSlice({
       state.isAuthorized = false;
       state.id = '';
       state.user = null;
+
+      const token = getLoginToken();
+      const password = getPassword();
+      document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
+      document.cookie = `password=${password};max-age=0;samesite=lax;path=/`;
     },
   },
   extraReducers: (builder) => {
@@ -163,6 +168,13 @@ const userSlice = createSlice({
           state.errorMessage = payload;
         }
       )
+      .addCase(
+        deleteUser.rejected,
+        (state: IDefaultState, { payload = 'Something went wrong...' }) => {
+          state.errorMessage = payload;
+        }
+      )
+
       .addCase(loginUser.fulfilled, (state: IDefaultState, { payload }) => {
         state.isAuthorized = true;
 
@@ -178,10 +190,14 @@ const userSlice = createSlice({
       })
       .addCase(editUser.fulfilled, (state: IDefaultState, { payload }) => {
         document.cookie = `password=${payload.password};max-age=0;samesite=lax;path=/`;
+        //FIXME: token time
         state.user = { ...payload, password: payload.password };
       })
       .addCase(getAllUsers.fulfilled, (state: IDefaultState, { payload }) => {
         state.users = payload;
+      })
+      .addCase(deleteUser.fulfilled, (state: IDefaultState) => {
+        state.isDeleted = true;
       });
   },
 });

@@ -18,7 +18,6 @@ import {
 } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 import { ModalAddBoard } from './ModalAddBoard/ModalAddBoard';
-import { getLoginToken } from 'helpers/getFromCookie';
 import { useAppDispatch } from 'store/hooks';
 import { setUnauthorized } from 'store/reducers/user/userSlice';
 
@@ -42,8 +41,6 @@ export const Header = () => {
   };
 
   const toSignOut = () => {
-    const token = getLoginToken();
-    document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
     dispatch(setUnauthorized());
     navigate(`/welcome`);
   };

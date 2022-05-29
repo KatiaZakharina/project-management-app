@@ -11,6 +11,8 @@ function getState() {
     state = JSON.parse(app);
     state.userReducer.errorMessage = '';
     state.userReducer.isRegistered = false;
+    state.userReducer.isDeleted = false;
+
     if (!token) {
       state.userReducer.isAuthorized = false;
     }

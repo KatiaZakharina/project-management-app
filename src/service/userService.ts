@@ -34,7 +34,7 @@ class userService {
   };
 
   deleteUser = async (id: string) => {
-    const response = await this.axiosInstance.post(`/users/${id}`);
+    const response = await this.axiosInstance.delete(`/users/${id}`);
     return response.data;
   };
 

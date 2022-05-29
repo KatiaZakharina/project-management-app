@@ -20,7 +20,6 @@ import { deleteUser, editUser, fetchUser, setUnauthorized } from 'store/reducers
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useTranslation } from 'react-i18next';
-import { getLoginToken } from 'helpers/getFromCookie';
 import { FetchingWrapper } from 'components/helpers/FetchingWrapper/FetchingWrapper';
 import { DataForRegistry } from 'store/reducers/user/type';
 
@@ -28,7 +27,6 @@ export function EditProfile() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id, user, errorMessage, isDeleted } = useAppSelector((state) => state.userReducer);
-  const token = getLoginToken();
 
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
@@ -40,7 +38,7 @@ export function EditProfile() {
   } = useForm<UserInputs>({ mode: 'onChange' });
 
   useEffect(() => {
-    dispatch(fetchUser(id));
+    if (id) dispatch(fetchUser(id));
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -61,10 +59,8 @@ export function EditProfile() {
 
   useEffect(() => {
     if (isDeleted) {
-      document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
-      document.cookie = `password=${user?.password};max-age=0;samesite=lax;path=/`;
       dispatch(setUnauthorized());
-      navigate('/');
+      navigate('/welcome');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDeleted]);
