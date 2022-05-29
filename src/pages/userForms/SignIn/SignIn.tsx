@@ -10,13 +10,7 @@ import { useSignIn } from '../useMakeInput';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { loginUser, resetErrorMessage } from 'store/reducers/user/userSlice';
 import { getLoginToken } from 'helpers/getFromCookie';
-
-type Inputs = {
-  login: string;
-  loginRequired: string;
-  password: string;
-  passwordRequired: string;
-};
+import { InputsSignIn } from '../types';
 
 export function SignIn() {
   const { isAuthorized, errorMessage } = useAppSelector((store) => store.userReducer);
@@ -32,11 +26,11 @@ export function SignIn() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<InputsSignIn>();
 
   const { inputs } = useSignIn(register);
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<InputsSignIn> = async (data) => {
     await dispatch(loginUser(data));
   };
 

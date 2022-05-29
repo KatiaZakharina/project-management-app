@@ -1,32 +1,9 @@
 import { t } from 'i18next';
-import { FieldErrors, UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 
-type Inputs = {
-  name: string;
-  nameRequired: string;
-  login: string;
-  loginRequired: string;
-  password: string;
-  passwordRequired: string;
-};
+import { InputProperty, InputsSignIn, UserInputs } from './types';
 
-type InputsSignIn = {
-  login: string;
-  loginRequired: string;
-  password: string;
-  passwordRequired: string;
-};
-
-interface InputProperty {
-  label: string;
-  type: string;
-  id: number;
-  register?: UseFormRegisterReturn;
-  error?: boolean;
-  errors?: string;
-}
-
-export function useUserData(register: UseFormRegister<Inputs>, errors: FieldErrors) {
+export function useUserData(register: UseFormRegister<UserInputs>, errors: FieldErrors) {
   const nameInput: InputProperty = {
     label: t('Name'),
     type: 'text',

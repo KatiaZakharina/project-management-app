@@ -17,8 +17,8 @@ import {
   StyledInputBox,
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
-import { UserInputs } from '../types';
 import { getLoginToken } from 'helpers/getFromCookie';
+import { UserInputs } from '../types';
 
 export function SignUp() {
   const { errorMessage, isRegistered } = useAppSelector((store) => store.userReducer);
