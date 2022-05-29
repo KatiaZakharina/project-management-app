@@ -16,7 +16,13 @@ import {
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
 import { UserInputs } from '../types';
-import { deleteUser, editUser, fetchUser, setUnauthorized } from 'store/reducers/user/userSlice';
+import {
+  deleteUser,
+  editUser,
+  fetchUser,
+  resetErrorMessage,
+  setUnauthorized,
+} from 'store/reducers/user/userSlice';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useTranslation } from 'react-i18next';
@@ -38,6 +44,10 @@ export function EditProfile() {
   } = useForm<UserInputs>({ mode: 'onChange' });
 
   useEffect(() => {
+    dispatch(resetErrorMessage());
+  }, []);
+
+  useEffect(() => {
     if (id) dispatch(fetchUser(id));
   }, [dispatch, id]);
 
@@ -51,12 +61,6 @@ export function EditProfile() {
     reset(user ? { login: user.login, name: user.name, password: user.password } : emptyValues);
   }, [reset, user]);
 
-  const { inputs } = useUserData(register, errors);
-
-  const onEdit: SubmitHandler<DataForRegistry> = async (data) => {
-    await dispatch(editUser({ data, id }));
-  };
-
   useEffect(() => {
     if (isDeleted) {
       dispatch(setUnauthorized());
@@ -64,6 +68,12 @@ export function EditProfile() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDeleted]);
+
+  const { inputs } = useUserData(register, errors);
+
+  const onEdit: SubmitHandler<DataForRegistry> = async (data) => {
+    await dispatch(editUser({ data, id }));
+  };
 
   const onDelete = () => {
     setOpenConfirmationModal(true);

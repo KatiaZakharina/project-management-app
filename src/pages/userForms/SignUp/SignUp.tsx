@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { registerUser } from 'store/reducers/user/userSlice';
+import { registerUser, resetErrorMessage } from 'store/reducers/user/userSlice';
 import {
   ButtonGoBack,
   Logo,
@@ -31,6 +31,8 @@ export function SignUp() {
     if (token) {
       navigate('/');
     }
+
+    dispatch(resetErrorMessage());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -38,14 +40,12 @@ export function SignUp() {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    reset,
   } = useForm<UserInputs>({ mode: 'onChange' });
 
   const { inputs } = useUserData(register, errors);
 
   const onSubmit: SubmitHandler<UserInputs> = async (data) => {
     await dispatch(registerUser(data));
-    reset();
   };
 
   useEffect(() => {

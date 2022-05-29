@@ -123,6 +123,9 @@ const userSlice = createSlice({
       document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
       document.cookie = `password=${password};max-age=0;samesite=lax;path=/`;
     },
+    resetErrorMessage(state) {
+      state.errorMessage = '';
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -202,5 +205,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUnauthorized } = userSlice.actions;
+export const { setUnauthorized, resetErrorMessage } = userSlice.actions;
 export default userSlice.reducer;

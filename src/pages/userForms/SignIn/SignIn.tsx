@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { ButtonGoBack, Logo, SnackbarStyled, StyledBox, StyledForm } from '../userForms.styled';
 import { useSignIn } from '../useMakeInput';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { loginUser } from 'store/reducers/user/userSlice';
+import { loginUser, resetErrorMessage } from 'store/reducers/user/userSlice';
 import { getLoginToken } from 'helpers/getFromCookie';
 
 type Inputs = {
@@ -28,19 +28,16 @@ export function SignIn() {
     if (token) {
       navigate('/');
     }
+    dispatch(resetErrorMessage());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
 
   const { inputs } = useSignIn(register);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await dispatch(loginUser(data));
-
-    if (!errorMessage) {
-      reset();
-    }
   };
 
   useEffect(() => {
