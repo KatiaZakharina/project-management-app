@@ -66,14 +66,14 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
         ))}
 
         <FormControl>
-          <InputLabel>{t('Executor')}</InputLabel>
+          <InputLabel>{t('Assignee')}</InputLabel>
           <Select
-            label={t('Executor')}
+            label={t('Assignee')}
             onChange={(event) => setExecutor(event.target.value)}
             value={executor}
           >
             <MenuItem selected disabled>
-              {t('Executor')}
+              {t('Assignee')}
             </MenuItem>
             {users.map((user) => (
               <MenuItem key={user.id} value={user.id ?? ''}>
