@@ -72,10 +72,19 @@ export const loginUser = createAsyncThunk<
   }
 });
 
-export const getAllUsers = createAsyncThunk<IUser[]>('user/users', async () => {
-  const response = await loginServiceInstance.getAllUsers();
-  return response;
-});
+export const getAllUsers = createAsyncThunk<IUser[], void, { rejectValue: string }>(
+  'user/users',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await loginServiceInstance.getAllUsers();
+      return response;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return rejectWithValue(error?.response?.data.message);
+      }
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: 'user',
@@ -101,6 +110,12 @@ const userSlice = createSlice({
       )
       .addCase(
         loginUser.rejected,
+        (state: IDefaultState, { payload = 'Incorrect login or password...' }) => {
+          state.errorMessage = payload;
+        }
+      )
+      .addCase(
+        getAllUsers.rejected,
         (state: IDefaultState, { payload = 'Incorrect login or password...' }) => {
           state.errorMessage = payload;
         }

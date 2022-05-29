@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -9,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { deleteBoard, updateBoard } from 'store/reducers/boards/boardsSlice';
-import { ButtonGoBack, StyledDiv, WrapperBoardFunctional } from './BoardHeader.styled';
+import { StyledButton, StyledDiv, StyledSpan, WrapperBoardFunctional } from './BoardHeader.styled';
 import { ModalAddColumn } from './ModalAddColumn/ModalAddColumn';
 import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 
@@ -50,31 +49,32 @@ export const BoardHeader = () => {
   return (
     <>
       <WrapperBoardFunctional>
-        <ButtonGoBack variant="contained" onClick={() => navigate('/')}>
-          <ArrowBackIosIcon /> {t('Go to main page')}
-        </ButtonGoBack>
+        <StyledButton variant="contained" onClick={() => navigate('/')}>
+          <ArrowBackIosIcon />
+          <StyledSpan>{t('Go to main page')}</StyledSpan>
+        </StyledButton>
         <StyledDiv>
           <EditingTitle title={currentBoard?.title} onTitleSubmit={updateBoardTitle} styles="h5" />
-          <Button
+          <StyledButton
             variant="outlined"
             color="primary"
-            startIcon={<AddCircleIcon />}
             onClick={() => setOpenAddColumnModal(true)}
           >
-            {t('Add new list')}
-          </Button>
+            <AddCircleIcon />
+            <StyledSpan>{t('Add new list')}</StyledSpan>
+          </StyledButton>
         </StyledDiv>
-        <Button
+        <StyledButton
           data-tag="delete-button"
           variant="contained"
           color="warning"
-          startIcon={<DeleteIcon />}
           onClick={() => {
             setOpenConfirmationModal(true);
           }}
         >
-          {t('Delete board')}
-        </Button>
+          <DeleteIcon />
+          <StyledSpan>{t('Delete board')}</StyledSpan>
+        </StyledButton>
       </WrapperBoardFunctional>
       <ModalAddColumn openModal={openAddColumnModal} setOpenModal={setOpenAddColumnModal} />
       <ConfirmationModal

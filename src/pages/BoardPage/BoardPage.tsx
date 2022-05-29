@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CircularProgress } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 
@@ -12,13 +11,14 @@ import { Column } from './Column/Column';
 import { BoardHeader } from './BoardHeader/BoardHeader';
 import { BoardColumnsType } from 'store/reducers/boards/types';
 import { getAllUsers } from 'store/reducers/user/userSlice';
+import { FetchingWrapper } from 'components/helpers/FetchingWrapper/FetchingWrapper';
 
 export const BoardPage = () => {
   const { boardID } = useParams();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { currentBoard } = useAppSelector((state) => state.boardsReducer);
+  const { currentBoard, errorMessage } = useAppSelector((state) => state.boardsReducer);
   const [columns, setColumns] = useState<BoardColumnsType[]>(currentBoard?.columns || []);
 
   useEffect(() => {
@@ -63,8 +63,8 @@ export const BoardPage = () => {
 
       <BoardHeader />
 
-      {currentBoard ? (
-        columns ? (
+      <FetchingWrapper isLoading={!currentBoard} errorMessage={errorMessage}>
+        {columns ? (
           <DragDropContext onDragEnd={onDragEnd}>
             <ColumnListWrapper>
               <Droppable droppableId="droppable" direction="horizontal">
@@ -83,10 +83,8 @@ export const BoardPage = () => {
           </DragDropContext>
         ) : (
           <p>{t('Create new board')}</p>
-        )
-      ) : (
-        <CircularProgress color="secondary" style={{ margin: 'auto' }} size={80} thickness={4} />
-      )}
+        )}
+      </FetchingWrapper>
     </>
   );
 };
