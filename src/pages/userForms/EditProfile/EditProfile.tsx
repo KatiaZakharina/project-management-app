@@ -16,26 +16,24 @@ import {
 } from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
 import { UserInputs } from '../types';
-import { deleteUser, editUser, setUnauthorized } from 'store/reducers/user/userSlice';
+import { deleteUser, editUser, fetchUser, setUnauthorized } from 'store/reducers/user/userSlice';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { useTranslation } from 'react-i18next';
-import { getLoginToken } from 'helpers/getLoginToken';
+import { getLoginToken } from 'helpers/getFromCookie';
+import { FetchingWrapper } from 'components/helpers/FetchingWrapper/FetchingWrapper';
 
 export function EditProfile() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { id, password, errorMessage, isDeleted } = useAppSelector((state) => state.userReducer);
+  const { id, user, errorMessage, isDeleted } = useAppSelector((state) => state.userReducer);
   const token = getLoginToken();
-  console.log(id, password, errorMessage, isDeleted);
 
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
-  const defaultValues = {
-    name: 'K',
-    login: 'K',
-    password: 'K',
-  };
+  useEffect(() => {
+    dispatch(fetchUser(id));
+  }, []);
 
   const emptyValues = {
     name: '',
@@ -48,7 +46,7 @@ export function EditProfile() {
     formState: { errors, isValid },
     handleSubmit,
     reset,
-  } = useForm<UserInputs>({ mode: 'onChange', defaultValues });
+  } = useForm<UserInputs>({ mode: 'onChange', defaultValues: user || emptyValues });
 
   const { inputs } = useUserData(register, errors);
 
@@ -60,6 +58,7 @@ export function EditProfile() {
   useEffect(() => {
     if (isDeleted) {
       document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
+      document.cookie = `password=${user?.password};max-age=0;samesite=lax;path=/`;
       dispatch(setUnauthorized());
       navigate('/');
     }
@@ -86,36 +85,38 @@ export function EditProfile() {
           <ArrowBackIosIcon /> Back
         </ButtonGoBack>
         <Logo />
-        <StyledForm onSubmit={handleSubmit(onEdit)}>
-          <Typography>Edit your TLZ account</Typography>
-          {inputs.map((input) => (
-            <StyledInputBox key={input.id}>
-              <TextField
-                label={input.label}
-                type={input.type}
-                {...input.register}
-                fullWidth
-                error={input.error}
-                autoComplete="off"
-              />
-              <StyledError>{input.errors}</StyledError>
-            </StyledInputBox>
-          ))}
-          <SnackbarStyled open={!!errorMessage}>
-            <Alert severity="warning" sx={{ width: '100%' }}>
-              {t(errorMessage)}
-            </Alert>
-          </SnackbarStyled>
+        <FetchingWrapper isLoading={!user} errorMessage={errorMessage}>
+          <StyledForm onSubmit={handleSubmit(onEdit)}>
+            <Typography>Edit your TLZ account</Typography>
+            {inputs.map((input) => (
+              <StyledInputBox key={input.id}>
+                <TextField
+                  label={input.label}
+                  type={input.type}
+                  {...input.register}
+                  fullWidth
+                  error={input.error}
+                  autoComplete="off"
+                />
+                <StyledError>{input.errors}</StyledError>
+              </StyledInputBox>
+            ))}
+            <SnackbarStyled open={!!errorMessage}>
+              <Alert severity="warning" sx={{ width: '100%' }}>
+                {t(errorMessage)}
+              </Alert>
+            </SnackbarStyled>
 
-          <ButtonWrapper>
-            <Button variant="contained" color="warning" onClick={onDelete}>
-              Delete
-            </Button>
-            <Button variant="outlined" type="submit" disabled={!isValid}>
-              Edit !
-            </Button>
-          </ButtonWrapper>
-        </StyledForm>
+            <ButtonWrapper>
+              <Button variant="contained" color="warning" onClick={onDelete}>
+                Delete
+              </Button>
+              <Button variant="outlined" type="submit" disabled={!isValid}>
+                Edit !
+              </Button>
+            </ButtonWrapper>
+          </StyledForm>
+        </FetchingWrapper>
       </StyledBox>
 
       <ConfirmationModal

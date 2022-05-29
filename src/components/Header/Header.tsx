@@ -18,7 +18,7 @@ import {
 } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 import { ModalAddBoard } from './ModalAddBoard/ModalAddBoard';
-import { getLoginToken } from 'helpers/getLoginToken';
+import { getLoginToken } from 'helpers/getFromCookie';
 import { useAppDispatch } from 'store/hooks';
 import { setUnauthorized } from 'store/reducers/user/userSlice';
 

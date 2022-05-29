@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { SERVER_URI } from 'appConstants';
-import { DataForRegistry } from 'store/reducers/user/type';
-import { getLoginToken } from 'helpers/getLoginToken';
+import { DataForRegistry, LoginData } from 'store/reducers/user/type';
+import { getLoginToken } from 'helpers/getFromCookie';
 
 class userService {
   private baseUrl: string;
@@ -23,6 +23,11 @@ class userService {
     });
   }
 
+  getUser = async (id: string) => {
+    const response = await this.axiosInstance.get(`/users/${id}`);
+    return response.data;
+  };
+
   postUser = async (userData: DataForRegistry) => {
     const response = await this.axiosInstance.post('/signup', userData);
     return response.data;
@@ -38,7 +43,7 @@ class userService {
     return response.data;
   };
 
-  getToken = async (userData: DataForRegistry) => {
+  getToken = async (userData: LoginData) => {
     const response = await this.axiosInstance.post('/signin', userData);
     return response.data;
   };

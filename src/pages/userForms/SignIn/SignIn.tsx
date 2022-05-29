@@ -9,7 +9,7 @@ import { ButtonGoBack, Logo, SnackbarStyled, StyledBox, StyledForm } from '../us
 import { useSignIn } from '../useMakeInput';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { loginUser } from 'store/reducers/user/userSlice';
-import { getLoginToken } from 'helpers/getLoginToken';
+import { getLoginToken } from 'helpers/getFromCookie';
 
 type Inputs = {
   login: string;
@@ -37,12 +37,6 @@ export function SignIn() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await dispatch(loginUser(data));
-
-    // const token = getLoginToken();
-    // const { userId } = getUserDataFromToken(token);
-
-    // dispatch(setPassword(data.password));
-    // dispatch(saveUserData(userId));
 
     if (!errorMessage) {
       reset();

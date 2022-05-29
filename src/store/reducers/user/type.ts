@@ -1,7 +1,7 @@
 export interface IDefaultState {
   users: IUser[];
+  user: DataForRegistry | null;
   id: string;
-  password: string;
   errorMessage: string;
   isAuthorized: boolean;
   isRegistered: boolean;
@@ -9,9 +9,14 @@ export interface IDefaultState {
 }
 
 export interface DataForRegistry {
-  name?: string;
+  name: string;
   login: string;
-  password?: string;
+  password: string;
+}
+
+export interface LoginData {
+  login: string;
+  password: string;
 }
 
 export interface IUser {
