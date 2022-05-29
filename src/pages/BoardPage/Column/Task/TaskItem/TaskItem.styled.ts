@@ -1,8 +1,8 @@
 import { Avatar } from '@mui/material';
 import styled from 'styled-components';
 
-import { AZURE_BLUE } from './../../../../../styles/constants';
-import { rgba } from './../../../../../styles/helpers/rgba';
+import { AZURE_BLUE } from 'styles/constants';
+import { rgba } from 'styles/helpers/rgba';
 
 export const DivTaskItem = styled.div`
   background-color: ${rgba(AZURE_BLUE, 0.3)};

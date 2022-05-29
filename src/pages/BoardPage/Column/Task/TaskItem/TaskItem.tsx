@@ -4,6 +4,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { DivTaskItem, StyledAvatar, StyledControlBox, WrapperTask } from './TaskItem.styled';
 import { BoardTasksType } from 'store/reducers/boards/types';
+import { useAppSelector } from 'store/hooks';
+import { stringAvatar } from './helpers/stringAvatar';
 
 interface ITaskItem {
   task: BoardTasksType;
@@ -18,8 +20,11 @@ export const TaskItem = ({
   setOpenModalTransform,
   setOpenConfirmationModal,
 }: ITaskItem) => {
+  const { users } = useAppSelector((store) => store.userReducer);
+  const currentUserAvatar = users.find((user) => user.id === task.userId)?.name as string;
+
   return (
-    <DivTaskItem key={task.id}>
+    <DivTaskItem>
       <WrapperTask>
         <Typography>{task.title}</Typography>
         <StyledControlBox>
@@ -39,7 +44,7 @@ export const TaskItem = ({
           />
         </StyledControlBox>
       </WrapperTask>
-      <StyledAvatar sx={{ width: 30, height: 30 }}> D </StyledAvatar>
+      <StyledAvatar {...stringAvatar(currentUserAvatar)}></StyledAvatar>
     </DivTaskItem>
   );
 };
