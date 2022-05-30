@@ -58,7 +58,7 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
       title: data.title,
       order: currentOrder,
       description: data.description,
-      userId: currentExecutorId ?? executor,
+      userId: executor ? executor : currentExecutorId,
     };
 
     dispatch(
