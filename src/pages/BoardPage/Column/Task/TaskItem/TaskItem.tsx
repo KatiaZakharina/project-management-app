@@ -6,6 +6,7 @@ import { DivTaskItem, StyledAvatar, StyledControlBox, WrapperTask } from './Task
 import { BoardTasksType } from 'store/reducers/boards/types';
 import { useAppSelector } from 'store/hooks';
 import { stringAvatar } from './helpers/stringAvatar';
+import { DraggableProvided } from 'react-beautiful-dnd';
 
 interface ITaskItem {
   task: BoardTasksType;
@@ -14,17 +15,20 @@ interface ITaskItem {
   setOpenConfirmationModal: (id: boolean) => void;
 }
 
+type ColumnProps = ITaskItem & { provided: DraggableProvided };
+
 export const TaskItem = ({
   task,
   setCurrentTaskId,
   setOpenModalTransform,
   setOpenConfirmationModal,
-}: ITaskItem) => {
+  provided,
+}: ColumnProps) => {
   const { users } = useAppSelector((store) => store.userReducer);
   const currentUserAvatar = users.find((user) => user.id === task.userId)?.name as string;
 
   return (
-    <DivTaskItem>
+    <DivTaskItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
       <WrapperTask>
         <Typography>{task.title}</Typography>
         <StyledControlBox>
