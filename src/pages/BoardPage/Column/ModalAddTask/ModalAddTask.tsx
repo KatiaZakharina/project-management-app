@@ -71,6 +71,7 @@ export function ModalAddTask({ openModal, setOpenModal, columnId }: IModalAddTas
             label={t('Assignee')}
             onChange={(event) => setExecutor(event.target.value)}
             value={executor}
+            required
           >
             <MenuItem selected disabled>
               {t('Assignee')}
