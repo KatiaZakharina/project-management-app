@@ -46,5 +46,11 @@
   "Title for your task": "Title for your task",
   "Description task": "Description task",
   "Description for your task": "Description for your task",
-  "Description": "Description"
+  "Description": "Description",
+  "Name": "Name",
+  "Login": "Login",
+  "Password": "Password",
+  "Edit your TLZ account": "Edit your TLZ account",
+  "Edit!": "Edit!",
+  "New list": "New list"
 }

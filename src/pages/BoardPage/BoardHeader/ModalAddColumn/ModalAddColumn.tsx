@@ -1,5 +1,6 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import {
   StyledBox,
@@ -38,13 +39,15 @@ export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => 
     handleClose();
   };
 
+  const { t } = useTranslation();
+
   return (
     <StyledModal open={openModal} onClose={handleClose}>
       <StyledBox>
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
-          <Typography>New list</Typography>
+          <Typography>{t('New list')}</Typography>
           <TextField
-            label="Title"
+            label={t('Title')}
             type="text"
             {...register('title', {
               required: 'This field is required',
@@ -57,7 +60,7 @@ export const ModalAddColumn = ({ openModal, setOpenModal }: IModalAddColumn) => 
             <StyledError>{errors?.title?.message}</StyledError>
           </WrapperError>
           <Button variant="outlined" type="submit">
-            Create!
+            {t('Create!')}
           </Button>
         </StyledForm>
       </StyledBox>
