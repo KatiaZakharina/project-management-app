@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 import { SERVER_URI } from 'appConstants';
-import { getLoginToken } from 'helpers/getLoginToken';
+import { getLoginToken } from 'helpers/getFromCookie';
 import { ITaskUpdate } from 'store/reducers/boards/types';
 
 class BoardsService {

@@ -11,6 +11,7 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { PrivateRoute } from 'components/helpers/PrivateRoute';
 import { NotFound404 } from 'components/helpers/NotFound404';
 import { store } from 'store/store';
+import { EditProfile } from 'pages/userForms/EditProfile/EditProfile';
 
 export function App() {
   return (
@@ -29,6 +30,14 @@ export function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route
+          path="/edit-profile"
+          element={
+            <PrivateRoute>
+              <EditProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path="/boards/:boardID"
           element={
             <PrivateRoute>
@@ -38,6 +47,7 @@ export function App() {
         />
         <Route path="*" element={<NotFound404 />}></Route>
       </Routes>
+
       <Footer />
     </Provider>
   );

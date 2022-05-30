@@ -1,15 +1,20 @@
 export interface IDefaultState {
   users: IUser[];
+  user: DataForRegistry | null;
   id: string;
-  login: string;
-  name: string;
   errorMessage: string;
   isAuthorized: boolean;
   isRegistered: boolean;
+  isDeleted: boolean;
 }
 
 export interface DataForRegistry {
-  name?: string;
+  name: string;
+  login: string;
+  password: string;
+}
+
+export interface LoginData {
   login: string;
   password: string;
 }
@@ -23,3 +28,5 @@ export interface IUser {
 export interface LoginUserResponse {
   token: string;
 }
+
+export type EditProps = { id: string; data: DataForRegistry };

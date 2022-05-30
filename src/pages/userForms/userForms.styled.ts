@@ -51,7 +51,7 @@ export const StyledError = styled.p`
   margin: 5px 0 0 0;
 `;
 
-export const LoginError = styled.div`
+export const BackendError = styled.div`
   height: 10px;
 `;
 
@@ -74,4 +74,11 @@ export const SnackbarStyled = styled(Snackbar)`
     top: 45px;
     max-height: 50px;
   }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `;

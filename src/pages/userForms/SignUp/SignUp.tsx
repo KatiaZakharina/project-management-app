@@ -6,28 +6,19 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { registerUser } from 'store/reducers/user/userSlice';
+import { registerUser, resetErrorMessage } from 'store/reducers/user/userSlice';
 import {
   ButtonGoBack,
-  LoginError,
   Logo,
   SnackbarStyled,
   StyledBox,
   StyledError,
   StyledForm,
   StyledInputBox,
-} from '../Login.styled';
+} from '../userForms.styled';
 import { useUserData } from '../useMakeInput';
-import { getLoginToken } from 'helpers/getLoginToken';
-
-type Inputs = {
-  name: string;
-  nameRequired: string;
-  login: string;
-  loginRequired: string;
-  password: string;
-  passwordRequired: string;
-};
+import { getLoginToken } from 'helpers/getFromCookie';
+import { UserInputs } from '../types';
 
 export function SignUp() {
   const { errorMessage, isRegistered } = useAppSelector((store) => store.userReducer);
@@ -40,6 +31,8 @@ export function SignUp() {
     if (token) {
       navigate('/');
     }
+
+    dispatch(resetErrorMessage());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -47,14 +40,12 @@ export function SignUp() {
     register,
     formState: { errors, isValid },
     handleSubmit,
-    reset,
-  } = useForm<Inputs>({ mode: 'onChange' });
+  } = useForm<UserInputs>({ mode: 'onChange' });
 
   const { inputs } = useUserData(register, errors);
 
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+  const onSubmit: SubmitHandler<UserInputs> = async (data) => {
     await dispatch(registerUser(data));
-    reset();
   };
 
   useEffect(() => {
@@ -84,9 +75,7 @@ export function SignUp() {
               error={input.error}
               autoComplete="off"
             />
-            <LoginError>
-              <StyledError>{input.errors}</StyledError>
-            </LoginError>
+            <StyledError>{input.errors}</StyledError>
           </StyledInputBox>
         ))}
         <SnackbarStyled open={!!errorMessage}>

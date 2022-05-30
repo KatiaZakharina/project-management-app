@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { rootReducer } from './index';
-import { getLoginToken } from 'helpers/getLoginToken';
+import { getLoginToken } from 'helpers/getFromCookie';
 
 function getState() {
   let state = {} as RootState;
@@ -11,6 +11,8 @@ function getState() {
     state = JSON.parse(app);
     state.userReducer.errorMessage = '';
     state.userReducer.isRegistered = false;
+    state.userReducer.isDeleted = false;
+
     if (!token) {
       state.userReducer.isAuthorized = false;
     }

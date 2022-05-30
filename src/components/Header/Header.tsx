@@ -18,7 +18,6 @@ import {
 } from './Header.styled';
 import { LanguageToggler } from './LanguageToggler/LanguageToggler';
 import { ModalAddBoard } from './ModalAddBoard/ModalAddBoard';
-import { getLoginToken } from 'helpers/getLoginToken';
 import { useAppDispatch } from 'store/hooks';
 import { setUnauthorized } from 'store/reducers/user/userSlice';
 
@@ -42,10 +41,12 @@ export const Header = () => {
   };
 
   const toSignOut = () => {
-    const token = getLoginToken();
-    document.cookie = `user=${token};max-age=0;samesite=lax;path=/`;
     dispatch(setUnauthorized());
     navigate(`/welcome`);
+  };
+
+  const toEditProfile = () => {
+    navigate(`/edit-profile`);
   };
 
   const { t } = useTranslation();
@@ -55,7 +56,7 @@ export const Header = () => {
 
   const buttons = [
     { id: 1, text: addText, icon: <AddCircleIcon />, onClick: openModalAddBoard },
-    { id: 2, text: editText, icon: <EditIcon /> },
+    { id: 2, text: editText, icon: <EditIcon />, onClick: toEditProfile },
     { id: 3, text: outText, icon: <LogoutIcon />, onClick: toSignOut },
   ];
 

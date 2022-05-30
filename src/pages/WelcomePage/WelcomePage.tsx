@@ -11,7 +11,7 @@ import {
   Logo,
   ContainerWelcomePage,
 } from './WelcomePage.styled';
-import { getLoginToken } from 'helpers/getLoginToken';
+import { getLoginToken } from 'helpers/getFromCookie';
 
 export const WelcomePage = () => {
   const navigate = useNavigate();

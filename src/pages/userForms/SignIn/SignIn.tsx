@@ -5,18 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 
-import { ButtonGoBack, Logo, SnackbarStyled, StyledBox, StyledForm } from '../Login.styled';
+import { ButtonGoBack, Logo, SnackbarStyled, StyledBox, StyledForm } from '../userForms.styled';
 import { useSignIn } from '../useMakeInput';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { loginUser } from 'store/reducers/user/userSlice';
-import { getLoginToken } from 'helpers/getLoginToken';
-
-type Inputs = {
-  login: string;
-  loginRequired: string;
-  password: string;
-  passwordRequired: string;
-};
+import { loginUser, resetErrorMessage } from 'store/reducers/user/userSlice';
+import { getLoginToken } from 'helpers/getFromCookie';
+import { InputsSignIn } from '../types';
 
 export function SignIn() {
   const { isAuthorized, errorMessage } = useAppSelector((store) => store.userReducer);
@@ -28,12 +22,17 @@ export function SignIn() {
     if (token) {
       navigate('/');
     }
+    dispatch(resetErrorMessage());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { register, handleSubmit, reset } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<InputsSignIn>();
 
   const { inputs } = useSignIn(register);
+
+  const onSubmit: SubmitHandler<InputsSignIn> = async (data) => {
+    await dispatch(loginUser(data));
+  };
 
   useEffect(() => {
     if (isAuthorized) {
@@ -41,11 +40,6 @@ export function SignIn() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthorized]);
-
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await dispatch(loginUser(data));
-    reset();
-  };
 
   const { t } = useTranslation();
 
