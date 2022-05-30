@@ -27,13 +27,8 @@ export const MainPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadBoards();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const loadBoards = () => {
     dispatch(fetchBoards());
-  };
+  }, [dispatch]);
 
   const onConfirm = async () => {
     await dispatch(deleteBoard(id));

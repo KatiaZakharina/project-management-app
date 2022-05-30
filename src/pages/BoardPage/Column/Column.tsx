@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { DraggableProvided } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { ControlPoint } from '@mui/icons-material';
@@ -9,15 +10,17 @@ import { BoardColumnsType } from 'store/reducers/boards/types';
 import { AddPanel, StyledCloseIcon, StyledColumn, Title } from './Column.styled';
 import { ModalAddTask } from './ModalAddTask/ModalAddTask';
 import { Task } from './Task/Task';
+import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { EditingTitle } from 'components/EditingTitle/EditingTitle';
 
-type ColumnProps = BoardColumnsType & { provided: any };
+type ColumnProps = BoardColumnsType & { provided: DraggableProvided };
 
 export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const boardId = useAppSelector((state) => state.boardsReducer.currentBoard?.id);
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -27,6 +30,14 @@ export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
     } else {
       dispatch(deleteColumn({ boardId, columnId: id }));
     }
+  };
+
+  const onCancel = () => {
+    closeModal();
+  };
+
+  const closeModal = () => {
+    setOpenConfirmationModal(false);
   };
 
   const handlerClick = () => {
@@ -42,7 +53,6 @@ export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
       await dispatch(updateColumn({ boardId, columnId: id, columnData: newColumnData }));
     }
   };
-
   const { t } = useTranslation();
 
   return (
@@ -53,13 +63,22 @@ export const Column = ({ tasks, title, provided, id, order }: ColumnProps) => {
     >
       <Title>
         <EditingTitle title={title} onTitleSubmit={updateColumnTitle} styles="h6" />
-        <StyledCloseIcon onClick={onDeleteColumn} style={{ cursor: 'pointer' }} />
+        <StyledCloseIcon
+          onClick={() => setOpenConfirmationModal(true)}
+          style={{ cursor: 'pointer' }}
+        />
       </Title>
       <Task tasks={tasks} columnId={id} />
       <AddPanel onClick={handlerClick}>
         <ControlPoint />
         {t('Add new task')}
       </AddPanel>
+
+      <ConfirmationModal
+        openConfirmationModal={openConfirmationModal}
+        onCancel={onCancel}
+        onConfirm={onDeleteColumn}
+      ></ConfirmationModal>
       <ModalAddTask openModal={openModal} setOpenModal={setOpenModal} columnId={id} />
     </StyledColumn>
   );
