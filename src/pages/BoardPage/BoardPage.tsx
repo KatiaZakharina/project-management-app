@@ -53,6 +53,7 @@ export const BoardPage = () => {
         id: column.id,
         title: column.title,
         order: index + 1,
+        tasks: column.tasks,
       }))
       .sort((a, b) => a.order - b.order);
   };
