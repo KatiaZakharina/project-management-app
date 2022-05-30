@@ -3,6 +3,7 @@ import { Typography, TextField, Button, Alert } from '@mui/material';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useTranslation } from 'react-i18next';
 
 import {
   ButtonGoBack,
@@ -25,7 +26,6 @@ import {
 } from 'store/reducers/user/userSlice';
 import { ConfirmationModal } from 'components/ConfirmationModal/ConfirmationModal';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { useTranslation } from 'react-i18next';
 import { FetchingWrapper } from 'components/helpers/FetchingWrapper/FetchingWrapper';
 import { DataForRegistry } from 'store/reducers/user/type';
 
@@ -92,12 +92,12 @@ export function EditProfile() {
     <>
       <StyledBox>
         <ButtonGoBack variant="contained" onClick={() => navigate(-1)}>
-          <ArrowBackIosIcon /> Back
+          <ArrowBackIosIcon /> {t('Back')}
         </ButtonGoBack>
         <Logo />
         <FetchingWrapper isLoading={!user} errorMessage={errorMessage}>
           <StyledForm onSubmit={handleSubmit(onEdit)}>
-            <Typography>Edit your TLZ account</Typography>
+            <Typography>{t('Edit your TLZ account')}</Typography>
             {inputs.map((input) => (
               <StyledInputBox key={input.id}>
                 <TextField
@@ -119,10 +119,10 @@ export function EditProfile() {
 
             <ButtonWrapper>
               <Button variant="contained" color="warning" onClick={onDelete}>
-                Delete
+                {t('Delete')}
               </Button>
               <Button variant="outlined" type="submit" disabled={!isValid}>
-                Edit !
+                {t('Edit!')}
               </Button>
             </ButtonWrapper>
           </StyledForm>

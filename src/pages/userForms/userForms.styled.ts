@@ -81,4 +81,8 @@ export const ButtonWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  gap: 10px;
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+  }
 `;

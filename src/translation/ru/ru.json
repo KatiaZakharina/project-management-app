@@ -46,5 +46,11 @@
   "Title for your task": "Заголовок для задачи",
   "Description task": "Описание задачи",
   "Description for your task": "Описание для задачи",
-  "Description": "Описание"
+  "Description": "Описание",
+  "Name": "Имя",
+  "Login": "Логин",
+  "Password": "Пароль",
+  "Edit your TLZ account": "Отредактируйте свою учетную запись TLZ",
+  "Edit!": "Редактировать!",
+  "New list": "Новый список"
 }
