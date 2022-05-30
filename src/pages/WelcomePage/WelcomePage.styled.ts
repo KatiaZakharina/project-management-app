@@ -1,13 +1,17 @@
+import { Typography } from '@mui/material';
 import styled from 'styled-components';
 
-import { VIOLET } from 'styles/constants';
+import { VIOLET, PURPLE } from 'styles/constants';
 import backgroundImage from 'assets/png/background.png';
 import logo from 'assets/svg/logo.svg';
+import { rgba } from 'styles/helpers/rgba';
 
 export const StyledDiv = styled.div`
   width: 100vw;
-  height: calc(100vh - 60px);
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
   padding: 20px;
+  padding-bottom: 40px;
   background-image: url(${backgroundImage});
   background-repeat: no-repeat;
   background-size: contain;
@@ -16,6 +20,7 @@ export const StyledDiv = styled.div`
 
 export const ContainerWelcomePage = styled.div`
   max-width: 1440px;
+  min-height: calc(100vh - 200px);
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -76,4 +81,94 @@ export const WrapperDivButtons = styled.div`
   display: flex;
   height: 50px;
   gap: 10px;
+`;
+
+export const ContainerAboutUs = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const WrapperDevelopers = styled.div`
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  gap: 3%;
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+`;
+
+export const LinkDeveloper = styled.a`
+  display: flex;
+  background-color: ${rgba(VIOLET, 0.3)};
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  width: 50%;
+  padding: 20px;
+  border: 2px solid ${VIOLET};
+  border-radius: 10px;
+  @media (max-width: 500px) {
+    flex-direction: row;
+    align-items: flex-start;
+    width: 90%;
+  }
+`;
+
+export const StyledPhoto = styled.img`
+  width: 70%;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  @media (max-width: 500px) {
+    width: 40%;
+  }
+`;
+
+export const StyledTypography = styled(Typography)`
+  &.MuiTypography-h1 {
+    color: ${PURPLE};
+    font-weight: 400;
+    margin-bottom: 30px;
+    @media (max-width: 1024px) {
+      font-size: 60px;
+    }
+  }
+  &.MuiTypography-h4 {
+    font-weight: 500;
+    color: ${PURPLE};
+    margin-bottom: 20px;
+    text-align: center;
+    @media (max-width: 1024px) {
+      font-size: 20px;
+    }
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
+  }
+  &.MuiTypography-h6 {
+    color: ${PURPLE};
+    font-weight: 400;
+    text-align: center;
+    @media (max-width: 1024px) {
+      font-size: 16px;
+    }
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
+`;
+
+export const DivTypography = styled.div`
+  display: flex;
+  flex-direction: column;
 `;

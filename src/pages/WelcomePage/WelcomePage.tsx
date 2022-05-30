@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 
 import {
   StyledDiv,
@@ -10,8 +11,15 @@ import {
   WrapperDivButtons,
   Logo,
   ContainerWelcomePage,
+  ContainerAboutUs,
+  WrapperDevelopers,
+  StyledPhoto,
+  LinkDeveloper,
+  StyledTypography,
+  DivTypography,
 } from './WelcomePage.styled';
 import { getLoginToken } from 'helpers/getFromCookie';
+import { TEAM_MATES } from 'appConstants';
 
 export const WelcomePage = () => {
   const navigate = useNavigate();
@@ -49,6 +57,26 @@ export const WelcomePage = () => {
           )}
         </WrapperDivButtons>
       </ContainerWelcomePage>
+      <ContainerAboutUs>
+        <KeyboardDoubleArrowDownIcon
+          sx={{ width: 120, height: 120 }}
+          color="primary"
+        ></KeyboardDoubleArrowDownIcon>
+        <StyledTypography variant="h1">About us</StyledTypography>
+        <WrapperDevelopers>
+          {TEAM_MATES.map((member) => {
+            return (
+              <LinkDeveloper href={member.link} key={member.id} target="_blank">
+                <StyledPhoto src={member.src}></StyledPhoto>
+                <DivTypography>
+                  <StyledTypography variant="h4">{member.name}</StyledTypography>
+                  <StyledTypography variant="h6">{member.text}</StyledTypography>
+                </DivTypography>
+              </LinkDeveloper>
+            );
+          })}
+        </WrapperDevelopers>
+      </ContainerAboutUs>
     </StyledDiv>
   );
 };
