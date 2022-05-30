@@ -92,12 +92,12 @@ export function ModalUpdateTask({ openModal, setOpenModal, columnId, taskId }: I
         <FormControl>
           <InputLabel>{executorContent[0].name}</InputLabel>
           <Select
-            label={t('Executor')}
+            label={t('Assignee')}
             onChange={(event) => setExecutor(event.target.value)}
             value={executor}
           >
             <MenuItem selected disabled>
-              {t('Executor')}
+              {t('Assignee')}
             </MenuItem>
             {users.map((user) => (
               <MenuItem key={user.id} value={user.id ?? ''}>
