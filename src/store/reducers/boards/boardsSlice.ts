@@ -200,6 +200,29 @@ const boardsSlice = createSlice({
       if (!state.currentBoard) return;
       state.currentBoard.columns = payload;
     },
+    updateTasks: (
+      state,
+      {
+        payload,
+      }: {
+        payload: {
+          columnId: string;
+          newTasks: {
+            id: string;
+            title: string;
+            order: number;
+            description: string;
+            userId: string;
+          }[];
+        };
+      }
+    ) => {
+      if (!state.currentBoard) return;
+      const currentColumnIndex = state.currentBoard?.columns?.findIndex(
+        (column) => column.id === payload.columnId
+      );
+      state.currentBoard!.columns![currentColumnIndex!].tasks = payload.newTasks;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -337,6 +360,8 @@ const boardsSlice = createSlice({
         state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].description =
           payload.description;
 
+        console.log('payload.userId', payload.userId);
+
         state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].userId =
           payload.userId;
       })
@@ -367,5 +392,5 @@ const boardsSlice = createSlice({
   },
 });
 
-export const { updateColumns } = boardsSlice.actions;
+export const { updateColumns, updateTasks } = boardsSlice.actions;
 export default boardsSlice.reducer;
