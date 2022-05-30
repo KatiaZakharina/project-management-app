@@ -44,7 +44,7 @@ export const TaskItem = ({
           />
         </StyledControlBox>
       </WrapperTask>
-      <StyledAvatar {...stringAvatar(currentUserAvatar)}></StyledAvatar>
+      {currentUserAvatar && <StyledAvatar {...stringAvatar(currentUserAvatar)}></StyledAvatar>}
     </DivTaskItem>
   );
 };
