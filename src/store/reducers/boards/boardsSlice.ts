@@ -340,6 +340,7 @@ const boardsSlice = createSlice({
         state.currentBoard.columns[currentColumnIndex].tasks![currentTaskIndex!].userId =
           payload.userId;
       })
+
       .addCase(updateTask.rejected, (state, { payload = 'Something went wrong...' }) => {
         state.errorMessage = payload;
       })

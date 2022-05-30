@@ -17,7 +17,7 @@
   },
   "rules": {
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": "off",
     "comma-dangle": ["error", "only-multiline"],
     "react/prop-types": "off",
     "react/display-name": "off",
@@ -29,6 +29,7 @@
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off"
   },
